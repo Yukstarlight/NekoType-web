@@ -18,7 +18,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&family=Noto+Sans+SC:wght@400;500;700;900&family=JetBrains+Mono:wght@400;600;700&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Noto+Sans+SC:wght@400;500;700;900&family=JetBrains+Mono:wght@400;600;700&display=swap" />
 
   <link rel="stylesheet" href="assets/css/style.css" />
 </head>
@@ -30,6 +30,7 @@
     <span class="blob blob--blue"></span>
     <span class="blob blob--pink"></span>
   </div>
+  <div class="glyph-rain" id="glyphRain" aria-hidden="true"></div>
 
   <!-- 可复用 SVG 图标库 -->
   <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -51,6 +52,7 @@
       </symbol>
       <symbol id="i-github" viewBox="0 0 24 24"><path fill="currentColor" d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.5v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.8-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17 5.6 18 5.9 18 5.9c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.6.8.5 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z"/></symbol>
       <symbol id="i-download" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/></symbol>
+      <symbol id="i-cloud" viewBox="0 0 24 24"><path fill="currentColor" d="M7 18a4 4 0 01-.5-7.97 5 5 0 019.58-1.53A4.5 4.5 0 0117.5 18z"/></symbol>
       <symbol id="i-bolt" viewBox="0 0 24 24"><path fill="currentColor" d="M13 2L4 14h6l-1 8 9-12h-6z"/></symbol>
       <symbol id="i-shield" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M12 3l8 3v6c0 5-3.4 8-8 9-4.6-1-8-4-8-9V6z"/></symbol>
       <symbol id="i-terminal" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M4 5h16v14H4zM7 9l3 3-3 3m5 1h4"/></symbol>
@@ -134,6 +136,9 @@
             </a>
             <a class="btn btn--ghost btn--lg" href="https://github.com/Yukstarlight/NekoType" target="_blank" rel="noopener">
               <svg width="20" height="20"><use href="#i-github"/></svg><span>查看源码</span>
+            </a>
+            <a class="btn btn--ghost btn--lg" href="https://share.feijipan.com/s/qx8snBtB" target="_blank" rel="noopener">
+              <svg width="20" height="20"><use href="#i-cloud"/></svg><span>备用下载</span>
             </a>
           </div>
           <p class="hero__trust">
@@ -431,12 +436,12 @@
           <p class="section__lead">应用本体不申请任何网络权限，没有联网能力，更没有服务器。断网、飞行模式，全部功能照常运行。</p>
         </header>
         <div class="stat-row reveal">
-          <div class="stat"><b class="grad-text">0</b><span>网络权限</span></div>
-          <div class="stat"><b class="grad-text">0</b><span>广告 / 追踪 SDK</span></div>
-          <div class="stat"><b class="grad-text">100%</b><span>离线本地处理</span></div>
-          <div class="stat"><b class="grad-text">460+</b><span>内置终端命令</span></div>
-          <div class="stat"><b class="grad-text">65</b><span>种内置颜文字</span></div>
-          <div class="stat"><b class="grad-text">3</b><span>级发送兜底</span></div>
+          <div class="stat"><b class="grad-text" data-count="0">0</b><span>网络权限</span></div>
+          <div class="stat"><b class="grad-text" data-count="0">0</b><span>广告 / 追踪 SDK</span></div>
+          <div class="stat"><b class="grad-text" data-count="100" data-suffix="%">0</b><span>离线本地处理</span></div>
+          <div class="stat"><b class="grad-text" data-count="460" data-suffix="+">0</b><span>内置终端命令</span></div>
+          <div class="stat"><b class="grad-text" data-count="65">0</b><span>种内置颜文字</span></div>
+          <div class="stat"><b class="grad-text" data-count="3">0</b><span>级发送兜底</span></div>
         </div>
         <div class="trust-grid reveal" data-reveal-delay="120">
           <div class="trust"><span class="trust__ico"><svg width="20" height="20"><use href="#i-shield"/></svg></span><h4>数据不出设备</h4><p>所有文本读取、规则变换、发送触发全部在设备本地内存完成，处理完即丢弃，不留存、不上传。</p></div>
@@ -495,6 +500,9 @@
             </a>
             <a class="btn btn--ghost btn--lg" href="https://github.com/Yukstarlight/NekoType/releases" target="_blank" rel="noopener">
               <svg width="20" height="20"><use href="#i-list"/></svg><span>全部版本</span>
+            </a>
+            <a class="btn btn--ghost btn--lg" href="https://share.feijipan.com/s/qx8snBtB" target="_blank" rel="noopener">
+              <svg width="20" height="20"><use href="#i-cloud"/></svg><span>备用下载 · 飞机盘</span>
             </a>
           </div>
           <p class="cta__note"><svg width="15" height="15"><use href="#i-shield"/></svg> 仅限本人设备、合法合规的个人用途，禁止用于骚扰、诈骗、冒充他人等非法用途。</p>

@@ -39,27 +39,33 @@ function resizeStars() {
   H = starCanvas.height = window.innerHeight;
 }
 function buildStars() {
-  const count = Math.min(170, Math.floor(W * H / 9000));
+  const count = Math.min(220, Math.floor(W * H / 7500));
   stars = Array.from({ length: count }, () => ({
     x: Math.random() * W,
     y: Math.random() * H,
-    r: Math.random() * 1.3 + 0.3,
+    r: Math.random() * 1.5 + 0.3,
     tw: Math.random() * Math.PI * 2,
-    sp: Math.random() * 0.02 + 0.006,
-    hue: Math.random() < 0.8 ? '200,214,255' : '255,127,190'
+    sp: Math.random() * 0.026 + 0.008,
+    hue: Math.random() < 0.78 ? '200,214,255' : (Math.random() < 0.5 ? '255,127,190' : '245,176,66')
   }));
 }
 function drawStars(t) {
   sctx.clearRect(0, 0, W, H);
   for (const s of stars) {
-    const a = 0.35 + 0.55 * (0.5 + 0.5 * Math.sin(t * s.sp + s.tw));
+    const a = 0.3 + 0.7 * (0.5 + 0.5 * Math.sin(t * s.sp + s.tw));
     sctx.beginPath();
     sctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
     sctx.fillStyle = `rgba(${s.hue},${a})`;
     sctx.fill();
+    if (s.r > 1.1) {
+      sctx.beginPath();
+      sctx.arc(s.x, s.y, s.r * 3, 0, Math.PI * 2);
+      sctx.fillStyle = `rgba(${s.hue},${a * 0.12})`;
+      sctx.fill();
+    }
   }
   // 流星
-  if (Math.random() < 0.004 && shooters.length < 2) {
+  if (Math.random() < 0.008 && shooters.length < 3) {
     shooters.push({
       x: Math.random() * W * 0.8 + W * 0.1,
       y: Math.random() * H * 0.3,
@@ -417,7 +423,77 @@ $('#qqGroup').addEventListener('click', async () => {
   }
 });
 
+/* ============================================================
+   动态背景层：漂浮符号雨 + 鼠标视差 + 统计计数 + 卡片光斑
+   ============================================================ */
+const GLYPHS = ['🐾','ฅ','(=^･ω･^=)','(^・ω・^)','nya~','~喵','(=^ᴗ^=)','ฅ^•ﻌ•^ฅ','awa','qwq','(｡•̀ᴗ-)✧','(=ↀωↀ=)'];
+const glyphRain = $('#glyphRain');
+function spawnGlyphs() {
+  if (reduceMotion || !glyphRain) return;
+  const n = 18;
+  for (let i = 0; i < n; i++) {
+    const s = document.createElement('span');
+    s.textContent = GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
+    s.style.left = Math.random() * 100 + '%';
+    s.style.fontSize = (12 + Math.random() * 24) + 'px';
+    s.style.animationDuration = (16 + Math.random() * 24) + 's';
+    s.style.animationDelay = (-Math.random() * 30) + 's';
+    glyphRain.appendChild(s);
+  }
+}
+
+/* 鼠标视差 + Hero 手机 3D 倾斜 */
+let mx = 0, my = 0, px = 0, py = 0, parallaxRAF = null;
+const heroPhone = $('.hero__visual .phone');
+function applyParallax() {
+  px += (mx - px) * 0.06; py += (my - py) * 0.06;
+  root.style.setProperty('--px', (px * 34).toFixed(2) + 'px');
+  root.style.setProperty('--py', (py * 34).toFixed(2) + 'px');
+  if (heroPhone && !reduceMotion) {
+    heroPhone.style.transform = `perspective(1600px) rotateY(${(-8 + px * 18).toFixed(2)}deg) rotateX(${(4 - py * 18).toFixed(2)}deg)`;
+  }
+  if (Math.abs(mx - px) > 0.001 || Math.abs(my - py) > 0.001) {
+    parallaxRAF = requestAnimationFrame(applyParallax);
+  } else { parallaxRAF = null; }
+}
+window.addEventListener('mousemove', (e) => {
+  mx = (e.clientX / window.innerWidth - 0.5);
+  my = (e.clientY / window.innerHeight - 0.5);
+  if (!parallaxRAF && !reduceMotion) parallaxRAF = requestAnimationFrame(applyParallax);
+}, { passive: true });
+
+/* 统计数字滚动计数 */
+const countIO = new IntersectionObserver((entries) => {
+  for (const e of entries) {
+    if (!e.isIntersecting) continue;
+    const el = e.target;
+    const target = +el.dataset.count; const suf = el.dataset.suffix || '';
+    if (target === 0) { el.textContent = '0' + suf; }
+    else {
+      const dur = 1200; const t0 = performance.now();
+      (function step(t) {
+        const k = Math.min(1, (t - t0) / dur);
+        const v = Math.round(target * (0.5 - Math.cos(Math.PI * k) / 2));
+        el.textContent = v + suf;
+        if (k < 1) requestAnimationFrame(step);
+      })(t0);
+    }
+    countIO.unobserve(el);
+  }
+}, { threshold: 0.5 });
+$$('.stat b[data-count]').forEach(b => { b.textContent = '0' + (b.dataset.suffix || ''); countIO.observe(b); });
+
+/* 卡片光斑跟随鼠标 */
+$$('.card').forEach(c => {
+  c.addEventListener('mousemove', (e) => {
+    const r = c.getBoundingClientRect();
+    c.style.setProperty('--gx', (e.clientX - r.left) + 'px');
+    c.style.setProperty('--gy', (e.clientY - r.top) + 'px');
+  });
+});
+
 /* ---------------- 启动 ---------------- */
 initStars();
+spawnGlyphs();
 // 主题切换后重绘星空
 new MutationObserver(() => initStars()).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
