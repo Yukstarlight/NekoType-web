@@ -46,20 +46,30 @@ function buildStars() {
     r: Math.random() * 1.5 + 0.3,
     tw: Math.random() * Math.PI * 2,
     sp: Math.random() * 0.026 + 0.008,
+    vx: (Math.random() - 0.5) * 0.06,
+    vy: (Math.random() - 0.5) * 0.04,
+    depth: Math.random() < 0.5 ? 0.35 : 1,
     hue: Math.random() < 0.78 ? '200,214,255' : (Math.random() < 0.5 ? '255,127,190' : '245,176,66')
   }));
 }
 function drawStars(t) {
   sctx.clearRect(0, 0, W, H);
+  const ox = (typeof px !== 'undefined') ? px : 0;
+  const oy = (typeof py !== 'undefined') ? py : 0;
   for (const s of stars) {
+    s.x += s.vx; s.y += s.vy;
+    if (s.x < -6) s.x = W + 6; else if (s.x > W + 6) s.x = -6;
+    if (s.y < -6) s.y = H + 6; else if (s.y > H + 6) s.y = -6;
+    const dx = s.x + ox * s.depth * 26;
+    const dy = s.y + oy * s.depth * 26;
     const a = 0.3 + 0.7 * (0.5 + 0.5 * Math.sin(t * s.sp + s.tw));
     sctx.beginPath();
-    sctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+    sctx.arc(dx, dy, s.r, 0, Math.PI * 2);
     sctx.fillStyle = `rgba(${s.hue},${a})`;
     sctx.fill();
     if (s.r > 1.1) {
       sctx.beginPath();
-      sctx.arc(s.x, s.y, s.r * 3, 0, Math.PI * 2);
+      sctx.arc(dx, dy, s.r * 3, 0, Math.PI * 2);
       sctx.fillStyle = `rgba(${s.hue},${a * 0.12})`;
       sctx.fill();
     }
@@ -483,14 +493,47 @@ const countIO = new IntersectionObserver((entries) => {
 }, { threshold: 0.5 });
 $$('.stat b[data-count]').forEach(b => { b.textContent = '0' + (b.dataset.suffix || ''); countIO.observe(b); });
 
-/* 卡片光斑跟随鼠标 */
+/* 卡片 3D 倾斜 + 光斑跟随 */
 $$('.card').forEach(c => {
+  c.addEventListener('mouseenter', () => c.classList.add('tilting'));
   c.addEventListener('mousemove', (e) => {
     const r = c.getBoundingClientRect();
+    const cx = (e.clientX - r.left) / r.width - 0.5;
+    const cy = (e.clientY - r.top) / r.height - 0.5;
     c.style.setProperty('--gx', (e.clientX - r.left) + 'px');
     c.style.setProperty('--gy', (e.clientY - r.top) + 'px');
+    c.style.transform = `translateY(-8px) rotateX(${(-cy * 10).toFixed(2)}deg) rotateY(${(cx * 12).toFixed(2)}deg)`;
   });
+  c.addEventListener('mouseleave', () => { c.classList.remove('tilting'); c.style.transform = ''; });
 });
+
+/* 按钮磁性吸附 */
+$$('.btn--lg').forEach(b => {
+  b.addEventListener('mousemove', (e) => {
+    const r = b.getBoundingClientRect();
+    const cx = (e.clientX - r.left) / r.width - 0.5;
+    const cy = (e.clientY - r.top) / r.height - 0.5;
+    b.style.transform = `translate(${(cx * 8).toFixed(1)}px, ${(cy * 6).toFixed(1)}px)`;
+  });
+  b.addEventListener('mouseleave', () => { b.style.transform = ''; });
+});
+
+/* 滚动进度条 + 滚动视差变量 */
+const progressBar = document.createElement('div');
+progressBar.className = 'scroll-progress';
+document.body.appendChild(progressBar);
+let scrollMotionRAF = null;
+function onScrollMotion() {
+  const y = window.scrollY;
+  const max = document.documentElement.scrollHeight - window.innerHeight;
+  root.style.setProperty('--sp', max > 0 ? (y / max) : 0);
+  root.style.setProperty('--scroll', y + 'px');
+  scrollMotionRAF = null;
+}
+window.addEventListener('scroll', () => {
+  if (!scrollMotionRAF) scrollMotionRAF = requestAnimationFrame(onScrollMotion);
+}, { passive: true });
+onScrollMotion();
 
 /* ---------------- 启动 ---------------- */
 initStars();

@@ -115,6 +115,14 @@ svg { display: block; }
 
 :focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; border-radius: 4px; }
 
+/* 滚动进度条 */
+.scroll-progress {
+  position: fixed; top: 0; left: 0; height: 3px; width: 100%;
+  transform-origin: 0 50%; transform: scaleX(var(--sp, 0));
+  background: var(--grad); z-index: 200;
+  box-shadow: 0 0 14px rgba(155,108,255,.6);
+}
+
 code, pre { font-family: var(--font-mono); }
 
 .container {
@@ -144,7 +152,7 @@ html[data-theme="light"] .blob { opacity: .34; }
 @keyframes drift { from { transform: translate(0,0) scale(1); } to { transform: translate(60px, -40px) scale(1.12); } }
 
 /* ---------- 漂浮符号雨（猫爪 / 颜文字） ---------- */
-.glyph-rain { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.glyph-rain { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; transform: translateY(calc(var(--scroll, 0px) * .03)); }
 .glyph-rain span {
   position: absolute; bottom: -8%;
   color: var(--primary); font-family: var(--font-mono);
@@ -234,10 +242,23 @@ html[data-theme="light"] .theme-toggle .ico-moon { display: none; }
 .btn:hover { transform: translateY(-2px); }
 .btn:active { transform: translateY(0) scale(.98); }
 .btn--primary {
+  position: relative; overflow: hidden;
   background: var(--grad); color: #fff;
   box-shadow: 0 10px 30px -10px rgba(155,108,255,.6);
 }
+.btn--primary::before {
+  content: ""; position: absolute; top: 0; left: -130%; width: 55%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.5), transparent);
+  transform: skewX(-20deg); pointer-events: none;
+  transition: left .6s var(--ease);
+}
+.btn--primary:hover::before { left: 140%; }
 .btn--primary:hover { box-shadow: 0 16px 40px -10px rgba(155,108,255,.75); filter: brightness(1.06); }
+.btn--lg.btn--primary { animation: btnPulse 3.4s ease-in-out infinite; }
+@keyframes btnPulse {
+  0%,100% { box-shadow: 0 10px 30px -10px rgba(155,108,255,.55); }
+  50% { box-shadow: 0 14px 42px -8px rgba(155,108,255,.9), 0 0 0 7px rgba(155,108,255,.10); }
+}
 .btn--ghost { background: var(--glass); border-color: var(--border); color: var(--fg0); backdrop-filter: blur(10px); }
 .btn--ghost:hover { border-color: var(--border-strong); background: var(--glass-strong); }
 .btn--lg { padding: 15px 26px; font-size: 16px; border-radius: 16px; }
@@ -670,21 +691,27 @@ html[data-theme="light"] .theme-toggle .ico-moon { display: none; }
 .c-pri { color: #C8A2FF; }
 
 /* ---------- 特性网格 ---------- */
-.grid-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.grid-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; perspective: 1200px; }
 .card {
   position: relative; overflow: hidden;
   padding: 26px 24px; border-radius: var(--radius-lg);
   background: var(--glass); border: 1px solid var(--border);
   backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-  transition: transform .35s var(--ease), border-color .35s ease, box-shadow .35s ease;
+  transform-style: preserve-3d;
+  transition: transform .2s var(--ease), border-color .35s ease, box-shadow .35s ease;
+  animation: cardFloatY 7s ease-in-out infinite;
 }
+.card:nth-child(2n) { animation-delay: -2.4s; }
+.card:nth-child(3n) { animation-delay: -4.1s; }
+.card.tilting { transition: transform .1s linear, border-color .35s ease, box-shadow .35s ease; }
+@keyframes cardFloatY { 0%,100% { translate: 0 0; } 50% { translate: 0 -6px; } }
 .card::after {
   content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
   background: radial-gradient(200px circle at var(--gx, 50%) var(--gy, 50%), rgba(200,162,255,.18), transparent 60%);
   opacity: 0; transition: opacity .3s ease;
 }
 .card:hover::after { opacity: 1; }
-.card:hover { transform: translateY(-6px); border-color: var(--border-strong); box-shadow: var(--glow-primary); }
+.card:hover { border-color: var(--border-strong); box-shadow: var(--glow-primary); }
 .card__ico {
   width: 48px; height: 48px; border-radius: 14px; display: grid; place-items: center;
   background: var(--grad); color: #fff; margin-bottom: 16px;
@@ -795,7 +822,7 @@ html[data-theme="light"] .theme-toggle .ico-moon { display: none; }
 .toast.show { translate: -50% 0; opacity: 1; }
 
 /* ---------- 滚动显现 ---------- */
-.reveal { opacity: 0; transform: translateY(26px); transition: opacity .7s var(--ease), transform .7s var(--ease); transition-delay: var(--reveal-delay, 0ms); }
+.reveal { opacity: 0; transform: translateY(34px) scale(.96); transition: opacity .8s var(--ease), transform .8s var(--ease); transition-delay: var(--reveal-delay, 0ms); }
 .reveal.in { opacity: 1; transform: none; }
 
 /* ---------- 响应式 ---------- */
