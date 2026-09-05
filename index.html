@@ -4,13 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="color-scheme" content="dark light" />
-  <title>NekoType · 让每句话都带点猫脾气</title>
-  <meta name="description" content="NekoType 是 Android 系统级消息工具：屏幕边缘常驻一只悬浮猫爪，一键为输入框文本应用前缀/后缀/随机尾缀/文本替换并自动发送。零联网、零广告、零追踪。" />
+  <title>NekoType · 全平台通用文本处理工具</title>
+  <meta name="description" content="NekoType 是一款全平台通用的文本处理工具：屏幕边缘常驻悬浮球，一键为输入框文本应用前缀/后缀/随机尾缀/文本替换并自动发送。完全离线、无广告、无追踪。" />
   <meta name="theme-color" content="#0A0E1E" media="(prefers-color-scheme: dark)" />
   <meta name="theme-color" content="#F5F5F7" media="(prefers-color-scheme: light)" />
 
   <meta property="og:title" content="NekoType · 一键改写，一键发出" />
-  <meta property="og:description" content="悬浮猫爪 · 系统级消息工具 · 完全离线 · Android 8.0+" />
+  <meta property="og:description" content="悬浮球 · 全平台文本处理工具 · 完全离线" />
+  <meta property="og:image" content="https://yukstarlight.github.io/NekoType-web/assets/ctw.png" />
   <meta property="og:type" content="website" />
 
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
@@ -120,13 +121,13 @@
       <div class="container hero__grid">
         <div class="hero__copy reveal">
           <span class="pill pill--badge">
-            <span class="dot"></span> v2.6.4 · Android 8.0+ · 完全离线运行
+            <span class="dot"></span> v2.6.4 · 系统级文本处理 · 完全离线
           </span>
           <h1 class="hero__title">
-            让每句话，<br>都带点 <span class="grad-text">猫脾气</span>。
+            全平台通用的<br><span class="grad-text">文本处理工具</span>
           </h1>
           <p class="hero__sub">
-            NekoType 是一只常驻屏幕边缘的悬浮猫爪——你正常打字，点一下，输入框里的文本就按你的规则自动改写并发送：前缀、后缀、随机尾缀、文本替换，一气呵成。<strong>不联网、无服务器、零广告追踪。</strong>
+            NekoType 是一款系统级文本处理工具：屏幕边缘常驻悬浮球，一键为输入框内容应用前缀、后缀、随机尾缀、文本替换等规则并自动发送。规则自由组合、概率可控、实时预览。<strong>完全离线运行，无服务器、无广告、无追踪。</strong>
           </p>
           <div class="hero__cta">
             <a class="btn btn--primary btn--lg" id="heroDownload" href="https://github.com/Yukstarlight/NekoType/releases/download/NekoType/NekoType-2.6.4.apk" target="_blank" rel="noopener">
@@ -149,33 +150,18 @@
 
         <!-- 手机演示 -->
         <div class="hero__visual reveal" data-reveal-delay="120">
-          <div class="phone">
-            <div class="phone__notch"></div>
-            <div class="phone__screen">
-              <div class="chat-head">
-                <span class="chat-head__ava"><svg width="18" height="18" style="color:#fff"><use href="#i-neko"/></svg></span>
-                <div><b>喵友聊天</b><small>在线 · 猫爪已就绪</small></div>
-              </div>
-              <div class="chat-body" id="heroChat">
-                <div class="bubble bubble--in">今天想吃什么呀？</div>
-                <!-- JS 注入对话流 -->
-              </div>
-              <div class="chat-input">
-                <span class="chat-input__text" id="heroInput">好的</span>
-                <span class="chat-input__send" id="heroSendBtn">
-                  <svg width="16" height="16"><use href="#i-send"/></svg>
-                </span>
-              </div>
-            </div>
-            <!-- 悬浮猫爪 -->
-            <button class="fab" id="heroFab" aria-label="悬浮猫爪">
+          <div class="appshot">
+            <img class="appshot__img" src="assets/ctw.png" alt="NekoType 应用界面预览" />
+            <div class="appshot__glow"></div>
+            <!-- 悬浮球 -->
+            <button class="fab" id="heroFab" aria-label="悬浮球">
               <svg width="26" height="26" style="color:#fff"><use href="#i-neko"/></svg>
               <span class="fab__ripple"></span>
             </button>
             <!-- 浮动规则芯片 -->
             <div class="chip chip--float chip--1">前缀 <code>~</code></div>
             <div class="chip chip--float chip--2">后缀 <code>喵</code></div>
-            <div class="chip chip--float chip--3">随机 <code>(^・ω・^)</code> 50%</div>
+            <div class="chip chip--float chip--3">替换 <code>的→の</code></div>
           </div>
         </div>
       </div>
@@ -195,20 +181,20 @@
         <header class="section__head reveal">
           <span class="kicker">原理</span>
           <h2 class="section__title">三步，句子就变了样</h2>
-          <p class="section__lead">不用换键盘、不用装输入法。你照常打字，剩下交给猫爪。</p>
+          <p class="section__lead">不用换键盘、不用装输入法。你照常打字，剩下的交给悬浮球。</p>
         </header>
         <ol class="steps">
           <li class="step reveal">
             <span class="step__num">01</span>
             <span class="step__ico"><svg width="26" height="26"><use href="#i-keyboard"/></svg></span>
             <h3>正常打字</h3>
-            <p>在任意聊天 App 的输入框里像平时一样输入。微信、QQ、Telegram……猫爪不挑食。</p>
+            <p>在任意输入框里像平时一样输入文本。即时通讯、社交、笔记——悬浮球不依赖特定应用，全局可用。</p>
           </li>
           <li class="step reveal" data-reveal-delay="90">
             <span class="step__num">02</span>
             <span class="step__ico"><svg width="26" height="26"><use href="#i-fab"/></svg></span>
-            <h3>点一下猫爪</h3>
-            <p>屏幕边缘常驻的悬浮按钮，点一下就触发。按住可拖动摆放、自动边缘吸附、位置永久记忆。</p>
+            <h3>点一下悬浮球</h3>
+            <p>屏幕边缘常驻的悬浮球，点一下即触发。支持拖动摆放、边缘吸附、位置持久记忆。</p>
           </li>
           <li class="step reveal" data-reveal-delay="180">
             <span class="step__num">03</span>
@@ -225,8 +211,8 @@
       <div class="container">
         <header class="section__head reveal">
           <span class="kicker">效果预览</span>
-          <h2 class="section__title">亲手试试，猫爪怎么改字</h2>
-          <p class="section__lead">勾选规则、改输入，右侧实时预览叠加结果，再点猫爪「发送」一条试试。</p>
+          <h2 class="section__title">亲手试试，文本怎么变</h2>
+          <p class="section__lead">勾选规则、修改输入，右侧实时预览叠加结果，再点悬浮球「发送」一条试试。</p>
         </header>
 
         <div class="demo">
@@ -300,7 +286,7 @@
                 </div>
                 <div class="chat-input chat-input--mini">
                   <input class="chat-input__field" id="demoInput" type="text" value="好的呀" placeholder="输入点啥…" maxlength="60" />
-                  <button class="fab fab--mini" id="demoFab" aria-label="点一下猫爪发送" title="点一下猫爪 · 发送">
+                  <button class="fab fab--mini" id="demoFab" aria-label="点一下悬浮球发送" title="点一下悬浮球 · 发送">
                     <svg width="20" height="20" style="color:#fff"><use href="#i-neko"/></svg>
                   </button>
                 </div>
@@ -328,7 +314,7 @@
       <div class="container">
         <header class="section__head reveal">
           <span class="kicker">核心特性</span>
-          <h2 class="section__title">三种玩法，一种猫脾气</h2>
+          <h2 class="section__title">三种模式，一套文本处理能力</h2>
           <p class="section__lead">从「手动点一下」到「打字即自动变」，再到「静默注入无弹窗」，任你挑。</p>
         </header>
 
@@ -410,8 +396,8 @@
       <div class="container">
         <header class="section__head reveal">
           <span class="kicker">更多能力</span>
-          <h2 class="section__title">一只猫爪能管的事，比你想象的多</h2>
-          <p class="section__lead">从悬浮球到集成终端，从密码锁到开机自启，全部基于 Android 公开 API 实现。</p>
+          <h2 class="section__title">一只悬浮球，比你想象的更强</h2>
+          <p class="section__lead">从悬浮球到集成终端，从密码锁到防篡改，全部基于系统公开 API 实现。</p>
         </header>
         <div class="grid-cards">
           <article class="card reveal"><span class="card__ico"><svg width="24" height="24"><use href="#i-fab"/></svg></span><h3>悬浮按钮</h3><p>永久常驻屏幕边缘，拖动摆放、边缘吸附、位置记忆。柔光玻璃效果、5 秒空闲收成小圆点、自定义图标大小与透明度。</p></article>
@@ -492,8 +478,8 @@
       <div class="container">
         <div class="cta__panel reveal">
           <span class="cta__paw"><svg width="44" height="44" style="color:#fff"><use href="#i-neko"/></svg></span>
-          <h2 class="cta__title">现在，让猫爪接管你的发送键</h2>
-          <p class="cta__sub">免费 · 开源 · 完全离线 · Android 8.0+。装上它，你的每一句话都可以有自己的脾气。</p>
+          <h2 class="cta__title">现在，让悬浮球接管你的输入与发送</h2>
+          <p class="cta__sub">免费 · 开源 · 完全离线。装上它，让文本处理变得自动、可控、安静。</p>
           <div class="cta__btns">
             <a class="btn btn--primary btn--lg" href="https://github.com/Yukstarlight/NekoType/releases/download/NekoType/NekoType-2.6.4.apk" target="_blank" rel="noopener">
               <svg width="20" height="20"><use href="#i-download"/></svg><span>下载 APK · v2.6.4</span><span class="btn__meta">7.1 MB</span>
@@ -519,7 +505,7 @@
           <span class="brand__logo"><svg width="26" height="26"><use href="#i-neko"/></svg></span>
           <span class="brand__name">NekoType</span>
         </a>
-        <p class="footer__tag">一只住在悬浮窗里的猫，替你把每句话变成你想要的样子。</p>
+        <p class="footer__tag">常驻屏幕边缘的悬浮球，把文本处理变成一键的事。</p>
         <div class="footer__badges">
           <img src="https://img.shields.io/github/stars/Yukstarlight/NekoType?style=flat-square&label=Star&color=9B6CFF&logoColor=fff" alt="GitHub Stars" height="20" loading="lazy" />
           <img src="https://img.shields.io/github/v/release/Yukstarlight/NekoType?style=flat-square&label=Release&color=4A7DFF" alt="Latest Release" height="20" loading="lazy" />
@@ -546,7 +532,7 @@
       </div>
     </div>
     <div class="container footer__bottom">
-      <span>© 2026 NekoType · 由 <svg width="14" height="14" style="vertical-align:-2px;color:#FF7FBE"><use href="#i-heart"/></svg> 与猫毛驱动</span>
+      <span>© 2026 NekoType · 由 NekoType 团队诚意打造</span>
       <span class="footer__made">本站基于开源 README 与品牌资源由 NekoType 团队诚意打造</span>
     </div>
   </footer>

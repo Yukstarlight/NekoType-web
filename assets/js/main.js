@@ -360,50 +360,10 @@ $$('.chip-btn').forEach(btn => {
 });
 
 /* ============================================================
-   Hero 手机自动演示
+   Hero 悬浮球（装饰性，点击撒猫爪粒子）
    ============================================================ */
-const HERO_SEQ = [
-  { raw: '好的',     out: '~好的喵' },
-  { raw: '早',       out: '早awa!' },
-  { raw: '今天好开心', out: '今天好开心(=^･ω･^=)' },
-  { raw: '我到了',   out: '~我到了喵' }
-];
-const heroChat = $('#heroChat');
-const heroInput = $('#heroInput');
-const heroSendBtn = $('#heroSendBtn');
 const heroFab = $('#heroFab');
-let heroStep = 0;
-
-function heroTick() {
-  const seq = HERO_SEQ[heroStep % HERO_SEQ.length];
-  heroStep++;
-  heroInput.textContent = seq.raw;
-  setTimeout(() => {
-    heroSendBtn.classList.add('flash');
-    const t = document.createElement('div');
-    t.className = 'bubble bubble--in typing';
-    t.innerHTML = '<i></i><i></i><i></i>';
-    heroChat.appendChild(t);
-    setTimeout(() => {
-      t.remove();
-      heroChat.appendChild(bubbleOut(seq.raw, seq.out));
-      // 清理过老的泡泡
-      while (heroChat.children.length > 4) heroChat.firstElementChild.remove();
-      heroSendBtn.classList.remove('flash');
-      setTimeout(heroTick, 1900);
-    }, 620);
-  }, 800);
-}
-if (!reduceMotion) heroTick();
-
-heroFab.addEventListener('click', () => { pushHeroNow(); });
-function pushHeroNow() {
-  const seq = HERO_SEQ[Math.floor(Math.random() * HERO_SEQ.length)];
-  heroInput.textContent = seq.raw;
-  heroChat.appendChild(bubbleOut(seq.raw, seq.out));
-  while (heroChat.children.length > 4) heroChat.firstElementChild.remove();
-  pawBurst(null, null, heroFab);
-}
+if (heroFab) heroFab.addEventListener('click', () => pawBurst(null, null, heroFab));
 
 /* ============================================================
    键盘模拟（特性区 02）
@@ -454,7 +414,7 @@ function spawnGlyphs() {
 
 /* 鼠标视差 + Hero 手机 3D 倾斜 */
 let mx = 0, my = 0, px = 0, py = 0, parallaxRAF = null;
-const heroPhone = $('.hero__visual .phone');
+const heroPhone = $('.hero__visual .appshot');
 function applyParallax() {
   px += (mx - px) * 0.06; py += (my - py) * 0.06;
   root.style.setProperty('--px', (px * 34).toFixed(2) + 'px');
