@@ -8,7 +8,7 @@
 const $  = (sel, ctx = document) => ctx.querySelector(sel);
 const $$ = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
 const root = document.documentElement;
-const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const reduceMotion = false; // 站点按要求保持动态背景，不跟随系统"减弱动态效果"设置
 
 /* ---------------- 主题切换 ---------------- */
 const THEME_KEY = 'neko-theme';
@@ -39,18 +39,26 @@ function resizeStars() {
   H = starCanvas.height = window.innerHeight;
 }
 function buildStars() {
-  const count = Math.min(220, Math.floor(W * H / 7500));
-  stars = Array.from({ length: count }, () => ({
-    x: Math.random() * W,
-    y: Math.random() * H,
-    r: Math.random() * 1.5 + 0.3,
-    tw: Math.random() * Math.PI * 2,
-    sp: Math.random() * 0.026 + 0.008,
-    vx: (Math.random() - 0.5) * 0.06,
-    vy: (Math.random() - 0.5) * 0.04,
-    depth: Math.random() < 0.5 ? 0.35 : 1,
-    hue: Math.random() < 0.78 ? '200,214,255' : (Math.random() < 0.5 ? '255,127,190' : '245,176,66')
-  }));
+  const isLight = root.dataset.theme === 'light';
+  const count = Math.min(230, Math.floor(W * H / 7000));
+  stars = Array.from({ length: count }, () => {
+    const depth = Math.random() < 0.5 ? 0.35 : 1;
+    const spd = 0.6 + depth * 1.1; // 前景星移动更快 → 纵深视差
+    return {
+      x: Math.random() * W,
+      y: Math.random() * H,
+      r: (Math.random() * 1.5 + 0.3) * (isLight ? 0.8 : 1),
+      tw: Math.random() * Math.PI * 2,
+      sp: Math.random() * 0.05 + 0.015,
+      vx: (Math.random() - 0.5) * 0.3 * spd,
+      vy: (Math.random() - 0.5) * 0.22 * spd,
+      depth: depth,
+      amax: isLight ? 0.34 : 1,
+      hue: isLight
+        ? (Math.random() < 0.7 ? '140,130,205' : '255,120,170')
+        : (Math.random() < 0.78 ? '200,214,255' : (Math.random() < 0.5 ? '255,127,190' : '245,176,66'))
+    };
+  });
 }
 function drawStars(t) {
   sctx.clearRect(0, 0, W, H);
@@ -62,12 +70,12 @@ function drawStars(t) {
     if (s.y < -6) s.y = H + 6; else if (s.y > H + 6) s.y = -6;
     const dx = s.x + ox * s.depth * 26;
     const dy = s.y + oy * s.depth * 26;
-    const a = 0.3 + 0.7 * (0.5 + 0.5 * Math.sin(t * s.sp + s.tw));
+    const a = s.amax * (0.35 + 0.65 * (0.5 + 0.5 * Math.sin(t * s.sp + s.tw)));
     sctx.beginPath();
     sctx.arc(dx, dy, s.r, 0, Math.PI * 2);
     sctx.fillStyle = `rgba(${s.hue},${a})`;
     sctx.fill();
-    if (s.r > 1.1) {
+    if (s.r > 1.1 && s.amax > 0.5) {
       sctx.beginPath();
       sctx.arc(dx, dy, s.r * 3, 0, Math.PI * 2);
       sctx.fillStyle = `rgba(${s.hue},${a * 0.12})`;
@@ -75,7 +83,7 @@ function drawStars(t) {
     }
   }
   // 流星
-  if (Math.random() < 0.008 && shooters.length < 3) {
+  if (Math.random() < 0.02 && shooters.length < 4) {
     shooters.push({
       x: Math.random() * W * 0.8 + W * 0.1,
       y: Math.random() * H * 0.3,
@@ -117,9 +125,7 @@ function initStars() {
   buildStars();
   stopStars();
   sctx.clearRect(0, 0, W, H);
-  const isDark = root.dataset.theme === 'dark';
-  if (isDark && reduceMotion) drawStars(0); // 静态星空
-  else if (isDark) startStars();
+  startStars(); // 暗色 / 浅色主题下都持续动画
 }
 window.addEventListener('resize', initStars);
 
@@ -360,10 +366,48 @@ $$('.chip-btn').forEach(btn => {
 });
 
 /* ============================================================
-   Hero 悬浮球（装饰性，点击撒猫爪粒子）
+   Hero 手机自动演示（打字 → 悬浮球改写 → 发出）
    ============================================================ */
+const HERO_SEQ = [
+  { raw: '好的',       out: '~好的喵' },
+  { raw: '今天好开心', out: '今天好开心awa' },
+  { raw: '我到家了',   out: '~我到家了(=^･ω･^=)' }
+];
+const heroChat = $('#heroChat');
+const heroInput = $('#heroInput');
+const heroSendBtn = $('#heroSendBtn');
 const heroFab = $('#heroFab');
-if (heroFab) heroFab.addEventListener('click', () => pawBurst(null, null, heroFab));
+let heroStep = 0;
+
+function heroTick() {
+  const seq = HERO_SEQ[heroStep % HERO_SEQ.length];
+  heroStep++;
+  heroInput.textContent = seq.raw;
+  setTimeout(() => {
+    heroSendBtn.classList.add('flash');
+    const t = document.createElement('div');
+    t.className = 'bubble bubble--in typing';
+    t.innerHTML = '<i></i><i></i><i></i>';
+    heroChat.appendChild(t);
+    setTimeout(() => {
+      t.remove();
+      heroChat.appendChild(bubbleOut(seq.raw, seq.out));
+      while (heroChat.children.length > 4) heroChat.firstElementChild.remove();
+      heroSendBtn.classList.remove('flash');
+      setTimeout(heroTick, 1900);
+    }, 620);
+  }, 800);
+}
+heroTick();
+
+heroFab.addEventListener('click', () => pushHeroNow());
+function pushHeroNow() {
+  const seq = HERO_SEQ[Math.floor(Math.random() * HERO_SEQ.length)];
+  heroInput.textContent = seq.raw;
+  heroChat.appendChild(bubbleOut(seq.raw, seq.out));
+  while (heroChat.children.length > 4) heroChat.firstElementChild.remove();
+  pawBurst(null, null, heroFab);
+}
 
 /* ============================================================
    键盘模拟（特性区 02）
@@ -414,7 +458,7 @@ function spawnGlyphs() {
 
 /* 鼠标视差 + Hero 手机 3D 倾斜 */
 let mx = 0, my = 0, px = 0, py = 0, parallaxRAF = null;
-const heroPhone = $('.hero__visual .appshot');
+const heroPhone = $('.hero__visual .phone');
 function applyParallax() {
   px += (mx - px) * 0.06; py += (my - py) * 0.06;
   root.style.setProperty('--px', (px * 34).toFixed(2) + 'px');
