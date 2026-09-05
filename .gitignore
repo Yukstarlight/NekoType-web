@@ -1,0 +1,6 @@
+# 排除克隆的上游源码与本地杂物
+NekoType/
+*.keystore
+keystore.properties
+.DS_Store
+Thumbs.db

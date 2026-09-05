@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="color-scheme" content="dark light" />
+  <title>NekoType · 让每句话都带点猫脾气</title>
+  <meta name="description" content="NekoType 是 Android 系统级消息工具：屏幕边缘常驻一只悬浮猫爪，一键为输入框文本应用前缀/后缀/随机尾缀/文本替换并自动发送。零联网、零广告、零追踪。" />
+  <meta name="theme-color" content="#0A0E1E" media="(prefers-color-scheme: dark)" />
+  <meta name="theme-color" content="#F5F5F7" media="(prefers-color-scheme: light)" />
+
+  <meta property="og:title" content="NekoType · 一键改写，一键发出" />
+  <meta property="og:description" content="悬浮猫爪 · 系统级消息工具 · 完全离线 · Android 8.0+" />
+  <meta property="og:type" content="website" />
+
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="assets/favicon.svg" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&family=Noto+Sans+SC:wght@400;500;700;900&family=JetBrains+Mono:wght@400;600;700&display=swap" />
+
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+  <!-- 星空背景 canvas -->
+  <canvas id="starfield" aria-hidden="true"></canvas>
+  <div class="aurora" aria-hidden="true">
+    <span class="blob blob--violet"></span>
+    <span class="blob blob--blue"></span>
+    <span class="blob blob--pink"></span>
+  </div>
+
+  <!-- 可复用 SVG 图标库 -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-neko" viewBox="0 0 64 64">
+        <path d="M21 17 L14 8 L26 15 Z" fill="currentColor" opacity=".95"/>
+        <path d="M43 17 L50 8 L38 15 Z" fill="currentColor" opacity=".95"/>
+        <path d="M32 16 C23.6 16 18 22.2 18 29.6 V37 C18 44.6 24.4 51 32 51 C39.6 51 46 44.6 46 37 V29.6 C46 22.2 40.4 16 32 16 Z" fill="currentColor"/>
+        <ellipse cx="26.5" cy="31.5" rx="2.3" ry="3" fill="#7C5CFF"/>
+        <ellipse cx="37.5" cy="31.5" rx="2.3" ry="3" fill="#7C5CFF"/>
+        <path d="M32 38.5 C30.2 38.5 28.8 39.7 28.8 41.1 C28.8 42.5 30.2 43.7 32 43.7 C33.8 43.7 35.2 42.5 35.2 41.1 C35.2 39.7 33.8 38.5 32 38.5 Z" fill="#7C5CFF"/>
+      </symbol>
+      <symbol id="i-paw" viewBox="0 0 24 24">
+        <ellipse cx="12" cy="15.5" rx="4.6" ry="3.8" fill="currentColor"/>
+        <circle cx="6.5" cy="9.5" r="1.9" fill="currentColor"/>
+        <circle cx="17.5" cy="9.5" r="1.9" fill="currentColor"/>
+        <circle cx="9.3" cy="6" r="1.6" fill="currentColor"/>
+        <circle cx="14.7" cy="6" r="1.6" fill="currentColor"/>
+      </symbol>
+      <symbol id="i-github" viewBox="0 0 24 24"><path fill="currentColor" d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.5v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.8-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17 5.6 18 5.9 18 5.9c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.6.8.5 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z"/></symbol>
+      <symbol id="i-download" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/></symbol>
+      <symbol id="i-bolt" viewBox="0 0 24 24"><path fill="currentColor" d="M13 2L4 14h6l-1 8 9-12h-6z"/></symbol>
+      <symbol id="i-shield" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M12 3l8 3v6c0 5-3.4 8-8 9-4.6-1-8-4-8-9V6z"/></symbol>
+      <symbol id="i-terminal" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M4 5h16v14H4zM7 9l3 3-3 3m5 1h4"/></symbol>
+      <symbol id="i-list" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01"/></symbol>
+      <symbol id="i-keyboard" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M3 6h18v12H3zM7 9h.01M11 9h.01M15 9h.01M7 13h10"/></symbol>
+      <symbol id="i-ghost" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M5 21v-9a7 7 0 0114 0v9l-2.5-2-2.5 2-2-2-2 2-2.5-2zM9 11h.01M15 11h.01"/></symbol>
+      <symbol id="i-ban" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M6 6l12 12"/></symbol>
+      <symbol id="i-send" viewBox="0 0 24 24"><path fill="currentColor" d="M3 11l18-8-8 18-2-7z"/></symbol>
+      <symbol id="i-log" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M5 4h10l4 4v12H5zM14 4v5h5M8 13h8M8 17h5"/></symbol>
+      <symbol id="i-database" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" d="M12 4c4.4 0 8 1.3 8 3s-3.6 3-8 3-8-1.3-8-3 3.6-3 8-3zM4 7v5c0 1.7 3.6 3 8 3s8-1.3 8-3V7M4 12v5c0 1.7 3.6 3 8 3s8-1.3 8-3v-5"/></symbol>
+      <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path fill="none" stroke="currentColor" stroke-width="2" d="M3 12h18M12 3c2.5 2.5 2.5 15 0 18M12 3c-2.5 2.5-2.5 15 0 18"/></symbol>
+      <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path fill="none" stroke="currentColor" stroke-width="2" d="M8 11V7a4 4 0 018 0v4"/></symbol>
+      <symbol id="i-heart" viewBox="0 0 24 24"><path fill="currentColor" d="M12 21s-7-4.5-9.5-9C1 8.5 3 5 6.5 5 8.5 5 12 8 12 8s3.5-3 5.5-3C21 5 23 8.5 21.5 12 19 16.5 12 21 12 21z"/></symbol>
+      <symbol id="i-plug" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M9 2v6M15 2v6M7 8h10v3a5 5 0 01-5 5 5 5 0 01-5-5zM12 16v6"/></symbol>
+      <symbol id="i-fab" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5" fill="currentColor"/><path fill="none" stroke="currentColor" stroke-width="2" d="M12 2v3M12 19v3M2 12h3M19 12h3"/></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></symbol>
+      <symbol id="i-arrow" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6"/></symbol>
+      <symbol id="i-star" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2l3 6.5 7 1-5 4.8 1.3 7L12 18l-6.3 3.3L7 14.3 2 9.5l7-1z"/></symbol>
+      <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/></symbol>
+      <symbol id="i-moon" viewBox="0 0 24 24"><path fill="currentColor" d="M21 13a9 9 0 11-10-10 7 7 0 0010 10z"/></symbol>
+      <symbol id="i-menu" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M4 7h16M4 12h16M4 17h16"/></symbol>
+      <symbol id="i-close" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M6 6l12 12M18 6L6 18"/></symbol>
+    </defs>
+  </svg>
+
+  <!-- 顶部导航 -->
+  <header class="nav" id="nav">
+    <div class="nav__inner container">
+      <a class="brand" href="#top" aria-label="NekoType 首页">
+        <span class="brand__logo"><svg width="28" height="28"><use href="#i-neko"/></svg></span>
+        <span class="brand__name">NekoType</span>
+      </a>
+      <nav class="nav__links" aria-label="主导航">
+        <a href="#how">原理</a>
+        <a href="#demo">试一试</a>
+        <a href="#features">特性</a>
+        <a href="#more">更多</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <div class="nav__actions">
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="切换主题" title="切换亮/暗主题">
+          <svg class="ico-moon" width="18" height="18"><use href="#i-moon"/></svg>
+          <svg class="ico-sun" width="18" height="18"><use href="#i-sun"/></svg>
+        </button>
+        <a class="btn btn--ghost btn--sm" href="https://github.com/Yukstarlight/NekoType" target="_blank" rel="noopener">
+          <svg width="16" height="16"><use href="#i-github"/></svg><span>GitHub</span>
+        </a>
+        <a class="btn btn--primary btn--sm" href="#download">
+          <svg width="16" height="16"><use href="#i-download"/></svg><span>下载</span>
+        </a>
+        <button class="nav__burger" id="burger" type="button" aria-label="菜单" aria-expanded="false">
+          <svg width="22" height="22"><use href="#i-menu"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="nav__mobile" id="mobileMenu" aria-hidden="true">
+      <a href="#how">原理</a><a href="#demo">试一试</a><a href="#features">特性</a>
+      <a href="#more">更多</a><a href="#faq">FAQ</a><a href="#download">下载</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="container hero__grid">
+        <div class="hero__copy reveal">
+          <span class="pill pill--badge">
+            <span class="dot"></span> v2.6.4 · Android 8.0+ · 完全离线运行
+          </span>
+          <h1 class="hero__title">
+            让每句话，<br>都带点 <span class="grad-text">猫脾气</span>。
+          </h1>
+          <p class="hero__sub">
+            NekoType 是一只常驻屏幕边缘的悬浮猫爪——你正常打字，点一下，输入框里的文本就按你的规则自动改写并发送：前缀、后缀、随机尾缀、文本替换，一气呵成。<strong>不联网、无服务器、零广告追踪。</strong>
+          </p>
+          <div class="hero__cta">
+            <a class="btn btn--primary btn--lg" id="heroDownload" href="https://github.com/Yukstarlight/NekoType/releases/download/NekoType/NekoType-2.6.4.apk" target="_blank" rel="noopener">
+              <svg width="20" height="20"><use href="#i-download"/></svg>
+              <span>下载 APK · v2.6.4</span>
+              <span class="btn__meta">7.1 MB</span>
+            </a>
+            <a class="btn btn--ghost btn--lg" href="https://github.com/Yukstarlight/NekoType" target="_blank" rel="noopener">
+              <svg width="20" height="20"><use href="#i-github"/></svg><span>查看源码</span>
+            </a>
+          </div>
+          <p class="hero__trust">
+            <svg width="16" height="16"><use href="#i-shield"/></svg>
+            不申请网络权限 · 无服务器 · 开源可审计 · 权限可随时撤销
+          </p>
+        </div>
+
+        <!-- 手机演示 -->
+        <div class="hero__visual reveal" data-reveal-delay="120">
+          <div class="phone">
+            <div class="phone__notch"></div>
+            <div class="phone__screen">
+              <div class="chat-head">
+                <span class="chat-head__ava"><svg width="18" height="18" style="color:#fff"><use href="#i-neko"/></svg></span>
+                <div><b>喵友聊天</b><small>在线 · 猫爪已就绪</small></div>
+              </div>
+              <div class="chat-body" id="heroChat">
+                <div class="bubble bubble--in">今天想吃什么呀？</div>
+                <!-- JS 注入对话流 -->
+              </div>
+              <div class="chat-input">
+                <span class="chat-input__text" id="heroInput">好的</span>
+                <span class="chat-input__send" id="heroSendBtn">
+                  <svg width="16" height="16"><use href="#i-send"/></svg>
+                </span>
+              </div>
+            </div>
+            <!-- 悬浮猫爪 -->
+            <button class="fab" id="heroFab" aria-label="悬浮猫爪">
+              <svg width="26" height="26" style="color:#fff"><use href="#i-neko"/></svg>
+              <span class="fab__ripple"></span>
+            </button>
+            <!-- 浮动规则芯片 -->
+            <div class="chip chip--float chip--1">前缀 <code>~</code></div>
+            <div class="chip chip--float chip--2">后缀 <code>喵</code></div>
+            <div class="chip chip--float chip--3">随机 <code>(^・ω・^)</code> 50%</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 颜文字跑马灯 -->
+      <div class="marquee" aria-hidden="true">
+        <div class="marquee__track">
+          <span>(=^･ω･^=)</span><span>(^・ω・^)</span><span>nya~</span><span>awa</span><span>qwq</span><span>(｡•̀ᴗ-)✧</span><span>(≧▽≦)</span><span>~喵</span><span>(=ↀωↀ=)</span><span>(✿◡‿◡)</span><span>ฅ^•ﻌ•^ฅ</span><span>(=^ᴗ^=)</span>
+          <span>(=^･ω･^=)</span><span>(^・ω・^)</span><span>nya~</span><span>awa</span><span>qwq</span><span>(｡•̀ᴗ-)✧</span><span>(≧▽≦)</span><span>~喵</span><span>(=ↀωↀ=)</span><span>(✿◡‿◡)</span><span>ฅ^•ﻌ•^ฅ</span><span>(=^ᴗ^=)</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 原理 / 三步 -->
+    <section class="section" id="how">
+      <div class="container">
+        <header class="section__head reveal">
+          <span class="kicker">原理</span>
+          <h2 class="section__title">三步，句子就变了样</h2>
+          <p class="section__lead">不用换键盘、不用装输入法。你照常打字，剩下交给猫爪。</p>
+        </header>
+        <ol class="steps">
+          <li class="step reveal">
+            <span class="step__num">01</span>
+            <span class="step__ico"><svg width="26" height="26"><use href="#i-keyboard"/></svg></span>
+            <h3>正常打字</h3>
+            <p>在任意聊天 App 的输入框里像平时一样输入。微信、QQ、Telegram……猫爪不挑食。</p>
+          </li>
+          <li class="step reveal" data-reveal-delay="90">
+            <span class="step__num">02</span>
+            <span class="step__ico"><svg width="26" height="26"><use href="#i-fab"/></svg></span>
+            <h3>点一下猫爪</h3>
+            <p>屏幕边缘常驻的悬浮按钮，点一下就触发。按住可拖动摆放、自动边缘吸附、位置永久记忆。</p>
+          </li>
+          <li class="step reveal" data-reveal-delay="180">
+            <span class="step__num">03</span>
+            <span class="step__ico"><svg width="26" height="26"><use href="#i-send"/></svg></span>
+            <h3>自动改写并发送</h3>
+            <p>文本替换 → 前缀 → 后缀 → 随机尾缀，再走三级智能发送策略，一键到底，话就发出去了。</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- 效果预览 / 互动演示 -->
+    <section class="section section--alt" id="demo">
+      <div class="container">
+        <header class="section__head reveal">
+          <span class="kicker">效果预览</span>
+          <h2 class="section__title">亲手试试，猫爪怎么改字</h2>
+          <p class="section__lead">勾选规则、改输入，右侧实时预览叠加结果，再点猫爪「发送」一条试试。</p>
+        </header>
+
+        <div class="demo">
+          <!-- 规则面板 -->
+          <div class="demo__rules reveal">
+            <h3 class="demo__sub">规则开关</h3>
+            <ul class="rule-list" id="ruleList">
+              <li class="rule-item" data-rule="prefix">
+                <label class="switch"><input type="checkbox" checked data-key="prefix"><span class="switch__track"></span></label>
+                <div class="rule-item__body">
+                  <b>前缀</b>
+                  <input class="rule-input" type="text" value="~" data-key="prefix-val" maxlength="12" />
+                </div>
+              </li>
+              <li class="rule-item" data-rule="suffix">
+                <label class="switch"><input type="checkbox" checked data-key="suffix"><span class="switch__track"></span></label>
+                <div class="rule-item__body">
+                  <b>后缀</b>
+                  <input class="rule-input" type="text" value="喵" data-key="suffix-val" maxlength="12" />
+                </div>
+              </li>
+              <li class="rule-item" data-rule="randSuffix">
+                <label class="switch"><input type="checkbox" checked data-key="randSuffix"><span class="switch__track"></span></label>
+                <div class="rule-item__body">
+                  <b>随机后缀</b>
+                  <input class="rule-input" type="text" value="qwq|awa|nya~" data-key="randSuffix-val" maxlength="40" />
+                  <span class="rule-item__hint">触发概率 <input class="range" type="range" min="1" max="100" value="60" data-key="randSuffix-p" /> <b class="range-val" data-key="randSuffix-pv">60%</b></span>
+                </div>
+              </li>
+              <li class="rule-item" data-rule="kaomoji">
+                <label class="switch"><input type="checkbox" data-key="kaomoji"><span class="switch__track"></span></label>
+                <div class="rule-item__body">
+                  <b>随机颜文字</b>
+                  <span class="rule-item__hint">内置 65 种 · 触发概率 <input class="range" type="range" min="1" max="100" value="40" data-key="kaomoji-p" /> <b class="range-val" data-key="kaomoji-pv">40%</b></span>
+                </div>
+              </li>
+              <li class="rule-item" data-rule="replace">
+                <label class="switch"><input type="checkbox" checked data-key="replace"><span class="switch__track"></span></label>
+                <div class="rule-item__body">
+                  <b>替换文本</b>
+                  <span class="rule-item__pair">
+                    <input class="rule-input rule-input--sm" type="text" value="的" data-key="replace-from" maxlength="6" /> →
+                    <input class="rule-input rule-input--sm" type="text" value="の" data-key="replace-to" maxlength="6" />
+                  </span>
+                </div>
+              </li>
+              <li class="rule-item" data-rule="space">
+                <label class="switch"><input type="checkbox" data-key="space"><span class="switch__track"></span></label>
+                <div class="rule-item__body"><b>字符间加空格</b><span class="rule-item__hint">让句子透气</span></div>
+              </li>
+            </ul>
+            <div class="demo__preset">
+              <span>预设：</span>
+              <button class="chip-btn" data-preset="cat">猫语</button>
+              <button class="chip-btn" data-preset="kira">闪闪</button>
+              <button class="chip-btn" data-preset="weeb">中二</button>
+              <button class="chip-btn" data-preset="clean">清空</button>
+            </div>
+          </div>
+
+          <!-- 聊天预览 -->
+          <div class="demo__chat reveal" data-reveal-delay="120">
+            <div class="phone phone--mini">
+              <div class="phone__screen phone__screen--mini">
+                <div class="chat-head chat-head--mini">
+                  <span class="chat-head__ava"><svg width="16" height="16" style="color:#fff"><use href="#i-neko"/></svg></span>
+                  <b>效果预览</b><small id="chatCount">今日变换 0 次</small>
+                </div>
+                <div class="chat-body chat-body--mini" id="demoChat">
+                  <div class="bubble bubble--in">想去看电影嘛？</div>
+                </div>
+                <div class="chat-input chat-input--mini">
+                  <input class="chat-input__field" id="demoInput" type="text" value="好的呀" placeholder="输入点啥…" maxlength="60" />
+                  <button class="fab fab--mini" id="demoFab" aria-label="点一下猫爪发送" title="点一下猫爪 · 发送">
+                    <svg width="20" height="20" style="color:#fff"><use href="#i-neko"/></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="preview-bar">
+              <span class="preview-bar__label">实时预览</span>
+              <code class="preview-bar__out" id="previewOut">~好的の喵awa</code>
+            </div>
+            <div class="demo__actions">
+              <button class="btn btn--ghost btn--sm" id="randomDemo" type="button">
+                <svg width="16" height="16"><use href="#i-bolt"/></svg><span>随机演示</span>
+              </button>
+              <button class="btn btn--ghost btn--sm" id="clearChat" type="button">
+                <svg width="16" height="16"><use href="#i-close"/></svg><span>清空</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 核心特性 三大块 -->
+    <section class="section" id="features">
+      <div class="container">
+        <header class="section__head reveal">
+          <span class="kicker">核心特性</span>
+          <h2 class="section__title">三种玩法，一种猫脾气</h2>
+          <p class="section__lead">从「手动点一下」到「打字即自动变」，再到「静默注入无弹窗」，任你挑。</p>
+        </header>
+
+        <article class="feature-block reveal">
+          <div class="feature-block__visual feature-visual feature-visual--rules">
+            <div class="rule-card">
+              <div class="rule-card__row"><span class="tag tag--pre">前缀</span><code>~</code><span class="rule-card__on">开</span></div>
+              <div class="rule-card__row"><span class="tag tag--suf">后缀</span><code>喵</code><span class="rule-card__on">开</span></div>
+              <div class="rule-card__row"><span class="tag tag--rnd">随机后缀</span><code>qwq|awa|nya~</code><span class="rule-card__on">开</span></div>
+              <div class="rule-card__row"><span class="tag tag--rep">替换</span><code>的 → の</code><span class="rule-card__on">开</span></div>
+              <div class="rule-card__preview">输入 <b>好的</b> → <b class="grad-text">~好の喵awa</b></div>
+            </div>
+          </div>
+          <div class="feature-block__copy">
+            <span class="feature-block__num">01</span>
+            <h3>规则系统 · 自由组合多条叠加</h3>
+            <p>规则页采用列表模型，点「添加规则」即可按类型创建，按顺序叠加生效。随机规则各自带触发概率，不再「每次必发」；内置多套预设一键切换，适配不同场景。</p>
+            <ul class="ticks">
+              <li><svg width="16" height="16"><use href="#i-check"/></svg> 前缀 / 后缀 / 每句后缀</li>
+              <li><svg width="16" height="16"><use href="#i-check"/></svg> 随机前缀 / 随机后缀 / 65 种颜文字</li>
+              <li><svg width="16" height="16"><use href="#i-check"/></svg> 替换文本、字符加空格、转大写</li>
+              <li><svg width="16" height="16"><use href="#i-check"/></svg> 效果预览实时看叠加结果</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="feature-block feature-block--rev reveal">
+          <div class="feature-block__visual feature-visual feature-visual--kbd">
+            <div class="kbd-mock">
+              <div class="kbd-mock__bar"><span></span><span></span><span></span></div>
+              <div class="kbd-mock__type">
+                <span class="kbd-mock__raw" id="kbdRaw">我今天好开心</span>
+                <span class="kbd-mock__arrow">→</span>
+                <span class="kbd-mock__out" id="kbdOut">我今天好开心喵</span>
+              </div>
+              <div class="kbd-mock__hint">增量原文算法 · 停顿即自动变换</div>
+            </div>
+          </div>
+          <div class="feature-block__copy">
+            <span class="feature-block__num">02</span>
+            <h3>强制篡改键盘 · 打字即自动改</h3>
+            <p>不换键盘、不装输入法，原生键盘打字时内容自动按规则篡改，停顿片刻即变换，<strong>无需点悬浮按钮</strong>。增量原文算法只合并新增部分，连续打字后缀永不重复（不会「喵喵喵」）。</p>
+            <ul class="ticks">
+              <li><svg width="16" height="16"><use href="#i-check"/></svg> 写回自动把光标移到末尾</li>
+              <li><svg width="16" height="16"><use href="#i-check"/></svg> 标点触发：输入标点瞬间变换</li>
+              <li><svg width="16" height="16"><use href="#i-check"/></svg> 发送兜底：点发送前先确保已改</li>
+              <li><svg width="16" height="16"><use href="#i-check"/></svg> 应用黑名单：指定 App 内不自动篡改</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="feature-block reveal">
+          <div class="feature-block__visual feature-visual feature-visual--silent">
+            <div class="term">
+              <div class="term__bar"><span class="dot dot--r"></span><span class="dot dot--y"></span><span class="dot dot--g"></span><small>nekotype@shizuku</small></div>
+              <pre class="term__body"><span class="c-dim">$</span> neko --silent inject
+<span class="c-ok">✓</span> 无障碍通道被拒 → 切换 Shizuku
+<span class="c-ok">✓</span> input text: <span class="c-pri">"~好の喵awa"</span> <span class="c-dim">(17ms)</span>
+<span class="c-ok">✓</span> 无弹窗 · 无剪贴板 · 已发送
+<span class="c-dim">$</span> _</pre>
+            </div>
+          </div>
+          <div class="feature-block__copy">
+            <span class="feature-block__num">03</span>
+            <h3>静默修改 · Shizuku 直写注入</h3>
+            <p>当部分应用（如微信）拒绝无障碍改写文本时，自动改用 Shizuku 直接注入，全程无弹窗、无剪贴板提示，改完即走。中文文本自动回退无障碍通道，两种方式互为兜底。</p>
+            <ul class="ticks">
+              <li><svg width="16" height="16"><use href="#i-check"/></svg> 全选 + input text 直写聚焦输入框</li>
+              <li><svg width="16" height="16"><use href="#i-check"/></svg> 固定动作架构，不接受任意命令，杜绝注入</li>
+              <li><svg width="16" height="16"><use href="#i-check"/></svg> 免 Root，Shizuku 13 已移除 newProcess</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- 特性网格 -->
+    <section class="section section--alt" id="more">
+      <div class="container">
+        <header class="section__head reveal">
+          <span class="kicker">更多能力</span>
+          <h2 class="section__title">一只猫爪能管的事，比你想象的多</h2>
+          <p class="section__lead">从悬浮球到集成终端，从密码锁到开机自启，全部基于 Android 公开 API 实现。</p>
+        </header>
+        <div class="grid-cards">
+          <article class="card reveal"><span class="card__ico"><svg width="24" height="24"><use href="#i-fab"/></svg></span><h3>悬浮按钮</h3><p>永久常驻屏幕边缘，拖动摆放、边缘吸附、位置记忆。柔光玻璃效果、5 秒空闲收成小圆点、自定义图标大小与透明度。</p></article>
+          <article class="card reveal" data-reveal-delay="60"><span class="card__ico"><svg width="24" height="24"><use href="#i-terminal"/></svg></span><h3>Mist 集成终端</h3><p>复用 Termux 终端引擎，PTY 真实交互，内置 460+ 命令。JetBrains Mono 等宽字体、纯黑背景，随键盘自动缩放。</p></article>
+          <article class="card reveal" data-reveal-delay="120"><span class="card__ico"><svg width="24" height="24"><use href="#i-ban"/></svg></span><h3>应用黑名单</h3><p>独立黑名单页列出全部已安装应用，勾选即加入。黑名单内不自动篡改，悬浮球手动点击不受限。</p></article>
+          <article class="card reveal"><span class="card__ico"><svg width="24" height="24"><use href="#i-send"/></svg></span><h3>智能发送</h3><p>三级兜底：无障碍节点树找发送按钮 → IME 发送动作 → 全局手势点击坐标，兼容主流聊天应用。</p></article>
+          <article class="card reveal" data-reveal-delay="60"><span class="card__ico"><svg width="24" height="24"><use href="#i-log"/></svg></span><h3>日志查看器</h3><p>7 级日志体系 + 系统 logcat 直读，变换失败、发送被拦截一眼定位。系统标签轻汉化，字体可缩放、可复制导出。</p></article>
+          <article class="card reveal" data-reveal-delay="120"><span class="card__ico"><svg width="24" height="24"><use href="#i-database"/></svg></span><h3>数据管理</h3><p>一键导出/导入全部配置（规则+行为+外观），文本格式可读可编辑，换机备份都方便。每日变换次数 + 7 天趋势一目了然。</p></article>
+          <article class="card reveal"><span class="card__ico"><svg width="24" height="24"><use href="#i-globe"/></svg></span><h3>三语切换</h3><p>简体中文 / 繁體中文 / English 一键切换，全局即时生效，含 toast、对话框、按钮全部文案。</p></article>
+          <article class="card reveal" data-reveal-delay="60"><span class="card__ico"><svg width="24" height="24"><use href="#i-lock"/></svg></span><h3>安全防护</h3><p>Argon2id 密码锁 + Keystore 加密；隐藏模式 pm hide + 设备管理员防卸载；TamperGuard 签名校验 + Hook 框架检测。</p></article>
+          <article class="card reveal" data-reveal-delay="120"><span class="card__ico"><svg width="24" height="24"><use href="#i-heart"/></svg></span><h3>常驻保活</h3><p>60 秒心跳 AlarmManager 唤醒、崩溃自启、快捷设置磁贴一键开关、开机自动拉起悬浮服务。</p></article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 信任 / 数据 -->
+    <section class="section stats">
+      <div class="container">
+        <header class="section__head reveal">
+          <span class="kicker">纯本地与隐私</span>
+          <h2 class="section__title">一句话：不联网，数据只在你的手机上</h2>
+          <p class="section__lead">应用本体不申请任何网络权限，没有联网能力，更没有服务器。断网、飞行模式，全部功能照常运行。</p>
+        </header>
+        <div class="stat-row reveal">
+          <div class="stat"><b class="grad-text">0</b><span>网络权限</span></div>
+          <div class="stat"><b class="grad-text">0</b><span>广告 / 追踪 SDK</span></div>
+          <div class="stat"><b class="grad-text">100%</b><span>离线本地处理</span></div>
+          <div class="stat"><b class="grad-text">460+</b><span>内置终端命令</span></div>
+          <div class="stat"><b class="grad-text">65</b><span>种内置颜文字</span></div>
+          <div class="stat"><b class="grad-text">3</b><span>级发送兜底</span></div>
+        </div>
+        <div class="trust-grid reveal" data-reveal-delay="120">
+          <div class="trust"><span class="trust__ico"><svg width="20" height="20"><use href="#i-shield"/></svg></span><h4>数据不出设备</h4><p>所有文本读取、规则变换、发送触发全部在设备本地内存完成，处理完即丢弃，不留存、不上传。</p></div>
+          <div class="trust"><span class="trust__ico"><svg width="20" height="20"><use href="#i-plug"/></svg></span><h4>权限最小化</h4><p>无障碍仅用于读写当前输入框并触发发送，不读密码框；悬浮窗仅显示按钮；所有权限可随时撤销。</p></div>
+          <div class="trust"><span class="trust__ico"><svg width="20" height="20"><use href="#i-github"/></svg></span><h4>开源可审计</h4><p>项目完全开源，任何一条权限、任何一行代码你都可以查看。你看到的就是全部代码。</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section section--alt" id="faq">
+      <div class="container container--narrow">
+        <header class="section__head reveal">
+          <span class="kicker">常见问题</span>
+          <h2 class="section__title">先问后用，心里有数</h2>
+        </header>
+        <div class="faq">
+          <details class="faq__item reveal" open>
+            <summary>需要 Root 吗？<span class="faq__ico"><svg width="18" height="18"><use href="#i-arrow"/></svg></span></summary>
+            <p>不需要。基础模式仅需悬浮窗 + 无障碍权限即可使用；想要「静默修改」等增强功能，装一个 Shizuku（免 Root）就行。</p>
+          </details>
+          <details class="faq__item reveal">
+            <summary>微信能用吗？<span class="faq__ico"><svg width="18" height="18"><use href="#i-arrow"/></svg></span></summary>
+            <p>微信目前还在适配中——它对无障碍改写有限制。NekoType 会自动尝试用 Shizuku 静默注入兜底，但部分场景可能仍需手动点悬浮球。</p>
+          </details>
+          <details class="faq__item reveal">
+            <summary>会读取我的聊天记录吗？<span class="faq__ico"><svg width="18" height="18"><use href="#i-arrow"/></svg></span></summary>
+            <p>不会。NekoType 只读取当前聚焦输入框里的文本，不扫描、不记录、不存储聊天内容，处理完即丢弃。应用本身也没有任何联网能力。</p>
+          </details>
+          <details class="faq__item reveal">
+            <summary>强制篡改键盘会把后缀叠成「喵喵喵」吗？<span class="faq__ico"><svg width="18" height="18"><use href="#i-arrow"/></svg></span></summary>
+            <p>不会。增量原文算法会记录你的真实输入和上次写回内容，只把新增部分并入原文后重新变换一次，连续打字后缀也只出现一次。</p>
+          </details>
+          <details class="faq__item reveal">
+            <summary>耗电吗？<span class="faq__ico"><svg width="18" height="18"><use href="#i-arrow"/></svg></span></summary>
+            <p>无障碍事件监听是系统级轻量回调，无轮询、无常驻网络，耗电可忽略。配合关闭电池优化白名单，后台常驻更稳。</p>
+          </details>
+          <details class="faq__item reveal">
+            <summary>如何彻底停用？<span class="faq__ico"><svg width="18" height="18"><use href="#i-arrow"/></svg></span></summary>
+            <p>App 内关闭「启动服务」，并在系统设置中撤销无障碍 / 悬浮窗权限即可；卸载即清除全部本地数据，不留痕迹。</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- 最终 CTA -->
+    <section class="cta" id="download">
+      <div class="container">
+        <div class="cta__panel reveal">
+          <span class="cta__paw"><svg width="44" height="44" style="color:#fff"><use href="#i-neko"/></svg></span>
+          <h2 class="cta__title">现在，让猫爪接管你的发送键</h2>
+          <p class="cta__sub">免费 · 开源 · 完全离线 · Android 8.0+。装上它，你的每一句话都可以有自己的脾气。</p>
+          <div class="cta__btns">
+            <a class="btn btn--primary btn--lg" href="https://github.com/Yukstarlight/NekoType/releases/download/NekoType/NekoType-2.6.4.apk" target="_blank" rel="noopener">
+              <svg width="20" height="20"><use href="#i-download"/></svg><span>下载 APK · v2.6.4</span><span class="btn__meta">7.1 MB</span>
+            </a>
+            <a class="btn btn--ghost btn--lg" href="https://github.com/Yukstarlight/NekoType/releases" target="_blank" rel="noopener">
+              <svg width="20" height="20"><use href="#i-list"/></svg><span>全部版本</span>
+            </a>
+          </div>
+          <p class="cta__note"><svg width="15" height="15"><use href="#i-shield"/></svg> 仅限本人设备、合法合规的个人用途，禁止用于骚扰、诈骗、冒充他人等非法用途。</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 页脚 -->
+  <footer class="footer">
+    <div class="container footer__grid">
+      <div class="footer__brand">
+        <a class="brand" href="#top">
+          <span class="brand__logo"><svg width="26" height="26"><use href="#i-neko"/></svg></span>
+          <span class="brand__name">NekoType</span>
+        </a>
+        <p class="footer__tag">一只住在悬浮窗里的猫，替你把每句话变成你想要的样子。</p>
+        <div class="footer__badges">
+          <img src="https://img.shields.io/github/stars/Yukstarlight/NekoType?style=flat-square&label=Star&color=9B6CFF&logoColor=fff" alt="GitHub Stars" height="20" loading="lazy" />
+          <img src="https://img.shields.io/github/v/release/Yukstarlight/NekoType?style=flat-square&label=Release&color=4A7DFF" alt="Latest Release" height="20" loading="lazy" />
+        </div>
+      </div>
+      <div class="footer__col">
+        <h5>项目</h5>
+        <a href="https://github.com/Yukstarlight/NekoType" target="_blank" rel="noopener">GitHub 仓库</a>
+        <a href="https://github.com/Yukstarlight/NekoType/releases" target="_blank" rel="noopener">Releases 下载</a>
+        <a href="https://github.com/Yukstarlight/NekoType/issues" target="_blank" rel="noopener">Issues 反馈</a>
+        <a href="https://github.com/Yukstarlight/NekoType#-构建" target="_blank" rel="noopener">构建说明</a>
+      </div>
+      <div class="footer__col">
+        <h5>社区</h5>
+        <a href="https://pd.qq.com/s/4ldb0biz5?b=9" target="_blank" rel="noopener">QQ 频道</a>
+        <a href="javascript:void(0)" id="qqGroup" data-qq="1007865515">QQ 群 · 1007865515</a>
+        <a href="mailto:TR114512@qq.com">邮箱 · TR114512@qq.com</a>
+      </div>
+      <div class="footer__col">
+        <h5>法律</h5>
+        <span class="footer__static">BSD 2-Clause License</span>
+        <span class="footer__static">Copyright © 2026 Yukstarlight</span>
+        <span class="footer__static">无网络权限 · 无服务器</span>
+      </div>
+    </div>
+    <div class="container footer__bottom">
+      <span>© 2026 NekoType · 由 <svg width="14" height="14" style="vertical-align:-2px;color:#FF7FBE"><use href="#i-heart"/></svg> 与猫毛驱动</span>
+      <span class="footer__made">本站基于开源 README 与品牌资源由 NekoType 团队诚意打造</span>
+    </div>
+  </footer>
+
+  <!-- 复制提示 toast -->
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="assets/js/main.js" defer></script>
+</body>
+</html>
