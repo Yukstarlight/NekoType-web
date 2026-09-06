@@ -35,6 +35,6 @@ python -m http.server 8080
 
 - 主仓库：<https://github.com/Yukstarlight/NekoType>
 - 下载：<https://github.com/Yukstarlight/NekoType/releases>
-- 版本：v2.6.4 · Android 8.0+ · 完全离线 · BSD 2-Clause
+- 版本：v2.6.9 · 完全离线 · BSD 2-Clause
 
 网站内容基于上游 README 与品牌资源整理；与主仓库相互独立，保持开源精神（BSD 2-Clause）。
