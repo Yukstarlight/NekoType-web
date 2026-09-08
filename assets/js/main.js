@@ -9,6 +9,9 @@ const $  = (sel, ctx = document) => ctx.querySelector(sel);
 const $$ = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
 const root = document.documentElement;
 const reduceMotion = false; // 站点按要求保持动态背景，不跟随系统"减弱动态效果"设置
+// 移动端检测：触屏+窄屏（手机/平板竖横屏），或视口 ≤ 768px → 挂 html.is-mobile 做性能降级（桌面端不受影响）
+const isMobile = window.matchMedia('(pointer: coarse) and (max-width: 1024px)').matches || window.innerWidth <= 768;
+if (isMobile) document.documentElement.classList.add('is-mobile');
 
 /* ---------------- 主题切换 ---------------- */
 const THEME_KEY = 'neko-theme';
@@ -125,7 +128,8 @@ function initStars() {
   buildStars();
   stopStars();
   sctx.clearRect(0, 0, W, H);
-  startStars(); // 暗色 / 浅色主题下都持续动画
+  if (isMobile) { drawStars(0); return; } // 移动端：静态星空（画一帧即可，不跑动画循环）
+  startStars(); // 桌面端：持续动画
 }
 window.addEventListener('resize', initStars);
 
@@ -398,7 +402,7 @@ function heroTick() {
     }, 620);
   }, 800);
 }
-heroTick();
+if (!isMobile) heroTick(); // 移动端跳过 Hero 自动演示，提升流畅度
 
 heroFab.addEventListener('click', () => pushHeroNow());
 function pushHeroNow() {
@@ -443,7 +447,7 @@ $('#qqGroup').addEventListener('click', async () => {
 const GLYPHS = ['🐾','ฅ','(=^･ω･^=)','(^・ω・^)','nya~','~喵','(=^ᴗ^=)','ฅ^•ﻌ•^ฅ','awa','qwq','(｡•̀ᴗ-)✧','(=ↀωↀ=)'];
 const glyphRain = $('#glyphRain');
 function spawnGlyphs() {
-  if (reduceMotion || !glyphRain) return;
+  if (isMobile || !glyphRain) return; // 移动端不生成漂浮颜文字，省性能
   const n = 18;
   for (let i = 0; i < n; i++) {
     const s = document.createElement('span');

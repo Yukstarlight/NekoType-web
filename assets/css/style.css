@@ -860,3 +860,43 @@ html[data-theme="light"] .theme-toggle .ico-moon { display: none; }
 }
 
 /* ---------- 移动端适配提示：站点保持动态，不随系统减弱动效设置关闭 ---------- */
+
+/* ============================================================
+   移动端性能降级：JS 检测到移动端时给 <html> 挂 .is-mobile
+   → 静态星空（JS 处理）+ 停掉吃性能的装饰动画 + 去玻璃模糊
+   桌面端（无 .is-mobile）完全不受影响
+   ============================================================ */
+html.is-mobile body { animation: none; }                       /* 背景渐变网格停止漂移 */
+html.is-mobile .blob { animation: none; filter: blur(46px); opacity: .4; }  /* 极光光斑静止 */
+html.is-mobile .hero__visual::before { animation: none; opacity: .3; }      /* Hero 旋转光晕静止 */
+html.is-mobile .btn--lg.btn--primary { animation: none; }      /* 主按钮脉冲停止 */
+html.is-mobile .marquee__track { animation-duration: 50s; }    /* 跑马灯大幅降速 */
+html.is-mobile .card { animation: none; }                      /* 卡片浮动停止 */
+html.is-mobile .fab { animation: none; }                       /* 悬浮球 bob 停止 */
+html.is-mobile .chip { animation: none; }                      /* 规则芯片浮动停止 */
+html.is-mobile .phone { animation: none; }                     /* Hero 手机悬浮停止 */
+html.is-mobile .grad-text { animation: none; }                 /* 渐变流光停止 */
+/* 移动端去掉 backdrop-filter（最吃 GPU），改用更高不透明度的玻璃质感 */
+html.is-mobile .nav.scrolled,
+html.is-mobile .card,
+html.is-mobile .step,
+html.is-mobile .stat,
+html.is-mobile .trust,
+html.is-mobile .chip,
+html.is-mobile .rule-item,
+html.is-mobile .faq__item,
+html.is-mobile .demo__rules,
+html.is-mobile .demo__chat,
+html.is-mobile .feature-block__visual,
+html.is-mobile .cta__panel,
+html.is-mobile .section--alt,
+html.is-mobile .pill,
+html.is-mobile .btn--ghost,
+html.is-mobile .chat-head,
+html.is-mobile .bubble--in {
+  background: var(--glass-strong);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+/* 移动端无鼠标视差：Hero 手机恢复轻微静态倾斜 */
+html.is-mobile .hero__visual .phone { transform: perspective(1200px) rotateY(-4deg) rotateX(0deg); }
