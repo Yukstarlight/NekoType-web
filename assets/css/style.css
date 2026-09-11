@@ -722,7 +722,7 @@ html[data-theme="light"] .theme-toggle .ico-moon { display: none; }
 
 /* ---------- 数据与信任 ---------- */
 .stat-row {
-  display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px;
+  display: grid; grid-template-columns: repeat(7, 1fr); gap: 16px;
   margin-bottom: 34px;
 }
 .stat {

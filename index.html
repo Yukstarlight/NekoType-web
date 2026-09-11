@@ -127,7 +127,7 @@
             全平台通用的<br><span class="grad-text">文本处理工具</span>
           </h1>
           <p class="hero__sub">
-            NekoType 是一款系统级文本处理工具：屏幕边缘常驻悬浮球，一键为输入框内容应用前缀、后缀、随机尾缀、文本替换等规则并自动发送。规则自由组合、概率可控、实时预览。<strong>完全离线运行，无服务器、无广告、无追踪。</strong>
+            NekoType 是一款系统级文本处理工具：悬浮球常驻屏幕边缘，一键为输入框内容应用前缀、后缀、随机尾缀、文本替换等规则并自动发送。三种运行模式（悬浮球 / 篡改键盘 / 断句追加）自由切换，规则自由组合、概率可控、实时预览。<strong>完全离线运行，无服务器、无广告、无追踪。</strong>
           </p>
           <div class="hero__cta">
             <a class="btn btn--primary btn--lg" id="heroDownload" href="https://github.com/Yukstarlight/NekoType/releases/download/NekoType/NekoType-v2.7.2.apk" target="_blank" rel="noopener">
@@ -195,7 +195,7 @@
         <header class="section__head reveal">
           <span class="kicker">原理</span>
           <h2 class="section__title">三步，句子就变了样</h2>
-          <p class="section__lead">不用换键盘、不用装输入法。你照常打字，剩下的交给悬浮球。</p>
+          <p class="section__lead">不用换键盘、不用装输入法。你照常打字，剩下交给悬浮球——或切到篡改键盘 / 断句追加模式全自动。</p>
         </header>
         <ol class="steps">
           <li class="step reveal">
@@ -207,8 +207,8 @@
           <li class="step reveal" data-reveal-delay="90">
             <span class="step__num">02</span>
             <span class="step__ico"><svg width="26" height="26"><use href="#i-fab"/></svg></span>
-            <h3>点一下悬浮球</h3>
-            <p>屏幕边缘常驻的悬浮球，点一下即触发。支持拖动摆放、边缘吸附、位置持久记忆。</p>
+            <h3>触发变换</h3>
+            <p>三种模式任选：点悬浮球改写发送、篡改键盘模式打字即变、断句追加模式打完一句自动改。悬浮球支持拖动摆放、边缘吸附、位置持久记忆。</p>
           </li>
           <li class="step reveal" data-reveal-delay="180">
             <span class="step__num">03</span>
@@ -328,8 +328,8 @@
       <div class="container">
         <header class="section__head reveal">
           <span class="kicker">核心特性</span>
-          <h2 class="section__title">三种模式，一套文本处理能力</h2>
-          <p class="section__lead">从「手动点一下」到「打字即自动变」，再到「静默注入无弹窗」，任你挑。</p>
+          <h2 class="section__title">规则系统 · 三种模式 · 系统级增强</h2>
+          <p class="section__lead">规则自由组合，三种运行模式互斥切换，再加 Shizuku / Root / Dhizuku 系统级兜底。</p>
         </header>
 
         <article class="feature-block reveal">
@@ -337,7 +337,7 @@
             <div class="rule-card">
               <div class="rule-card__row"><span class="tag tag--pre">前缀</span><code>~</code><span class="rule-card__on">开</span></div>
               <div class="rule-card__row"><span class="tag tag--suf">后缀</span><code>喵</code><span class="rule-card__on">开</span></div>
-              <div class="rule-card__row"><span class="tag tag--rnd">随机后缀</span><code>qwq|awa|nya~</code><span class="rule-card__on">开</span></div>
+              <div class="rule-card__row"><span class="tag tag--rnd">随机后缀·固定</span><code>qwq|awa</code><span class="rule-card__on">开</span></div>
               <div class="rule-card__row"><span class="tag tag--rep">替换</span><code>的 → の</code><span class="rule-card__on">开</span></div>
               <div class="rule-card__preview">输入 <b>好的</b> → <b class="grad-text">~好の喵awa</b></div>
             </div>
@@ -347,9 +347,9 @@
             <h3>规则系统 · 自由组合多条叠加</h3>
             <p>规则页采用列表模型，点「添加规则」即可按类型创建，按顺序叠加生效。随机规则各自带触发概率，不再「每次必发」；内置多套预设一键切换，适配不同场景。</p>
             <ul class="ticks">
-              <li><svg width="16" height="16"><use href="#i-check"/></svg> 前缀 / 后缀 / 每句后缀</li>
-              <li><svg width="16" height="16"><use href="#i-check"/></svg> 随机前缀 / 随机后缀 / 65 种颜文字</li>
-              <li><svg width="16" height="16"><use href="#i-check"/></svg> 替换文本、字符加空格、转大写</li>
+              <li><svg width="16" height="16"><use href="#i-check"/></svg> 前缀 / 后缀 / 替换文本</li>
+              <li><svg width="16" height="16"><use href="#i-check"/></svg> 随机前缀·后缀（固定 / 不固定两种）</li>
+              <li><svg width="16" height="16"><use href="#i-check"/></svg> 字符加空格、转大写、多套预设</li>
               <li><svg width="16" height="16"><use href="#i-check"/></svg> 效果预览实时看叠加结果</li>
             </ul>
           </div>
@@ -364,18 +364,18 @@
                 <span class="kbd-mock__arrow">→</span>
                 <span class="kbd-mock__out" id="kbdOut">我今天好开心喵</span>
               </div>
-              <div class="kbd-mock__hint">增量原文算法 · 停顿即自动变换</div>
+              <div class="kbd-mock__hint">三种模式 · 打字即变 / 断句即改</div>
             </div>
           </div>
           <div class="feature-block__copy">
             <span class="feature-block__num">02</span>
-            <h3>强制篡改键盘 · 打字即自动改</h3>
-            <p>不换键盘、不装输入法，原生键盘打字时内容自动按规则篡改，停顿片刻即变换，<strong>无需点悬浮按钮</strong>。增量原文算法只合并新增部分，连续打字后缀永不重复（不会「喵喵喵」）。</p>
+            <h3>三种运行模式 · 互斥切换</h3>
+            <p>从手动到全自动，三种模式任选其一：<strong>悬浮球模式</strong>点一下改写发送；<strong>篡改键盘模式</strong>原生键盘打字即自动改（增量原文算法，后缀永不重复）；<strong>断句追加模式</strong>输入以标点结尾才篡改，打完一句自动改，更自然。随时切换。</p>
             <ul class="ticks">
-              <li><svg width="16" height="16"><use href="#i-check"/></svg> 写回自动把光标移到末尾</li>
-              <li><svg width="16" height="16"><use href="#i-check"/></svg> 标点触发：输入标点瞬间变换</li>
-              <li><svg width="16" height="16"><use href="#i-check"/></svg> 发送兜底：点发送前先确保已改</li>
-              <li><svg width="16" height="16"><use href="#i-check"/></svg> 应用黑名单：指定 App 内不自动篡改</li>
+              <li><svg width="16" height="16"><use href="#i-check"/></svg> 悬浮球模式：点一下即改写发送</li>
+              <li><svg width="16" height="16"><use href="#i-check"/></svg> 篡改键盘模式：打字即变，无需点球</li>
+              <li><svg width="16" height="16"><use href="#i-check"/></svg> 断句追加模式：标点结尾才改，更自然</li>
+              <li><svg width="16" height="16"><use href="#i-check"/></svg> 写回自动移光标到末尾，不打断输入</li>
             </ul>
           </div>
         </article>
@@ -393,12 +393,13 @@
           </div>
           <div class="feature-block__copy">
             <span class="feature-block__num">03</span>
-            <h3>静默修改 · Shizuku 直写注入</h3>
-            <p>当部分应用（如微信）拒绝无障碍改写文本时，自动改用 Shizuku 直接注入，全程无弹窗、无剪贴板提示，改完即走。中文文本自动回退无障碍通道，两种方式互为兜底。</p>
+            <h3>静默修改 · 系统级增强</h3>
+            <p>当部分应用（如微信）拒绝无障碍改写时，自动改用 Shizuku 直接注入，全程无弹窗、无剪贴板提示，改完即走。支持 Shizuku / Root / Dhizuku 多通道，首页还能<strong>一键授权所有权限</strong>，省去逐项点击。</p>
             <ul class="ticks">
-              <li><svg width="16" height="16"><use href="#i-check"/></svg> 全选 + input text 直写聚焦输入框</li>
+              <li><svg width="16" height="16"><use href="#i-check"/></svg> Shizuku / Root / Dhizuku 多通道注入</li>
+              <li><svg width="16" height="16"><use href="#i-check"/></svg> 一键授权所有权限（Shizuku 直写）</li>
               <li><svg width="16" height="16"><use href="#i-check"/></svg> 固定动作架构，不接受任意命令，杜绝注入</li>
-              <li><svg width="16" height="16"><use href="#i-check"/></svg> 免 Root，Shizuku 13 已移除 newProcess</li>
+              <li><svg width="16" height="16"><use href="#i-check"/></svg> 免 Root，中文文本自动回退无障碍</li>
             </ul>
           </div>
         </article>
@@ -411,17 +412,20 @@
         <header class="section__head reveal">
           <span class="kicker">更多能力</span>
           <h2 class="section__title">一只悬浮球，比你想象的更强</h2>
-          <p class="section__lead">从悬浮球到集成终端，从密码锁到防篡改，全部基于系统公开 API 实现。</p>
+          <p class="section__lead">从启动动画到集成终端，从三种模式到防篡改，全部基于系统公开 API 实现。</p>
         </header>
         <div class="grid-cards">
-          <article class="card reveal"><span class="card__ico"><svg width="24" height="24"><use href="#i-fab"/></svg></span><h3>悬浮按钮</h3><p>永久常驻屏幕边缘，拖动摆放、边缘吸附、位置记忆。柔光玻璃效果、5 秒空闲收成小圆点、自定义图标大小与透明度。</p></article>
-          <article class="card reveal" data-reveal-delay="60"><span class="card__ico"><svg width="24" height="24"><use href="#i-terminal"/></svg></span><h3>Mist 集成终端</h3><p>复用 Termux 终端引擎，PTY 真实交互，内置 460+ 命令。JetBrains Mono 等宽字体、纯黑背景，随键盘自动缩放。</p></article>
+          <article class="card reveal"><span class="card__ico"><svg width="24" height="24"><use href="#i-star"/></svg></span><h3>启动动画</h3><p>图标圆形弹性弹出 + 标题副标题依次淡入，1 秒进入首页。启动 slogan：Welcome to Mist Unveils Infinite Tomorrows。</p></article>
+          <article class="card reveal" data-reveal-delay="60"><span class="card__ico"><svg width="24" height="24"><use href="#i-fab"/></svg></span><h3>悬浮按钮</h3><p>永久常驻屏幕边缘，默认 56dp，拖动摆放、边缘吸附、位置记忆。柔光玻璃效果、5 秒空闲收成小圆点、自定义大小与透明度。</p></article>
+          <article class="card reveal" data-reveal-delay="120"><span class="card__ico"><svg width="24" height="24"><use href="#i-list"/></svg></span><h3>三种运行模式</h3><p>悬浮球 / 篡改键盘 / 断句追加三种模式互斥切换：手动点一下、打字即自动改、或打完一句才改，各取所需。</p></article>
+          <article class="card reveal"><span class="card__ico"><svg width="24" height="24"><use href="#i-bolt"/></svg></span><h3>一键授权</h3><p>Shizuku 直写一次性写入无障碍、免电、悬浮窗等所有权限，省去逐项跳转系统设置，五步引导一步到位。</p></article>
+          <article class="card reveal" data-reveal-delay="60"><span class="card__ico"><svg width="24" height="24"><use href="#i-terminal"/></svg></span><h3>Mist 集成终端</h3><p>Welcome to Mist Unveils Infinite Tomorrows 集成终端（Beta）。复用 Termux 引擎，PTY 真实交互，内置 460+ 命令，JetBrains Mono 等宽字体。</p></article>
           <article class="card reveal" data-reveal-delay="120"><span class="card__ico"><svg width="24" height="24"><use href="#i-ban"/></svg></span><h3>应用黑名单</h3><p>独立黑名单页列出全部已安装应用，勾选即加入。黑名单内不自动篡改，悬浮球手动点击不受限。</p></article>
-          <article class="card reveal"><span class="card__ico"><svg width="24" height="24"><use href="#i-send"/></svg></span><h3>智能发送</h3><p>三级兜底：无障碍节点树找发送按钮 → IME 发送动作 → 全局手势点击坐标，兼容主流聊天应用。</p></article>
-          <article class="card reveal" data-reveal-delay="60"><span class="card__ico"><svg width="24" height="24"><use href="#i-log"/></svg></span><h3>日志查看器</h3><p>7 级日志体系 + 系统 logcat 直读，变换失败、发送被拦截一眼定位。系统标签轻汉化，字体可缩放、可复制导出。</p></article>
-          <article class="card reveal" data-reveal-delay="120"><span class="card__ico"><svg width="24" height="24"><use href="#i-database"/></svg></span><h3>数据管理</h3><p>一键导出/导入全部配置（规则+行为+外观），文本格式可读可编辑，换机备份都方便。每日变换次数 + 7 天趋势一目了然。</p></article>
-          <article class="card reveal"><span class="card__ico"><svg width="24" height="24"><use href="#i-globe"/></svg></span><h3>三语切换</h3><p>简体中文 / 繁體中文 / English 一键切换，全局即时生效，含 toast、对话框、按钮全部文案。</p></article>
-          <article class="card reveal" data-reveal-delay="60"><span class="card__ico"><svg width="24" height="24"><use href="#i-lock"/></svg></span><h3>安全防护</h3><p>Argon2id 密码锁 + Keystore 加密；隐藏模式 pm hide + 设备管理员防卸载；TamperGuard 签名校验 + Hook 框架检测。</p></article>
+          <article class="card reveal"><span class="card__ico"><svg width="24" height="24"><use href="#i-log"/></svg></span><h3>日志查看器</h3><p>7 级日志体系 + 系统 logcat 直读，变换失败、发送被拦截一眼定位。系统标签轻汉化，字体可缩放、可复制导出。</p></article>
+          <article class="card reveal" data-reveal-delay="60"><span class="card__ico"><svg width="24" height="24"><use href="#i-database"/></svg></span><h3>数据管理</h3><p>一键导出/导入全部配置（规则+行为+外观），文本格式可读可编辑，换机备份都方便。每日变换次数 + 7 天趋势一目了然。</p></article>
+          <article class="card reveal" data-reveal-delay="120"><span class="card__ico"><svg width="24" height="24"><use href="#i-globe"/></svg></span><h3>三语切换</h3><p>简体中文 / 繁體中文 / English 一键切换，全局即时生效，含 toast、对话框、按钮全部文案。</p></article>
+          <article class="card reveal"><span class="card__ico"><svg width="24" height="24"><use href="#i-sun"/></svg></span><h3>外观与主题</h3><p>深色 / 浅色 / 跟随系统三套主题，外加独家星空深色主题；自定义任意图片作应用背景，仅保存在本地。</p></article>
+          <article class="card reveal" data-reveal-delay="60"><span class="card__ico"><svg width="24" height="24"><use href="#i-lock"/></svg></span><h3>安全防护</h3><p>Argon2id 密码锁 + Keystore 加密；隐藏模式 pm hide + 设备管理员防卸载；支持 Shizuku/Root/Dhizuku；TamperGuard 签名校验 + Hook 框架检测。</p></article>
           <article class="card reveal" data-reveal-delay="120"><span class="card__ico"><svg width="24" height="24"><use href="#i-heart"/></svg></span><h3>常驻保活</h3><p>60 秒心跳 AlarmManager 唤醒、崩溃自启、快捷设置磁贴一键开关、开机自动拉起悬浮服务。</p></article>
         </div>
       </div>
@@ -442,6 +446,7 @@
           <div class="stat"><b class="grad-text" data-count="460" data-suffix="+">0</b><span>内置终端命令</span></div>
           <div class="stat"><b class="grad-text" data-count="65">0</b><span>种内置颜文字</span></div>
           <div class="stat"><b class="grad-text" data-count="3">0</b><span>级发送兜底</span></div>
+          <div class="stat"><b class="grad-text" data-count="3">0</b><span>种运行模式</span></div>
         </div>
         <div class="trust-grid reveal" data-reveal-delay="120">
           <div class="trust"><span class="trust__ico"><svg width="20" height="20"><use href="#i-shield"/></svg></span><h4>数据不出设备</h4><p>所有文本读取、规则变换、发送触发全部在设备本地内存完成，处理完即丢弃，不留存、不上传。</p></div>
@@ -472,8 +477,12 @@
             <p>不会。NekoType 只读取当前聚焦输入框里的文本，不扫描、不记录、不存储聊天内容，处理完即丢弃。应用本身也没有任何联网能力。</p>
           </details>
           <details class="faq__item reveal">
-            <summary>强制篡改键盘会把后缀叠成「喵喵喵」吗？<span class="faq__ico"><svg width="18" height="18"><use href="#i-arrow"/></svg></span></summary>
+            <summary>篡改键盘模式会把后缀叠成「喵喵喵」吗？<span class="faq__ico"><svg width="18" height="18"><use href="#i-arrow"/></svg></span></summary>
             <p>不会。增量原文算法会记录你的真实输入和上次写回内容，只把新增部分并入原文后重新变换一次，连续打字后缀也只出现一次。</p>
+          </details>
+          <details class="faq__item reveal">
+            <summary>有几种运行模式？启动有动画吗？<span class="faq__ico"><svg width="18" height="18"><use href="#i-arrow"/></svg></span></summary>
+            <p>三种互斥模式：悬浮球（点一下改写发送）、篡改键盘（打字即自动改）、断句追加（标点结尾才改）。启动时有图标弹性弹出 + 标题淡入的动画，1 秒进入首页。</p>
           </details>
           <details class="faq__item reveal">
             <summary>耗电吗？<span class="faq__ico"><svg width="18" height="18"><use href="#i-arrow"/></svg></span></summary>
@@ -519,7 +528,7 @@
           <span class="brand__logo brand__logo--img"><img src="assets/index.jpg" alt="" width="36" height="36" /></span>
           <span class="brand__name">NekoType</span>
         </a>
-        <p class="footer__tag">常驻屏幕边缘的悬浮球，把文本处理变成一键的事。</p>
+        <p class="footer__tag">悬浮球常驻屏幕边缘，三种运行模式 + 系统级增强，文本处理一键到底。</p>
         <div class="footer__badges">
           <img src="https://img.shields.io/github/stars/Yukstarlight/NekoType?style=flat-square&label=Star&color=9B6CFF&logoColor=fff" alt="GitHub Stars" height="20" loading="lazy" />
           <img src="https://img.shields.io/github/v/release/Yukstarlight/NekoType?style=flat-square&label=Release&color=4A7DFF" alt="Latest Release" height="20" loading="lazy" />
