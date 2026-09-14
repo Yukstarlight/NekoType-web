@@ -5,6 +5,10 @@
    ============================================================ */
 'use strict';
 
+/* i18n 助手：T() 按当前语言转换静态文案；TF() 处理带 %s 占位的动态文案 */
+const T = (s) => (window.nekoT ? window.nekoT(s) : s);
+const TF = (key, v) => T(key).replace('%s', v);
+
 const $  = (sel, ctx = document) => ctx.querySelector(sel);
 const $$ = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
 const root = document.documentElement;
@@ -299,7 +303,7 @@ function sendMessage(anchor) {
   const raw = (demoInput.value.trim() || '喵');
   const out = transform(raw);
   ruleState.count++;
-  chatCount.textContent = '今日变换 ' + ruleState.count + ' 次';
+  chatCount.textContent = T('今日变换 0 次').replace('0', ruleState.count);
 
   // 打字指示器
   const typing = document.createElement('div');
@@ -365,7 +369,7 @@ $$('.chip-btn').forEach(btn => {
     $$('.chip-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     PRESETS[btn.dataset.preset]();
-    toast('已应用「' + PRESET_LABEL[btn.dataset.preset] + '」预设');
+    toast(TF('已应用「%s」预设', T(PRESET_LABEL[btn.dataset.preset])));
   });
 });
 
@@ -423,8 +427,8 @@ let kbdIdx = 0;
 function kbdTick() {
   const raw = KBD_SEQ[kbdIdx % KBD_SEQ.length];
   kbdIdx++;
-  kbdRaw.textContent = raw;
-  kbdOut.textContent = raw + (Math.random() < 0.55 ? '喵' : 'awa');
+  kbdRaw.textContent = T(raw);
+  kbdOut.textContent = T(raw) + (Math.random() < 0.55 ? '喵' : 'awa');
   setTimeout(kbdTick, 2400);
 }
 if (!reduceMotion && kbdOut) { kbdTick(); }
@@ -432,11 +436,11 @@ if (!reduceMotion && kbdOut) { kbdTick(); }
 /* ---------------- QQ 群复制 ---------------- */
 $('#qqGroup').addEventListener('click', async () => {
   const qq = '1007865515';
-  try { await navigator.clipboard.writeText(qq); toast('已复制 QQ 群号：' + qq); }
+  try { await navigator.clipboard.writeText(qq); toast(TF('已复制 QQ 群号：%s', qq)); }
   catch (e) {
     const ta = document.createElement('textarea');
     ta.value = qq; document.body.appendChild(ta); ta.select();
-    try { document.execCommand('copy'); toast('已复制 QQ 群号：' + qq); } catch (e2) { toast('QQ 群号：' + qq); }
+    try { document.execCommand('copy'); toast(TF('已复制 QQ 群号：%s', qq)); } catch (e2) { toast(TF('QQ 群号：%s', qq)); }
     ta.remove();
   }
 });

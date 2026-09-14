@@ -218,6 +218,32 @@ html[data-theme="light"] .glyph-rain span { opacity: .1; }
 html[data-theme="dark"]  .theme-toggle .ico-sun  { display: none; }
 html[data-theme="light"] .theme-toggle .ico-moon { display: none; }
 
+/* ---------- 语言切换器 ---------- */
+.lang { position: relative; }
+.lang__btn {
+  width: auto; padding: 0 10px; gap: 5px;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+.lang__btn:hover { transform: translateY(-1px); border-color: var(--border-strong); }
+.lang__code { font-family: var(--font-mono); font-size: 11.5px; font-weight: 700; letter-spacing: .5px; }
+.lang__menu {
+  position: absolute; top: calc(100% + 8px); right: 0; z-index: 130;
+  min-width: 170px; padding: 6px; display: none; flex-direction: column; gap: 2px;
+  background: var(--glass-strong); border: 1px solid var(--border-strong);
+  border-radius: 14px; box-shadow: var(--shadow-lg);
+  backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+}
+.lang.open .lang__menu { display: flex; }
+.lang__menu button {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  padding: 9px 12px; border-radius: 10px; border: none; background: transparent;
+  color: var(--fg0); font-size: 13.5px; font-weight: 500; text-align: left;
+  transition: background .2s ease, color .2s ease;
+}
+.lang__menu button:hover { background: var(--bg2); }
+.lang__menu button.is-active { background: var(--grad); color: #fff; }
+.lang__hint { font-size: 11px; opacity: .6; }
+
 .nav__burger { display: none; width: 38px; height: 38px; border-radius: 12px; background: var(--glass); border: 1px solid var(--border); color: var(--fg0); place-items: center; }
 .nav__mobile {
   display: none;
@@ -848,6 +874,15 @@ html[data-theme="light"] .theme-toggle .ico-moon { display: none; }
 .reveal { opacity: 0; transform: translateY(34px) scale(.96); transition: opacity .8s var(--ease), transform .8s var(--ease); transition-delay: var(--reveal-delay, 0ms); }
 .reveal.in { opacity: 1; transform: none; }
 
+/* ---------- 大屏 PC 增强 ---------- */
+@media (min-width: 1500px) {
+  .container { width: min(1320px, 100% - 80px); }
+  .container--narrow { width: min(920px, 100% - 80px); }
+  .hero__title { font-size: 78px; }
+  .grid-cards { gap: 24px; }
+  .section { padding-block: 120px; }
+}
+
 /* ---------- 响应式 ---------- */
 @media (max-width: 1024px) {
   .hero__grid { grid-template-columns: 1fr; text-align: center; }
@@ -857,10 +892,16 @@ html[data-theme="light"] .theme-toggle .ico-moon { display: none; }
   .hero__visual { order: -1; }
   .chip--1 { left: -8px; } .chip--2 { left: -6px; } .chip--3 { right: -8px; }
   .demo { grid-template-columns: 1fr; }
-  .stat-row { grid-template-columns: repeat(3, 1fr); }
+  .stat-row { grid-template-columns: repeat(4, 1fr); }
   .grid-cards { grid-template-columns: repeat(2, 1fr); }
+  .nav__actions .btn--ghost.btn--sm { display: none; } /* 平板：只留「下载」按钮 */
   .trust-grid { grid-template-columns: 1fr; }
   .steps::before { display: none; }
+}
+@media (max-width: 900px) {
+  .nav__links { display: none; }
+  .nav__burger { display: grid; }
+  .nav__mobile { display: none; }
 }
 @media (max-width: 768px) {
   .nav__links { display: none; }
@@ -880,6 +921,10 @@ html[data-theme="light"] .theme-toggle .ico-moon { display: none; }
   .chip--1 { left: 4px; top: 12%; } .chip--2 { left: 4px; bottom: 24%; } .chip--3 { right: 4px; top: 38%; }
   .cta__btns { flex-direction: column; align-items: stretch; }
   .cta__btns .btn { justify-content: center; }
+  .lang__menu { min-width: 152px; }
+  .lang__btn { padding: 0 8px; }
+  .nav__inner { gap: 12px; }
+  .stat b { font-size: 26px; }
 }
 
 /* ---------- 移动端适配提示：站点保持动态，不随系统减弱动效设置关闭 ---------- */
