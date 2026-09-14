@@ -690,6 +690,29 @@ html[data-theme="light"] .theme-toggle .ico-moon { display: none; }
 .c-ok { color: #35C97A; }
 .c-pri { color: #C8A2FF; }
 
+/* 人设语气包面板（核心特性 04） */
+.persona-panel {
+  position: relative; z-index: 1; width: min(420px, 100%);
+  background: var(--bg1); border: 1px solid var(--border-strong); border-radius: 20px;
+  padding: 20px; box-shadow: var(--shadow-lg);
+}
+.persona-panel__title { font-size: 13.5px; font-weight: 700; color: var(--fg0); margin-bottom: 14px; }
+.persona-panel__chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.persona-chip {
+  padding: 7px 13px; border-radius: 999px; font-size: 13px;
+  background: var(--bg2); border: 1px solid var(--border); color: var(--fg1);
+  transition: transform .25s var(--ease), border-color .25s ease;
+}
+.persona-chip:hover { transform: translateY(-2px); border-color: var(--primary); color: var(--primary); }
+.persona-chip.is-active {
+  background: var(--grad); color: #fff; border-color: transparent;
+  box-shadow: 0 8px 22px -8px rgba(155,108,255,.65);
+}
+.persona-panel__hint {
+  margin-top: 16px; padding-top: 12px; border-top: 1px dashed var(--border);
+  font-size: 12.5px; color: var(--fg2); line-height: 1.6;
+}
+
 /* ---------- 特性网格 ---------- */
 .grid-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; perspective: 1200px; }
 .card {
