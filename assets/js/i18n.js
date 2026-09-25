@@ -203,18 +203,27 @@
     '数据管理': 'Data management',
     '一键导出/导入全部配置（规则+行为+外观），文本格式可读可编辑，换机备份都方便。每日变换次数 + 7 天趋势一目了然。':
       'Export/import the whole config (rules + behaviour + appearance) as readable, editable text — handy for backups and new phones. Daily transform count plus a 7-day trend.',
-    '三语切换': 'Three languages',
-    '简体中文 / 繁體中文 / English 一键切换，全局即时生效，含 toast、对话框、按钮全部文案。':
-      'Simplified Chinese / Traditional Chinese / English switch instantly, everywhere — toasts, dialogs and every button label.',
+    '八种语言': 'Eight languages',
+    '简体中文 / 繁體中文 / English / Deutsch / 日本語 / 한국어 / Русский / Türkçe 八种语言一键切换，全局即时生效，含 toast、对话框、按钮全部文案。':
+      'Simplified Chinese / Traditional Chinese / English / German / Japanese / Korean / Russian / Turkish — switch instantly, everywhere: toasts, dialogs and every button label.',
     '外观与主题': 'Look & themes',
-    '深色 / 浅色 / 跟随系统 / 星空四套主题，外加自定义任意图片作应用背景（仅保存在本地），悬浮球大小与透明度实时可调。':
-      'Dark / Light / Follow system / Starry Sky — four themes, plus any image as app background (stored locally only). Ball size and opacity adjust in real time.',
+    '六套主题：深色 / 浅色 / 跟随系统 / 星空 / 猫娘 / 前苏联（CCCP），外加自定义任意图片作应用背景（仅保存在本地），悬浮球大小与透明度实时可调。':
+      'Six themes: Dark / Light / Follow system / Starry Sky / Catgirl / Soviet (CCCP), plus any image as app background (stored locally only). Ball size and opacity adjust in real time.',
+    '前苏联主题': 'Soviet theme',
+    '红旗红 + 鎏金 + 深褐底配色，配构造主义红色斜带背景与红星图标，全部纯矢量绘制，任意分辨率都不糊。':
+      'Flag red + gilded gold on a deep brown base, with a constructivist diagonal-stripe background and a red-star icon — all pure vector, crisp at any resolution.',
+    '悬浮球快捷菜单': 'Floating-ball quick menu',
+    '长按悬浮球弹出：回到应用、切换规则预设、管理预设、规则开关面板、行为与样式面板、立即变换并发送，还有设置 / 日志 / 终端 / 停止服务。':
+      'Long-press the ball to open it: back to the app, switch rule presets, manage presets, rule switches, behaviour panel, transform & send now — plus settings / logs / terminal / stop service.',
+    '高级选项': 'Advanced options',
+    '设置 → 高级：打开应用时自动启动服务、打开应用时自动用 Shizuku 授权所有权限（默认关闭，需 Shizuku 已运行）。':
+      'Settings → Advanced: auto-start the service when the app opens, and auto-grant all permissions via Shizuku on launch (off by default; Shizuku must be running).',
     '人设语气包': 'Persona packs',
     '萝莉语 / 古风文言 / 译制片腔 / 阴阳怪气 / 火星文 / 病娇 / 雌小鬼 / 猫娘 共 8 套人设，点击即自动创建并激活规则预设，聊天秒换人设。':
       'Loli / Classical / Dub voice / Sarcastic / Mars text / Yandere / Mesugaki / Catgirl — 8 personas. Tap to auto-create and activate the rule preset; switch style instantly.',
     '猫娘主题': 'Catgirl theme',
-    '第五套主题「猫娘」：全 UI 切换猫娘用语（喵语口癖、自称喵），底部导航换成猫咪头像并给文字加「喵~」，同时联动情绪小猫 +20%。':
-      'The fifth theme, Catgirl: the whole UI switches to catgirl speech (nya tics, self-referring as 喵), the bottom nav turns into cat avatars with “喵~” suffixes, and Mood cat gets +20%.',
+    '全 UI 切换猫娘用语（喵语口癖、自称喵），底部导航换成猫咪头像并给文字加「喵~」，同时联动情绪小猫 +20%。':
+      'The whole UI switches to catgirl speech (nya tics, self-referring as 喵), the bottom nav turns into cat avatars with “喵~” suffixes, and Mood cat gets +20%.',
     '情绪小猫': 'Mood cat',
     '随机情绪概率 0-100（默认 30），开启猫娘主题自动 +20%。终端': 'Random mood chance 0-100 (default 30), +20% with catgirl theme on. In the terminal, ',
     '可指定 happy / sleepy / angry / shy / berserk，': 'can pick happy / sleepy / angry / shy / berserk, and ',
