@@ -118,8 +118,8 @@
     '输入点啥…': 'Type something…',
     /* 核心特性 */
     '核心特性': 'Core features', '规则 · 模式 · 系统增强 · 人设语气': 'Rules · Modes · System boost · Personas',
-    '规则自由组合（优先级 1-100 防冲突），三种运行模式互斥切换，Shizuku / Root / Dhizuku 系统级兜底，还有 8 套人设语气包一键换人设。':
-      'Rules combine freely (priority 1-100 prevents conflicts), three run modes are mutually exclusive, Shizuku / Root / Dhizuku provide system-level fallback, and 8 persona packs switch your style in one tap.',
+    '规则自由组合（优先级 1-100 防冲突），三种运行模式互斥切换，Shizuku / Root 系统级兜底，还有 8 套人设语气包一键换人设。':
+      'Rules combine freely (priority 1-100 prevents conflicts), three run modes are mutually exclusive, Shizuku / Root provide system-level fallback, and 8 persona packs switch your style in one tap.',
     '开': 'ON', '随机后缀·固定': 'Random suffix · fixed', '优先级': 'Priority', '大 → 小': 'high → low',
     '执行：输入': '· run: input',
     '规则系统 · 优先级 1-100 防冲突': 'Rule system · Priority 1-100, conflict-free',
@@ -152,10 +152,10 @@
     '无障碍通道被拒 → 切换 Shizuku': 'Accessibility denied → switching to Shizuku',
     '无弹窗 · 无剪贴板 · 已发送': 'No dialog · no clipboard · sent',
     '静默修改 · 系统级增强': 'Silent edit · system-level boost',
-    '当部分应用（如微信）拒绝无障碍改写时，自动改用 Shizuku 直接注入，全程无弹窗、无剪贴板提示，改完即走。支持 Shizuku / Root / Dhizuku 多通道，首页还能':
-      'When an app (e.g. WeChat) refuses accessibility rewrites, NekoType injects text through Shizuku instead — no dialog, no clipboard toast, instantly done. Shizuku / Root / Dhizuku channels are supported, and the home screen can even ',
+    '当部分应用（如微信）拒绝无障碍改写时，自动改用 Shizuku 直接注入，全程无弹窗、无剪贴板提示，改完即走。支持 Shizuku / Root 多通道，首页还能':
+      'When an app (e.g. WeChat) refuses accessibility rewrites, NekoType injects text through Shizuku instead — no dialog, no clipboard toast, instantly done. Shizuku / Root channels are supported, and the home screen can even ',
     '一键授权所有权限': 'grant all permissions in one tap', '，省去逐项点击。': ', skipping per-item setup.',
-    'Shizuku / Root / Dhizuku 多通道注入': 'Shizuku / Root / Dhizuku multi-channel injection',
+    'Shizuku / Root 多通道注入': 'Shizuku / Root multi-channel injection',
     '一键授权所有权限（Shizuku 直写）': 'One-tap grant all permissions (Shizuku write)',
     '固定动作架构，不接受任意命令，杜绝注入': 'Fixed-action architecture — no arbitrary commands, no injection',
     '免 Root，中文文本自动回退无障碍': 'No root needed; Chinese text falls back to accessibility',
@@ -220,7 +220,7 @@
     '可指定 happy / sleepy / angry / shy / berserk，': 'can pick happy / sleepy / angry / shy / berserk, and ',
     '一键停止。': 'stops it in one tap.',
     '安全防护': 'Security',
-    'Argon2id 密码锁 + Keystore 加密；隐藏模式 pm hide + 设备管理员防卸载；支持 Shizuku/Root/Dhizuku；TamperGuard 签名校验 + Hook 框架检测。':
+    'Argon2id 密码锁 + Keystore 加密；隐藏模式 pm hide + 设备管理员防卸载；支持 Shizuku / Root；TamperGuard 签名校验 + Hook 框架检测。':
       'Argon2id password lock + Keystore encryption; hidden mode via pm hide + device-admin anti-uninstall; Shizuku/Root/Dhizuku; TamperGuard signature check + hook-framework detection.',
     '常驻保活': 'Keep-alive',
     '60 秒心跳 AlarmManager 唤醒、崩溃自启、快捷设置磁贴一键开关、开机自动拉起悬浮服务。':
