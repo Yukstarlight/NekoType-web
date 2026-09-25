@@ -221,7 +221,7 @@
     '一键停止。': 'stops it in one tap.',
     '安全防护': 'Security',
     'Argon2id 密码锁 + Keystore 加密；隐藏模式 pm hide + 设备管理员防卸载；支持 Shizuku / Root；TamperGuard 签名校验 + Hook 框架检测。':
-      'Argon2id password lock + Keystore encryption; hidden mode via pm hide + device-admin anti-uninstall; Shizuku/Root/Dhizuku; TamperGuard signature check + hook-framework detection.',
+      'Argon2id password lock + Keystore encryption; hidden mode via pm hide + device-admin anti-uninstall; Shizuku / Root; TamperGuard signature check + hook-framework detection.',
     '常驻保活': 'Keep-alive',
     '60 秒心跳 AlarmManager 唤醒、崩溃自启、快捷设置磁贴一键开关、开机自动拉起悬浮服务。':
       '60-second AlarmManager heartbeat, auto-restart after crashes, a quick-settings tile, and auto-start on boot.',
