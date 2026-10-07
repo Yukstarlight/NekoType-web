@@ -62,6 +62,6 @@ GitHub Pages（legacy build，分支 `main`，路径 `/`）。
 
 - 主仓库：<https://github.com/Yukstarlight/NekoType>
 - 下载：<https://github.com/Yukstarlight/NekoType/releases>
-- 版本：v2.7.9 · 完全离线 · GPL-3.0
+- 版本：v2.8.0 · 完全离线 · GPL-3.0
 
 网站内容基于上游 README 与品牌资源整理；与主仓库相互独立，保持开源精神（GPL-3.0）。

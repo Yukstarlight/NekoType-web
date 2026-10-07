@@ -64,7 +64,7 @@
     种:'種',众:'眾',皱:'皺',昼:'晝',骤:'驟',猪:'豬',诸:'諸',烛:'燭',嘱:'囑',筑:'築',铸:'鑄',专:'專',转:'轉',
     赚:'賺',庄:'莊',装:'裝',妆:'妝',壮:'壯',状:'狀',锥:'錐',坠:'墜',缀:'綴',谆:'諄',准:'準',浊:'濁',兹:'茲',
     资:'資',渍:'漬',综:'綜',总:'總',纵:'縱',走:'走',奏:'奏',诅:'詛',组:'組',钻:'鑽',祖:'祖',嘴:'嘴',最:'最',
-    尊:'尊',昨:'昨',左:'左',作:'作',坐:'坐',座:'座'
+    尊:'尊',昨:'昨',左:'左',作:'作',坐:'坐',座:'座',绑:'綁',谨:'謹',该:'該'
   };
 
   /* 词语级修正（单字映射会译错的） */
@@ -80,12 +80,12 @@
     '原理': 'How it works', '试一试': 'Try it', '特性': 'Features', '更多': 'More',
     '下载': 'Download', '菜单': 'Menu',
     /* Hero */
-    'v2.7.9 · 系统级文本处理 · 完全离线': 'v2.7.9 · System-level text processing · Fully offline',
+    'v2.8.0 · 系统级文本处理 · 完全离线': 'v2.8.0 · System-level text processing · Fully offline',
     '全平台通用的': 'Cross-platform', '文本处理工具': 'text processing tool',
     'NekoType 是一款系统级文本处理工具：悬浮球常驻屏幕边缘，一键为输入框内容应用前缀、后缀、随机尾缀、文本替换等规则并自动发送。三种运行模式（悬浮球 / 篡改键盘 / 断句追加）自由切换，规则自由组合、概率可控、实时预览。':
       'NekoType is a system-level text processing tool. A floating ball stays on the edge of your screen and rewrites what you type — prefix, suffix, random tail, text replace — then sends it in one tap. Three run modes (floating ball / keyboard rewrite / punctuation trigger) switch freely, rules combine freely with controllable odds and live preview.',
     '完全离线运行，无服务器、无广告、无追踪。': 'Fully offline: no server, no ads, no tracking.',
-    '下载 v2.7.9': 'Download v2.7.9', '查看源码': 'View source', '备用下载': 'Mirror',
+    '下载 v2.8.0': 'Download v2.8.0', '查看源码': 'View source', '备用下载': 'Mirror',
     '不申请网络权限 · 无服务器 · 开源可审计 · 权限可随时撤销':
       'No network permission · No server · Open source & auditable · Revoke anytime',
     '文本自动改写': 'Automatic rewrite', '悬浮球已就绪 · 打字即变': 'Floating ball ready · rewrites as you type',
@@ -215,6 +215,9 @@
     '悬浮球快捷菜单': 'Floating-ball quick menu',
     '长按悬浮球弹出：回到应用、切换规则预设、管理预设、规则开关面板、行为与样式面板、立即变换并发送，还有设置 / 日志 / 终端 / 停止服务。':
       'Long-press the ball to open it: back to the app, switch rule presets, manage presets, rule switches, behaviour panel, transform & send now — plus settings / logs / terminal / stop service.',
+    '应用预设映射': 'Per-app preset mapping',
+    '设置 → 应用预设映射：为指定应用单独绑定规则预设，切到该应用自动换套规则，未映射的应用沿用当前预设，另有「自动切换」总开关。典型用法：工作应用用严谨规则，社交应用用猫娘人设。':
+      'Settings → Per-app preset mapping: bind a rule preset to a specific app and the rules swap automatically when you switch to it; apps without a mapping keep the current preset. One master switch turns auto-switching off. Typical use: strict rules for work apps, catgirl persona for chat apps.',
     '高级选项': 'Advanced options',
     '设置 → 高级：打开应用时自动启动服务、打开应用时自动用 Shizuku 授权所有权限（默认关闭，需 Shizuku 已运行）。':
       'Settings → Advanced: auto-start the service when the app opens, and auto-grant all permissions via Shizuku on launch (off by default; Shizuku must be running).',
