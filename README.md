@@ -51,12 +51,25 @@ GitHub Pages（legacy build，分支 `main`，路径 `/`）。
 - 在 Settings → Pages 等证书签发完成，再勾上 **Enforce HTTPS**（证书没就绪时该选项是灰的）。
 - 别用"先删 Custom domain 再重新添加"的办法去催证书——中途失败会让 GitHub 直接删掉 `CNAME` 文件，把站点打回 `*.github.io`。
 
-**免费二级域名的坑**（血泪教训）：
+**一次错误排查的记录（2026-10-07）**
 
-- 免费域名后缀常被整体拉黑。已确认 `bbroot.com`（DNSHE）在直连链路上被按**字符串后缀**拦截：同一个 IP、同一个端口，`Host: jekyllrb.com` 返回 200，而 `Host: bbroot.com` 和任意随机 `*.bbroot.com` 都在 TLS ClientHello / Host 头阶段被 RST（连不存在的子域名也一样），与 GitHub、DNS、Pages 配置均无关。
-- 共享后缀还会撞 Let's Encrypt 的**每注册域每周 50 张证书**上限，表现为证书一直卡在 `bad_authz`（"需要重新开始"）——这正是 `nekotype.bbroot.com` 长期无法签发的成因。
-- 结论：免费二级域名只适合做临时测试；要长期可用，用自己的独立域名。
-- `*.github.io` 在国内同样不可靠（DNS 污染），**不能当备用直链**放进文案里。
+现象：`https://nekotype.bbroot.com/` 与 `http://nekotype.bbroot.com/` 全部连接重置（`curl: (56)/(35) Recv failure`），而 `https://yukstarlight.github.io/NekoType-web/` 正常。
+
+一度误判为「域名被按后缀拦截」，**这个结论是错的**。补齐控制变量实验后结论完全反转：
+
+| 实验 | 结果 |
+|---|---|
+| 用 `--resolve` 把 IP 固定到 GitHub Pages，再访问 `nekotype.bbroot.com` | HTTP / HTTPS **全部 200**（185.199.108~111.153 四个 IPv4 加 IPv6 全通） |
+| 同一个 IP、同一个端口，只换 Host 头 | `Host: 随机子域名` 得到 GitHub 正常的 **404**，不是重置 |
+| 把同样的 Host / SNI 名打到 Cloudflare 的 IP 上 | 得到 CF 正常的 **409**（未知 zone），不是重置 |
+| `bbroot.com` 自身的 IP `157.254.191.45` | 对所有 Host 都超时——那台机器本来就不通，与域名无关 |
+
+结论：那批 RST 是**时段性故障**，随 Pages 重新构建后自行恢复。现在 `https://nekotype.bbroot.com/` 返回 200，证书 `CN=nekotype.bbroot.com`（Let's Encrypt，有效期至 2027-01-02），`ssl_verify_result=0`。**既不是被墙，也不是缺证书。**
+
+- 教训一：排查「网站打不开」先固定 IP 复测一次。同一条 RST 现象可以有完全不同的成因，别凭单一现象就下「被墙」的结论。
+- 教训二：`bad_authz` 更可能来自 2026-10-04 那两次手滑的 CNAME 提交——把域名写成了 `nekotype.bbroot.co`（少一个 `m`），该次 Pages 构建状态是 `errored`。每次改域名都会重开一轮 ACME 授权并作废上一轮。
+- 风险提示（未证实）：免费二级域名的注册域是共享的，理论上会共用 Let's Encrypt「每注册域每周 50 张证书」的配额；共享后缀也可能随服务商被整体处置。长期项目仍建议用自己的独立域名。
+- `*.github.io` 在国内不可靠（DNS 污染），**不要当备用直链**写进文案。
 
 ## 上游项目
 
