@@ -85,7 +85,7 @@
     'NekoType 是一款系统级文本处理工具：悬浮球常驻屏幕边缘，一键为输入框内容应用前缀、后缀、随机尾缀、文本替换等规则并自动发送。三种运行模式（悬浮球 / 篡改键盘 / 断句追加）自由切换，规则自由组合、概率可控、实时预览。':
       'NekoType is a system-level text processing tool. A floating ball stays on the edge of your screen and rewrites what you type — prefix, suffix, random tail, text replace — then sends it in one tap. Three run modes (floating ball / keyboard rewrite / punctuation trigger) switch freely, rules combine freely with controllable odds and live preview.',
     '完全离线运行，无服务器、无广告、无追踪。': 'Fully offline: no server, no ads, no tracking.',
-    '下载 v2.8.0': 'Download v2.8.0', '查看源码': 'View source', '备用下载': 'Mirror',
+    '下载 v2.8.0': 'Download v2.8.0', '查看源码': 'View source', '备用下载 · GitHub': 'Mirror · GitHub',
     '不申请网络权限 · 无服务器 · 开源可审计 · 权限可随时撤销':
       'No network permission · No server · Open source & auditable · Revoke anytime',
     '文本自动改写': 'Automatic rewrite', '悬浮球已就绪 · 打字即变': 'Floating ball ready · rewrites as you type',
@@ -279,7 +279,7 @@
     '现在，让悬浮球接管你的输入与发送': 'Now let the floating ball take over your typing and sending',
     '免费 · 开源 · 完全离线。装上它，让文本处理变得自动、可控、安静。':
       'Free · open source · fully offline. Install it and make text processing automatic, controllable and quiet.',
-    '备用下载 · 飞机盘': 'Mirror · FeijiPan', '全部版本': 'All releases',
+    '全部版本': 'All releases',
     '仅限本人设备、合法合规的个人用途，禁止用于骚扰、诈骗、冒充他人等非法用途。':
       'For your own device and lawful personal use only. Harassment, fraud, impersonation and other illegal uses are prohibited.',
     /* 页脚 */
