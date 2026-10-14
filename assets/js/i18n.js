@@ -73,7 +73,8 @@
     ['恢复','恢復'], ['回复','回覆'], ['重复','重複'], ['复制','複製'], ['复现','復現'],
     ['后台','後台'], ['网址','網址'], ['接口','介面'], ['内存','記憶體'],
     // 单字映射会译错的：制→製 只用于製作类，志→誌 只用于日誌，签→簽 与標籤不同字
-    ['日志','日誌'], ['标签','標籤'], ['绘制','繪製']
+    // 只→隻 仅限量词（一只），副词「只在 / 只读取 / 只出现」必须保持「只」，所以只能用词级修正
+    ['日志','日誌'], ['标签','標籤'], ['绘制','繪製'], ['一只','一隻']
   ];
 
   /* ---------- 2) 英文词典（键 = 页面简体原文，仅列需要翻译的） ---------- */
@@ -121,6 +122,8 @@
     '输入点啥…': 'Type something…',
     /* 核心特性 */
     '核心特性': 'Core features', '规则 · 模式 · 系统增强 · 人设语气': 'Rules · Modes · System boost · Personas',
+    // 规则卡右上角的开关标记，是独立文本节点，英文模式以前一直留中文
+    '开': 'ON',
     '规则自由组合（优先级 1-100 防冲突），三种运行模式互斥切换，Shizuku / Root 系统级兜底，还有 8 套人设语气包一键换人设。':
       'Rules combine freely (priority 1-100 prevents conflicts), three run modes are mutually exclusive, Shizuku / Root provide system-level fallback, and 8 persona packs switch your style in one tap.',
     '开': 'ON', '随机后缀·固定': 'Random suffix · fixed', '优先级': 'Priority', '大 → 小': 'high → low',
@@ -361,8 +364,10 @@
       acceptNode: function (n) {
         const p = n.parentNode;
         if (!p || SKIP[p.nodeName]) return NodeFilter.FILTER_REJECT;
-        if (!zh(n.nodeValue)) return NodeFilter.FILTER_REJECT;
-        return NodeFilter.FILTER_ACCEPT;
+        /* 之前翻译过的节点必须继续放行：切到英文后节点里已无汉字，
+           若只看"当前有没有汉字"就会把它永久挡在门外，切回中文时回不来（已踩过） */
+        if (zh(n.nodeValue) || cache.has(n)) return NodeFilter.FILTER_ACCEPT;
+        return NodeFilter.FILTER_REJECT;
       }
     });
     let n;
