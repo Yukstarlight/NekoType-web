@@ -564,19 +564,23 @@ if (dlModal) {
     if (e.key === 'Escape' && dlModal.classList.contains('open')) setDlModal(false);
   });
 }
-const dlmCopyPwd = $('#dlmCopyPwd');
-if (dlmCopyPwd) {
-  dlmCopyPwd.addEventListener('click', async () => {
-    const pwd = ($('#dlmPwd') || {}).textContent || '';
-    try { await navigator.clipboard.writeText(pwd); toast(TF('已复制提取码：%s', pwd)); }
-    catch (e) {
-      const ta = document.createElement('textarea');
-      ta.value = pwd; document.body.appendChild(ta); ta.select();
-      try { document.execCommand('copy'); toast(TF('已复制提取码：%s', pwd)); } catch (e2) { toast(TF('提取码：%s', pwd)); }
-      ta.remove();
-    }
-  });
+const dlmPwdEl = $('#dlmPwd');
+async function copyDlPwd() {
+  const pwd = (dlmPwdEl && dlmPwdEl.textContent) || '';
+  if (!pwd) return;
+  try { await navigator.clipboard.writeText(pwd); toast(TF('已复制提取码：%s', pwd)); }
+  catch (e) {
+    const ta = document.createElement('textarea');
+    ta.value = pwd; document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); toast(TF('已复制提取码：%s', pwd)); } catch (e2) { toast(TF('提取码：%s', pwd)); }
+    ta.remove();
+  }
 }
+const dlmCopyBtn = $('#dlmCopyPwd');
+if (dlmCopyBtn) dlmCopyBtn.addEventListener('click', copyDlPwd);
+// 点蓝奏云跳转时顺手把提取码放进剪贴板；target=_blank，不拦默认行为
+const dlmLanzou = $('#dlLanzou');
+if (dlmLanzou) dlmLanzou.addEventListener('click', copyDlPwd);
 
 /* ---------------- 启动 ---------------- */
 initStars();

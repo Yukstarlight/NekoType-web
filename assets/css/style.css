@@ -858,7 +858,7 @@ html[data-theme="light"] .theme-toggle .ico-moon { display: none; }
 
 /* ---------- Toast ---------- */
 .toast {
-  position: fixed; left: 50%; bottom: 30px; z-index: 300;
+  position: fixed; left: 50%; bottom: 30px; z-index: 600; /* 必须高于 .dlm(500)，否则在弹窗里复制时提示被盖住 */
   translate: -50% 80px; opacity: 0;
   padding: 12px 20px; border-radius: 14px;
   background: var(--glass-strong); border: 1px solid var(--border-strong);

@@ -281,11 +281,11 @@
       'Free · open source · fully offline. Install it and make text processing automatic, controllable and quiet.',
     '全部版本': 'All releases',
     /* 备用下载渠道弹窗 */
-    '备用下载 · 3 个渠道': 'Mirror · 3 channels',
+    '备用下载': 'Mirror',
     '选择下载渠道': 'Choose a download channel',
     '三个渠道的文件完全相同，挑一个能打开的即可。': 'All three channels serve the same file — pick whichever one opens for you.',
     '蓝奏云': 'Lanzou Cloud',
-    '国内直连，速度较快': 'Direct in China, faster',
+    '国内直连，点击自动复制提取码': 'Direct in China, copies the access code on click',
     '提取码': 'Access code',
     '复制': 'Copy',
     '小飞机网盘': 'FeijiPan Drive',
