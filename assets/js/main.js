@@ -547,6 +547,37 @@ window.addEventListener('scroll', () => {
 }, { passive: true });
 onScrollMotion();
 
+/* ---------------- 备用下载渠道弹窗 ---------------- */
+const dlModal = $('#dlModal');
+function setDlModal(open) {
+  if (!dlModal) return;
+  dlModal.classList.toggle('open', open);
+  document.body.style.overflow = open ? 'hidden' : '';
+  if (open) { const first = $('.dlm__item', dlModal); first && first.focus(); }
+}
+$$('[data-dl-open]').forEach((el) => {
+  el.addEventListener('click', (e) => { e.preventDefault(); setDlModal(true); });
+});
+if (dlModal) {
+  $$('[data-dl-close]', dlModal).forEach((el) => el.addEventListener('click', () => setDlModal(false)));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && dlModal.classList.contains('open')) setDlModal(false);
+  });
+}
+const dlmCopyPwd = $('#dlmCopyPwd');
+if (dlmCopyPwd) {
+  dlmCopyPwd.addEventListener('click', async () => {
+    const pwd = ($('#dlmPwd') || {}).textContent || '';
+    try { await navigator.clipboard.writeText(pwd); toast(TF('已复制提取码：%s', pwd)); }
+    catch (e) {
+      const ta = document.createElement('textarea');
+      ta.value = pwd; document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); toast(TF('已复制提取码：%s', pwd)); } catch (e2) { toast(TF('提取码：%s', pwd)); }
+      ta.remove();
+    }
+  });
+}
+
 /* ---------------- 启动 ---------------- */
 initStars();
 spawnGlyphs();

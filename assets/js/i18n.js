@@ -64,7 +64,7 @@
     种:'種',众:'眾',皱:'皺',昼:'晝',骤:'驟',猪:'豬',诸:'諸',烛:'燭',嘱:'囑',筑:'築',铸:'鑄',专:'專',转:'轉',
     赚:'賺',庄:'莊',装:'裝',妆:'妝',壮:'壯',状:'狀',锥:'錐',坠:'墜',缀:'綴',谆:'諄',准:'準',浊:'濁',兹:'茲',
     资:'資',渍:'漬',综:'綜',总:'總',纵:'縱',走:'走',奏:'奏',诅:'詛',组:'組',钻:'鑽',祖:'祖',嘴:'嘴',最:'最',
-    尊:'尊',昨:'昨',左:'左',作:'作',坐:'坐',座:'座',绑:'綁',谨:'謹',该:'該'
+    尊:'尊',昨:'昨',左:'左',作:'作',坐:'坐',座:'座',绑:'綁',谨:'謹',该:'該',蓝:'藍',国:'國',较:'較',链:'鏈'
   };
 
   /* 词语级修正（单字映射会译错的） */
@@ -85,7 +85,7 @@
     'NekoType 是一款系统级文本处理工具：悬浮球常驻屏幕边缘，一键为输入框内容应用前缀、后缀、随机尾缀、文本替换等规则并自动发送。三种运行模式（悬浮球 / 篡改键盘 / 断句追加）自由切换，规则自由组合、概率可控、实时预览。':
       'NekoType is a system-level text processing tool. A floating ball stays on the edge of your screen and rewrites what you type — prefix, suffix, random tail, text replace — then sends it in one tap. Three run modes (floating ball / keyboard rewrite / punctuation trigger) switch freely, rules combine freely with controllable odds and live preview.',
     '完全离线运行，无服务器、无广告、无追踪。': 'Fully offline: no server, no ads, no tracking.',
-    '下载 v2.8.0': 'Download v2.8.0', '查看源码': 'View source', '备用下载 · GitHub': 'Mirror · GitHub',
+    '下载 v2.8.0': 'Download v2.8.0', '查看源码': 'View source',
     '不申请网络权限 · 无服务器 · 开源可审计 · 权限可随时撤销':
       'No network permission · No server · Open source & auditable · Revoke anytime',
     '文本自动改写': 'Automatic rewrite', '悬浮球已就绪 · 打字即变': 'Floating ball ready · rewrites as you type',
@@ -280,6 +280,19 @@
     '免费 · 开源 · 完全离线。装上它，让文本处理变得自动、可控、安静。':
       'Free · open source · fully offline. Install it and make text processing automatic, controllable and quiet.',
     '全部版本': 'All releases',
+    /* 备用下载渠道弹窗 */
+    '备用下载 · 3 个渠道': 'Mirror · 3 channels',
+    '选择下载渠道': 'Choose a download channel',
+    '三个渠道的文件完全相同，挑一个能打开的即可。': 'All three channels serve the same file — pick whichever one opens for you.',
+    '蓝奏云': 'Lanzou Cloud',
+    '国内直连，速度较快': 'Direct in China, faster',
+    '提取码': 'Access code',
+    '复制': 'Copy',
+    '小飞机网盘': 'FeijiPan Drive',
+    '国内可用，网页内下载': 'Works in China, downloads in-page',
+    'GitHub 直链': 'GitHub direct link',
+    '原始发布地址，海外最快': 'Original release, fastest overseas',
+    '已复制提取码：%s': 'Access code copied: %s', '提取码：%s': 'Access code: %s',
     '仅限本人设备、合法合规的个人用途，禁止用于骚扰、诈骗、冒充他人等非法用途。':
       'For your own device and lawful personal use only. Harassment, fraud, impersonation and other illegal uses are prohibited.',
     /* 页脚 */
