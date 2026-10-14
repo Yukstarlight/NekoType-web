@@ -341,7 +341,7 @@
   window.nekoT = function (s) {
     if (!zh(s)) return s;
     if (current === 'en') return EN[s] || s;
-    if (current === 'hant') return toHant(s);
+    if (current === 'zh-Hant') return toHant(s);
     return s;
   };
 
@@ -350,7 +350,7 @@
     let core = raw.trim();
     let out;
     if (current === 'en') out = EN[core] || core;
-    else if (current === 'hant') out = toHant(core);
+    else if (current === 'zh-Hant') out = toHant(core);
     else out = core;
     return (lead ? ' ' : '') + out + (trail ? ' ' : '');
   }
@@ -384,16 +384,16 @@
         if (!store[a]) store[a] = el.getAttribute(a);
         const orig = store[a];
         if (!zh(orig)) return;
-        const next = current === 'en' ? (EN[orig] || orig) : (current === 'hant' ? toHant(orig) : orig);
+        const next = current === 'en' ? (EN[orig] || orig) : (current === 'zh-Hant' ? toHant(orig) : orig);
         if (el.getAttribute(a) !== next) el.setAttribute(a, next);
       });
     });
     /* 文档标题 */
     if (!window.__nekoTitle) window.__nekoTitle = document.title;
     document.title = current === 'en' ? EN[window.__nekoTitle] || window.__nekoTitle
-      : current === 'hant' ? toHant(window.__nekoTitle) : window.__nekoTitle;
+      : current === 'zh-Hant' ? toHant(window.__nekoTitle) : window.__nekoTitle;
     document.documentElement.setAttribute('lang',
-      current === 'en' ? 'en' : current === 'hant' ? 'zh-Hant' : 'zh-CN');
+      current === 'en' ? 'en' : current === 'zh-Hant' ? 'zh-Hant' : 'zh-CN');
     /* 切换按钮上的当前语言标记 */
     const code = { 'zh-Hans': '简', 'zh-Hant': '繁', 'en': 'EN' }[current] || '简';
     document.querySelectorAll('[data-lang-code]').forEach(function (el) { el.textContent = code; });
