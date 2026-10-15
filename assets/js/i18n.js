@@ -65,7 +65,7 @@
     赚:'賺',庄:'莊',装:'裝',妆:'妝',壮:'壯',状:'狀',锥:'錐',坠:'墜',缀:'綴',谆:'諄',准:'準',浊:'濁',兹:'茲',
     资:'資',渍:'漬',综:'綜',总:'總',纵:'縱',走:'走',奏:'奏',诅:'詛',组:'組',钻:'鑽',祖:'祖',嘴:'嘴',最:'最',
     尊:'尊',昨:'昨',左:'左',作:'作',坐:'坐',座:'座',绑:'綁',谨:'謹',该:'該',蓝:'藍',国:'國',较:'較',链:'鏈',
-    摆:'擺',冲:'衝',采:'採',败:'敗',长:'長',红:'紅',带:'帶',于:'於'
+    摆:'擺',冲:'衝',采:'採',败:'敗',长:'長',红:'紅',带:'帶',于:'於',访:'訪'
   };
 
   /* 词语级修正（单字映射会译错的） */
@@ -289,15 +289,16 @@
     /* 备用下载渠道弹窗 */
     '备用下载': 'Mirror',
     '选择下载渠道': 'Choose a download channel',
-    '三个渠道的文件完全相同，挑一个能打开的即可。': 'All three channels serve the same file — pick whichever one opens for you.',
+    '三个渠道的文件完全相同，按你所在地区挑最快的那个即可。':
+      'All three channels host the same file — just pick the fastest one for where you are.',
     '蓝奏云': 'Lanzou Cloud',
-    '国内直连，点击自动复制提取码': 'Direct in China, copies the access code on click',
+    '国内速度较快 · 点击自动复制提取码': 'Faster in mainland China · copies the code on click',
     '提取码': 'Access code',
     '复制': 'Copy',
     '小飞机网盘': 'FeijiPan Drive',
-    '国内可用，网页内下载': 'Works in China, downloads in-page',
+    '国内速度较快 · 网页内下载': 'Faster in mainland China · downloads in-page',
     'GitHub 直链': 'GitHub direct link',
-    '原始发布地址，海外最快': 'Original release, fastest overseas',
+    '原始发布地址 · 海外访问较快': 'Original release · faster outside mainland China',
     '已复制提取码：%s': 'Access code copied: %s', '提取码：%s': 'Access code: %s',
     '仅限本人设备、合法合规的个人用途，禁止用于骚扰、诈骗、冒充他人等非法用途。':
       'For your own device and lawful personal use only. Harassment, fraud, impersonation and other illegal uses are prohibited.',
