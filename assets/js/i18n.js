@@ -65,7 +65,8 @@
     赚:'賺',庄:'莊',装:'裝',妆:'妝',壮:'壯',状:'狀',锥:'錐',坠:'墜',缀:'綴',谆:'諄',准:'準',浊:'濁',兹:'茲',
     资:'資',渍:'漬',综:'綜',总:'總',纵:'縱',走:'走',奏:'奏',诅:'詛',组:'組',钻:'鑽',祖:'祖',嘴:'嘴',最:'最',
     尊:'尊',昨:'昨',左:'左',作:'作',坐:'坐',座:'座',绑:'綁',谨:'謹',该:'該',蓝:'藍',国:'國',较:'較',链:'鏈',
-    摆:'擺',冲:'衝',采:'採',败:'敗',长:'長',红:'紅',带:'帶',于:'於',访:'訪'
+    摆:'擺',冲:'衝',采:'採',败:'敗',长:'長',红:'紅',带:'帶',于:'於',访:'訪',
+    暂:'暫',顿:'頓',盖:'蓋',产:'產',冻:'凍',伪:'偽',绕:'繞'
   };
 
   /* 词语级修正（单字映射会译错的） */
@@ -74,7 +75,9 @@
     ['后台','後台'], ['网址','網址'], ['接口','介面'], ['内存','記憶體'],
     // 单字映射会译错的：制→製 只用于製作类，志→誌 只用于日誌，签→簽 与標籤不同字
     // 只→隻 仅限量词（一只），副词「只在 / 只读取 / 只出现」必须保持「只」，所以只能用词级修正
-    ['日志','日誌'], ['标签','標籤'], ['绘制','繪製'], ['一只','一隻']
+    ['日志','日誌'], ['标签','標籤'], ['绘制','繪製'], ['一只','一隻'],
+    // 与 App 自带繁中译法对齐（App 用 模組，字符映射只能给出 模塊）
+    ['模块','模組']
   ];
 
   /* ---------- 2) 英文词典（键 = 页面简体原文，仅列需要翻译的） ---------- */
@@ -84,12 +87,12 @@
     '原理': 'How it works', '试一试': 'Try it', '特性': 'Features', '更多': 'More',
     '下载': 'Download', '菜单': 'Menu',
     /* Hero */
-    'v2.8.0 · 系统级文本处理 · 完全离线': 'v2.8.0 · System-level text processing · Fully offline',
+    'v2.8.1 · 系统级文本处理 · 完全离线': 'v2.8.1 · System-level text processing · Fully offline',
     '全平台通用的': 'Cross-platform', '文本处理工具': 'text processing tool',
     'NekoType 是一款系统级文本处理工具：悬浮球常驻屏幕边缘，一键为输入框内容应用前缀、后缀、随机尾缀、文本替换等规则并自动发送。三种运行模式（悬浮球 / 篡改键盘 / 断句追加）自由切换，规则自由组合、概率可控、实时预览。':
       'NekoType is a system-level text processing tool. A floating ball stays on the edge of your screen and rewrites what you type — prefix, suffix, random tail, text replace — then sends it in one tap. Three run modes (floating ball / keyboard rewrite / punctuation trigger) switch freely, rules combine freely with controllable odds and live preview.',
     '完全离线运行，无服务器、无广告、无追踪。': 'Fully offline: no server, no ads, no tracking.',
-    '下载 v2.8.0': 'Download v2.8.0', '查看源码': 'View source',
+    '下载 v2.8.1': 'Download v2.8.1', '查看源码': 'View source',
     '不申请网络权限 · 无服务器 · 开源可审计 · 权限可随时撤销':
       'No network permission · No server · Open source & auditable · Revoke anytime',
     '文本自动改写': 'Automatic rewrite', '悬浮球已就绪 · 打字即变': 'Floating ball ready · rewrites as you type',
@@ -189,20 +192,23 @@
     '图标圆形弹性弹出 + 标题副标题依次淡入，1 秒进入首页。启动 slogan：Welcome to Mist Unveils Infinite Tomorrows。':
       'The icon pops in with a circular spring, then title and subtitle fade in — home screen in 1 second. Splash slogan: Welcome to Mist Unveils Infinite Tomorrows.',
     '悬浮按钮': 'Floating button',
-    '永久常驻屏幕边缘，默认 56dp，拖动摆放、边缘吸附、位置记忆。柔光玻璃效果、5 秒空闲收成小圆点、自定义大小与透明度。':
-      'Always on the screen edge, 56dp by default — drag it, edge snapping, position memory. Soft-glass look, collapses to a dot after 5s idle, custom size and opacity.',
+    '永久常驻屏幕边缘，默认 56dp，拖动摆放、边缘吸附、位置记忆。柔光玻璃效果、5 秒空闲收成小圆点、大小与透明度实时可调，还能用任意图片作悬浮球头像（圆形裁剪）。':
+      'Parked on the screen edge for good — 56dp by default, drag it anywhere, edge snapping, position remembered. Soft-glow glass look, shrinks to a dot after 5 s idle, live size and opacity, and any image can become the ball avatar (centre-cropped).',
     '三种运行模式': 'Three run modes',
     '悬浮球 / 篡改键盘 / 断句追加三种模式互斥切换：手动点一下、打字即自动改、或打完一句才改，各取所需。':
       'Floating ball / keyboard rewrite / punctuation — three mutually exclusive modes: tap manually, rewrite as you type, or only at sentence end.',
+    '兼容性与输入保护': 'Compatibility & input guards',
+    '无障碍服务组件名伪装成系统「随选朗读」，绕过按类名屏蔽无障碍的应用（如微信，与 NyaNote / GKD 同款做法）。删除优化：删文字时暂停改写，停手约 0.5 秒再恢复，避免后缀越删越多；语音输入改用 1 秒长停顿判定，另有 @提及输入保护。':
+      'The accessibility service ships under a system-style class name (Select to Speak) and a matching component id, so apps that block unknown accessibility services by class name — WeChat among them — let it through; same trick as NyaNote and GKD. Delete guard: rewriting pauses while you delete and resumes about 0.5 s after you stop, so a suffix can never pile up. Voice input waits for a 1 s pause instead, and @mentions are protected.',
     '一键授权': 'One-tap grant',
     'Shizuku 直写一次性写入无障碍、免电、悬浮窗等所有权限，省去逐项跳转系统设置，五步引导一步到位。':
       'Shizuku writes all permissions at once — accessibility, battery whitelist, overlay — so you skip the per-item system settings. Five-step guide in one go.',
     'Mist 集成终端': 'Mist integrated terminal',
-    'Welcome to Mist Unveils Infinite Tomorrows 集成终端（Beta）。复用 Termux 引擎，PTY 真实交互，内置 460+ 命令与 nekosay / nekomood / catbomb 等猫系命令，JetBrains Mono 等宽字体。':
-      'Welcome to Mist Unveils Infinite Tomorrows integrated terminal (Beta). Built on the Termux engine with real PTY interaction, 460+ commands plus cat-themed ones (nekosay / nekomood / catbomb), JetBrains Mono monospace font.',
-    '应用黑名单': 'App blacklist',
-    '独立黑名单页列出全部已安装应用，勾选即加入。黑名单内不自动篡改，悬浮球手动点击不受限。':
-      'A dedicated page lists every installed app — tick to blacklist. Nothing is auto-rewritten inside blacklisted apps, but manual ball taps still work.',
+    'Welcome to Mist Unveils Infinite Tomorrows 集成终端（Beta）。复用 Termux 引擎，PTY 真实交互，内置 460+ 命令与 nekosay / nekomood / catbomb 等猫系命令，JetBrains Mono 等宽字体；字体大小 10-24sp、面板透明度、字体颜色均可调。':
+      'Built-in “Welcome to Mist Unveils Infinite Tomorrows” terminal (Beta) on the Termux engine with a real PTY, 460+ commands, the cat-themed nekosay / nekomood / catbomb, and JetBrains Mono. Font size 10-24sp, panel opacity and text colour are all adjustable.',
+    '应用黑白名单': 'App allow & block lists',
+    '应用名单页列出全部已安装应用，可搜索、全选、清空。黑名单模式：名单内应用不自动篡改；白名单模式：只对名单内应用自动篡改。悬浮球手动点击始终不受限。':
+      'One page lists every installed app, with search, select-all and clear. Block-list mode skips the listed apps; allow-list mode only touches the listed apps. Tapping the ball yourself always works.',
     '日志查看器': 'Log viewer',
     '7 级日志体系 + 系统 logcat 直读，变换失败、发送被拦截一眼定位。系统标签轻汉化，字体可缩放、可复制导出。':
       '7 log levels plus direct logcat reading, so failed rewrites and blocked sends are easy to spot. System tags lightly localized, scalable font, copy & export.',
@@ -224,6 +230,12 @@
     '应用预设映射': 'Per-app preset mapping',
     '设置 → 应用预设映射：为指定应用单独绑定规则预设，切到该应用自动换套规则，未映射的应用沿用当前预设，另有「自动切换」总开关。典型用法：工作应用用严谨规则，社交应用用猫娘人设。':
       'Settings → Per-app preset mapping: bind a rule preset to a specific app and the rules swap automatically when you switch to it; apps without a mapping keep the current preset. One master switch turns auto-switching off. Typical use: strict rules for work apps, catgirl persona for chat apps.',
+    'NekoType-OS V1 模块系统': 'NekoType-OS V1 modules',
+    '设置 → 模块管理：导入 ZIP 模块（根目录放':
+      'Settings → Module manager: import a ZIP that holds',
+    '清单 +': 'manifest plus',
+    '入口类），用 Android 原生 DexClassLoader 在应用进程内加载，导入即生效。可声明文本变换 / 设置卡片 / 启动画面 / 菜单 / UI 覆盖等能力；模块与宿主同权限运行，只装你信任的模块。':
+      'entry class at its root. It loads through Android’s stock DexClassLoader inside the app process, so it takes effect the moment you import it. Modules can declare abilities — text transform / settings card / splash / menu / UI override — and they run with the app’s own privileges, so only install ones you trust.',
     '高级选项': 'Advanced options',
     '设置 → 高级：打开应用时自动启动服务、打开应用时自动用 Shizuku 授权所有权限（默认关闭，需 Shizuku 已运行）。':
       'Settings → Advanced: auto-start the service when the app opens, and auto-grant all permissions via Shizuku on launch (off by default; Shizuku must be running).',
@@ -241,8 +253,8 @@
     'Argon2id 密码锁 + Keystore 加密；隐藏模式 pm hide + 设备管理员防卸载；支持 Shizuku / Root；TamperGuard 签名校验 + Hook 框架检测。':
       'Argon2id password lock + Keystore encryption; hidden mode via pm hide + device-admin anti-uninstall; Shizuku / Root; TamperGuard signature check + hook-framework detection.',
     '常驻保活': 'Keep-alive',
-    '60 秒心跳 AlarmManager 唤醒、崩溃自启、快捷设置磁贴一键开关、开机自动拉起悬浮服务。':
-      '60-second AlarmManager heartbeat, auto-restart after crashes, a quick-settings tile, and auto-start on boot.',
+    '60 秒心跳 AlarmManager 唤醒、崩溃自启、快捷设置磁贴一键开关、开机自动拉起悬浮服务。vivo / iQOO 等国产系统需手动允许自启动，否则后台会被冻结、改写失效——首页直接给入口。':
+      'A 60-second AlarmManager heartbeat wake-up, auto-restart after crashes, a quick-settings tile, and auto-start on boot. On vivo / iQOO and similar Android skins you have to allow auto-start yourself, or the service gets frozen and rewriting stops — the home screen links straight to that setting.',
     /* 隐私 */
     '纯本地与隐私': 'Local & private', '一句话：不联网，数据只在你的手机上': 'In one line: no network — your data stays on your phone',
     '应用本体不申请任何网络权限，没有联网能力，更没有服务器。断网、飞行模式，全部功能照常运行。':
