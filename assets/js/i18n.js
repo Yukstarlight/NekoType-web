@@ -320,9 +320,10 @@
 
   /* ---------- 3) 引擎 ---------- */
   const LANG_KEY = 'neko-lang';
-  /* PRE 也跳过：`<pre>` 里放的是要人复制去执行的命令/路径，
-     一旦被 S2T 翻成繁体（下载→下載）用户复制粘贴就是错的。代码块永不翻译。 */
-  const SKIP = { SCRIPT: 1, STYLE: 1, CANVAS: 1, NOSCRIPT: 1, PRE: 1 };
+  const SKIP = { SCRIPT: 1, STYLE: 1, CANVAS: 1, NOSCRIPT: 1 };
+  /* 带 data-no-i18n 的元素整块原样保留。给的是「要用户复制去执行的命令/路径」，
+     一旦被 S2T 翻成繁体（下载→下載）用户粘进终端就是一条不存在的路径。
+     注意只查直接父元素：本文用途（<pre data-no-i18n>）足够，不需要往上找祖先。 */
   const ATTRS = ['placeholder', 'title', 'aria-label', 'alt'];
   let cache = new WeakMap();
   let applied = new WeakMap();
@@ -360,6 +361,7 @@
       acceptNode: function (n) {
         const p = n.parentNode;
         if (!p || SKIP[p.nodeName]) return NodeFilter.FILTER_REJECT;
+        if (p.hasAttribute && p.hasAttribute('data-no-i18n')) return NodeFilter.FILTER_REJECT;
         /* 之前翻译过的节点必须继续放行：切到英文后节点里已无汉字，
            若只看"当前有没有汉字"就会把它永久挡在门外，切回中文时回不来（已踩过） */
         if (zh(n.nodeValue) || cache.has(n)) return NodeFilter.FILTER_ACCEPT;
