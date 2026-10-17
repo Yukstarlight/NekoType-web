@@ -22,7 +22,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Noto+Sans+SC:wght@400;500;700;900&family=JetBrains+Mono:wght@400;600;700&display=swap" />
 
-  <link rel="stylesheet" href="assets/css/style.css?v=2.8.1.1" />
+  <link rel="stylesheet" href="assets/css/style.css?v=2.8.1.2" />
 </head>
 <body>
   <!-- 星空背景 canvas -->
@@ -465,7 +465,7 @@
           <article class="card reveal" data-reveal-delay="120"><span class="card__ico"><svg width="24" height="24"><use href="#i-menu"/></svg></span><h3>悬浮球快捷菜单</h3><p>长按弹出：切换与管理规则预设、规则开关、行为与样式面板、立即变换并发送，以及设置 / 日志 / 终端 / 停止服务。</p></article>
           <article class="card reveal"><span class="card__ico"><svg width="24" height="24"><use href="#i-swap"/></svg></span><h3>应用预设映射</h3><p>为指定应用单独绑定规则预设，切到该应用自动换套规则，未映射的应用沿用当前预设，另有「自动切换」总开关。</p></article>
           <article class="card reveal" data-reveal-delay="60"><span class="card__ico"><svg width="24" height="24"><use href="#i-plug"/></svg></span><h3>NekoType-OS V1 模块系统</h3><p>导入 ZIP 模块（<code>module.json</code> 清单 + <code>classes.dex</code> 入口类），原生 DexClassLoader 在进程内加载、导入即生效。可声明文本变换 / 设置卡片 / 启动画面 / 菜单 / UI 覆盖；与宿主同权限，只装可信模块。</p></article>
-          <article class="card reveal" data-reveal-delay="120"><span class="card__ico"><svg width="24" height="24"><use href="#i-keyboard"/></svg></span><h3>兼容性与输入保护</h3><p>无障碍服务组件名伪装成系统「随选朗读」，绕过按类名屏蔽无障碍的应用（微信等，NyaNote / GKD 同款做法）。另有删除优化、语音输入 1 秒长停顿判定、@提及输入保护。</p></article>
+          <article class="card reveal" data-reveal-delay="120"><span class="card__ico"><svg width="24" height="24"><use href="#i-keyboard"/></svg></span><h3>兼容性与输入保护</h3><p>无障碍服务组件名伪装成系统「随选朗读」，绕过按类名屏蔽无障碍的应用（微信等，NyaNote / GKD 同款做法）。另有删除优化（删文字时暂停改写，停手约 0.5 秒再恢复）与语音输入 1 秒长停顿判定。</p></article>
           <article class="card reveal"><span class="card__ico"><svg width="24" height="24"><use href="#i-ban"/></svg></span><h3>应用黑白名单</h3><p>名单页列出全部已安装应用，可搜索、全选、清空。黑名单模式：名单内不自动篡改；白名单模式：只对名单内自动篡改。悬浮球手动点击始终不受限。</p></article>
           <article class="card reveal" data-reveal-delay="60"><span class="card__ico"><svg width="24" height="24"><use href="#i-terminal"/></svg></span><h3>Mist 集成终端</h3><p>复用 Termux 引擎的 PTY 真实终端，460+ 命令与 nekosay / nekomood / catbomb 等猫系命令，JetBrains Mono 等宽字体；字号 10-24sp、面板透明度、字体颜色均可调。</p></article>
           <article class="card reveal" data-reveal-delay="120"><span class="card__ico"><svg width="24" height="24"><use href="#i-sun"/></svg></span><h3>外观与六套主题</h3><p>深色 / 浅色 / 跟随系统 / 星空 / 猫娘 / 前苏联（CCCP），可自定义任意图片作应用背景。前苏联主题为红旗红 + 鎏金 + 深褐底，构造主义红色斜带与红星图标，纯矢量任意分辨率不糊。</p></article>
@@ -652,7 +652,7 @@
   <!-- 资源带 ?v= 版本号：GitHub Pages 给资源发 Cache-Control: max-age=600，
        不带这个参数时浏览器会继续用 10 分钟内的旧文件，改了代码也「没反应」。
        改动 assets 下任何 css/js 后，把这个数字 +1（三处要一起改）。 -->
-  <script src="assets/js/i18n.js?v=2.8.1.1" defer></script>
-  <script src="assets/js/main.js?v=2.8.1.1" defer></script>
+  <script src="assets/js/i18n.js?v=2.8.1.2" defer></script>
+  <script src="assets/js/main.js?v=2.8.1.2" defer></script>
 </body>
 </html>
