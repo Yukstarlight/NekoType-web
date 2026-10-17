@@ -22,7 +22,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Noto+Sans+SC:wght@400;500;700;900&family=JetBrains+Mono:wght@400;600;700&display=swap" />
 
-  <link rel="stylesheet" href="assets/css/style.css?v=2.8.1.4" />
+  <link rel="stylesheet" href="assets/css/style.css?v=2.8.1.5" />
 </head>
 <body>
   <!-- 星空背景 canvas -->
@@ -649,12 +649,17 @@
       <div class="dlm__verify">
         <div class="dlm__verify-head">
           <span>文件校验</span>
-          <span class="dlm__verify-hint">三个渠道是同一个文件，可自行核对 SHA-256</span>
+          <span class="dlm__verify-hint">三个渠道是同一个文件，可自行核对 SHA-256 / MD5</span>
         </div>
         <div class="dlm__hash">
           <span class="dlm__hash-label">SHA-256</span>
           <code id="dlmSha">9e6c738152e21d4a07a19945b74e8131b05309b29653365ab21552cb2c551215</code>
           <button type="button" class="dlm__copy" id="dlmCopySha">复制</button>
+        </div>
+        <div class="dlm__hash">
+          <span class="dlm__hash-label">MD5</span>
+          <code id="dlmMd5">975d193150a47ae9da57ec7a296ce0f7</code>
+          <button type="button" class="dlm__copy" id="dlmCopyMd5">复制</button>
         </div>
         <p class="dlm__verify-cmd">Windows：<code>certutil -hashfile NekoType-v2.8.1.apk SHA256</code>　·　macOS / Linux：<code>shasum -a 256 NekoType-v2.8.1.apk</code></p>
       </div>
@@ -664,7 +669,7 @@
   <!-- 资源带 ?v= 版本号：GitHub Pages 给资源发 Cache-Control: max-age=600，
        不带这个参数时浏览器会继续用 10 分钟内的旧文件，改了代码也「没反应」。
        改动 assets 下任何 css/js 后，把这个数字 +1（三处要一起改）。 -->
-  <script src="assets/js/i18n.js?v=2.8.1.4" defer></script>
-  <script src="assets/js/main.js?v=2.8.1.4" defer></script>
+  <script src="assets/js/i18n.js?v=2.8.1.5" defer></script>
+  <script src="assets/js/main.js?v=2.8.1.5" defer></script>
 </body>
 </html>

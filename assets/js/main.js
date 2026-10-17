@@ -588,16 +588,17 @@ if (dlmCopyBtn) dlmCopyBtn.addEventListener('click', copyDlPwd);
 // 点蓝奏云跳转时顺手把提取码放进剪贴板；target=_blank，不拦默认行为
 const dlmLanzou = $('#dlLanzou');
 if (dlmLanzou) dlmLanzou.addEventListener('click', copyDlPwd);
-// 文件校验：复制 SHA-256
-const dlmShaEl = $('#dlmSha');
-const dlmCopySha = $('#dlmCopySha');
-if (dlmCopySha) {
-  dlmCopySha.addEventListener('click', async () => {
-    const sha = ((dlmShaEl && dlmShaEl.textContent) || '').trim();
-    if (!sha) return;
-    toast((await copyText(sha)) ? TF('已复制 SHA-256：%s', sha) : TF('SHA-256：%s', sha));
+// 文件校验：复制 SHA-256 / MD5
+[['#dlmCopySha', '#dlmSha', '已复制 SHA-256：%s', 'SHA-256：%s'],
+ ['#dlmCopyMd5', '#dlmMd5', '已复制 MD5：%s', 'MD5：%s']].forEach(([btnSel, codeSel, okKey, fallbackKey]) => {
+  const btn = $(btnSel);
+  if (!btn) return;
+  btn.addEventListener('click', async () => {
+    const v = (($(codeSel) || {}).textContent || '').trim();
+    if (!v) return;
+    toast((await copyText(v)) ? TF(okKey, v) : TF(fallbackKey, v));
   });
-}
+});
 
 /* ---------------- 启动 ---------------- */
 initStars();
