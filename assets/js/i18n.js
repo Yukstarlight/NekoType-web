@@ -320,7 +320,9 @@
 
   /* ---------- 3) 引擎 ---------- */
   const LANG_KEY = 'neko-lang';
-  const SKIP = { SCRIPT: 1, STYLE: 1, CANVAS: 1, NOSCRIPT: 1 };
+  /* PRE 也跳过：`<pre>` 里放的是要人复制去执行的命令/路径，
+     一旦被 S2T 翻成繁体（下载→下載）用户复制粘贴就是错的。代码块永不翻译。 */
+  const SKIP = { SCRIPT: 1, STYLE: 1, CANVAS: 1, NOSCRIPT: 1, PRE: 1 };
   const ATTRS = ['placeholder', 'title', 'aria-label', 'alt'];
   let cache = new WeakMap();
   let applied = new WeakMap();
