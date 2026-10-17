@@ -741,6 +741,15 @@ html[data-theme="light"] .theme-toggle .ico-moon { display: none; }
 
 /* ---------- 特性网格 ---------- */
 .grid-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; perspective: 1200px; }
+/* 「更多能力」尾部轻量标签（收纳次要能力，避免卡片过多） */
+.cap-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px; margin-top: 22px; }
+.cap-row__label { font-size: 13px; color: var(--fg2); margin-right: 2px; }
+.cap-chip {
+  font-size: 13px; line-height: 1; padding: 8px 15px; border-radius: 999px;
+  background: var(--glass); border: 1px solid var(--border); color: var(--fg1);
+  transition: border-color .2s, color .2s;
+}
+.cap-chip:hover { border-color: var(--border-strong); color: var(--fg0); }
 .card {
   position: relative; overflow: hidden;
   padding: 26px 24px; border-radius: var(--radius-lg);

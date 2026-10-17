@@ -82,78 +82,87 @@
 
   /* ---------- 2) 英文词典（键 = 页面简体原文，仅列需要翻译的） ---------- */
   const EN = {
-    /* 标题 / 导航 */
     'NekoType · 全平台通用文本处理工具': 'NekoType · A cross-platform text processing tool',
-    '原理': 'How it works', '试一试': 'Try it', '特性': 'Features', '更多': 'More',
-    '下载': 'Download', '菜单': 'Menu',
-    /* Hero */
+    '原理': 'How it works',
+    '试一试': 'Try it',
+    '特性': 'Features',
+    '更多': 'More',
+    '下载': 'Download',
+    '菜单': 'Menu',
     'v2.8.1 · 系统级文本处理 · 完全离线': 'v2.8.1 · System-level text processing · Fully offline',
-    '全平台通用的': 'Cross-platform', '文本处理工具': 'text processing tool',
-    'NekoType 是一款系统级文本处理工具：悬浮球常驻屏幕边缘，一键为输入框内容应用前缀、后缀、随机尾缀、文本替换等规则并自动发送。三种运行模式（悬浮球 / 篡改键盘 / 断句追加）自由切换，规则自由组合、概率可控、实时预览。':
-      'NekoType is a system-level text processing tool. A floating ball stays on the edge of your screen and rewrites what you type — prefix, suffix, random tail, text replace — then sends it in one tap. Three run modes (floating ball / keyboard rewrite / punctuation trigger) switch freely, rules combine freely with controllable odds and live preview.',
+    '全平台通用的': 'Cross-platform',
+    '文本处理工具': 'text processing tool',
+    'NekoType 是一款系统级文本处理工具：悬浮球常驻屏幕边缘，一键为输入框内容应用前缀、后缀、随机尾缀、文本替换等规则并自动发送。三种运行模式（悬浮球 / 篡改键盘 / 断句追加）自由切换，规则自由组合、概率可控、实时预览。': 'NekoType is a system-level text processing tool. A floating ball stays on the edge of your screen and rewrites what you type — prefix, suffix, random tail, text replace — then sends it in one tap. Three run modes (floating ball / keyboard rewrite / punctuation trigger) switch freely, rules combine freely with controllable odds and live preview.',
     '完全离线运行，无服务器、无广告、无追踪。': 'Fully offline: no server, no ads, no tracking.',
-    '下载 v2.8.1': 'Download v2.8.1', '查看源码': 'View source',
-    '不申请网络权限 · 无服务器 · 开源可审计 · 权限可随时撤销':
-      'No network permission · No server · Open source & auditable · Revoke anytime',
-    '文本自动改写': 'Automatic rewrite', '悬浮球已就绪 · 打字即变': 'Floating ball ready · rewrites as you type',
-    '输入内容会按规则自动变换': 'Text is transformed by your rules automatically', '好的': 'Okay',
-    '前缀': 'Prefix', '后缀': 'Suffix', '替换': 'Replace',
-    /* 三步 */
+    '下载 v2.8.1': 'Download v2.8.1',
+    '查看源码': 'View source',
+    '不申请网络权限 · 无服务器 · 开源可审计 · 权限可随时撤销': 'No network permission · No server · Open source & auditable · Revoke anytime',
+    '文本自动改写': 'Automatic rewrite',
+    '悬浮球已就绪 · 打字即变': 'Floating ball ready · rewrites as you type',
+    '输入内容会按规则自动变换': 'Text is transformed by your rules automatically',
+    '好的': 'Okay',
+    '前缀': 'Prefix',
+    '后缀': 'Suffix',
+    '替换': 'Replace',
     '三步，句子就变了样': 'Three steps and your text changes',
-    '不用换键盘、不用装输入法。你照常打字，剩下交给悬浮球——或切到篡改键盘 / 断句追加模式全自动。':
-      'No new keyboard, no IME to install. Type as usual and let the floating ball handle it — or switch to keyboard-rewrite / punctuation mode for full automation.',
+    '不用换键盘、不用装输入法。你照常打字，剩下交给悬浮球——或切到篡改键盘 / 断句追加模式全自动。': 'No new keyboard, no IME to install. Type as usual and let the floating ball handle it — or switch to keyboard-rewrite / punctuation mode for full automation.',
     '正常打字': 'Type as usual',
-    '在任意输入框里像平时一样输入文本。即时通讯、社交、笔记——悬浮球不依赖特定应用，全局可用。':
-      'Type in any input box as you normally would. Chat, social, notes — the floating ball works globally, app-agnostic.',
+    '在任意输入框里像平时一样输入文本。即时通讯、社交、笔记——悬浮球不依赖特定应用，全局可用。': 'Type in any input box as you normally would. Chat, social, notes — the floating ball works globally, app-agnostic.',
     '触发变换': 'Trigger the rewrite',
-    '三种模式任选：点悬浮球改写发送、篡改键盘模式打字即变、断句追加模式打完一句自动改。悬浮球支持拖动摆放、边缘吸附、位置持久记忆。':
-      'Pick one of three modes: tap the ball to rewrite and send, rewrite while typing, or rewrite when you finish a sentence. The ball supports dragging, edge snapping and position memory.',
+    '三种模式任选：点悬浮球改写发送、篡改键盘模式打字即变、断句追加模式打完一句自动改。悬浮球支持拖动摆放、边缘吸附、位置持久记忆。': 'Pick one of three modes: tap the ball to rewrite and send, rewrite while typing, or rewrite when you finish a sentence. The ball supports dragging, edge snapping and position memory.',
     '自动改写并发送': 'Rewrite and send automatically',
-    '文本替换 → 前缀 → 后缀 → 随机尾缀，再走三级智能发送策略，一键到底，话就发出去了。':
-      'Replace → prefix → suffix → random tail, then the three-level smart-send strategy takes over. One tap and it is out.',
-    /* 演示 */
-    '效果预览': 'Live preview', '亲手试试，文本怎么变': 'Try it: watch your text change',
-    '勾选规则、修改输入，右侧实时预览叠加结果，再点悬浮球「发送」一条试试。':
-      'Toggle rules, edit the input, and the stacked result updates live on the right. Then tap the ball to “send” one.',
-    '规则开关': 'Rule switches', '随机后缀': 'Random suffix', '触发概率': 'Chance',
-    '随机颜文字': 'Random kaomoji', '内置 65 种 · 触发概率': '65 built-in · chance',
-    '替换文本': 'Replace text', '字符间加空格': 'Space between characters', '让句子透气': 'Let the text breathe',
-    '预设：': 'Presets:', '猫语': 'Cat', '闪闪': 'Sparkle', '中二': 'Chuuni', '清空': 'Clear',
-    '今日变换 0 次': '0 transforms today', '想去看电影嘛？': 'Wanna go see a movie?',
-    '实时预览': 'Live result', '随机演示': 'Random demo',
-    '点一下悬浮球发送': 'Tap the floating ball to send', '点一下悬浮球 · 发送': 'Tap the floating ball · Send',
+    '文本替换 → 前缀 → 后缀 → 随机尾缀，再走三级智能发送策略，一键到底，话就发出去了。': 'Replace → prefix → suffix → random tail, then the three-level smart-send strategy takes over. One tap and it is out.',
+    '效果预览': 'Live preview',
+    '亲手试试，文本怎么变': 'Try it: watch your text change',
+    '勾选规则、修改输入，右侧实时预览叠加结果，再点悬浮球「发送」一条试试。': 'Toggle rules, edit the input, and the stacked result updates live on the right. Then tap the ball to “send” one.',
+    '规则开关': 'Rule switches',
+    '随机后缀': 'Random suffix',
+    '触发概率': 'Chance',
+    '随机颜文字': 'Random kaomoji',
+    '内置 65 种 · 触发概率': '65 built-in · chance',
+    '替换文本': 'Replace text',
+    '字符间加空格': 'Space between characters',
+    '让句子透气': 'Let the text breathe',
+    '预设：': 'Presets:',
+    '猫语': 'Cat',
+    '闪闪': 'Sparkle',
+    '中二': 'Chuuni',
+    '清空': 'Clear',
+    '今日变换 0 次': '0 transforms today',
+    '想去看电影嘛？': 'Wanna go see a movie?',
+    '实时预览': 'Live result',
+    '随机演示': 'Random demo',
+    '点一下悬浮球发送': 'Tap the floating ball to send',
+    '点一下悬浮球 · 发送': 'Tap the floating ball · Send',
     '输入点啥…': 'Type something…',
-    /* 核心特性 */
-    '核心特性': 'Core features', '规则 · 模式 · 系统增强 · 人设语气': 'Rules · Modes · System boost · Personas',
-    // 规则卡右上角的开关标记，是独立文本节点，英文模式以前一直留中文
+    '核心特性': 'Core features',
+    '规则 · 模式 · 系统增强 · 人设语气': 'Rules · Modes · System boost · Personas',
     '开': 'ON',
-    '规则自由组合（优先级 1-100 防冲突），三种运行模式互斥切换，Shizuku / Root 系统级兜底，还有 8 套人设语气包一键换人设。':
-      'Rules combine freely (priority 1-100 prevents conflicts), three run modes are mutually exclusive, Shizuku / Root provide system-level fallback, and 8 persona packs switch your style in one tap.',
-    '开': 'ON', '随机后缀·固定': 'Random suffix · fixed', '优先级': 'Priority', '大 → 小': 'high → low',
+    '规则自由组合（优先级 1-100 防冲突），三种运行模式互斥切换，Shizuku / Root 系统级兜底，还有 8 套人设语气包一键换人设。': 'Rules combine freely (priority 1-100 prevents conflicts), three run modes are mutually exclusive, Shizuku / Root provide system-level fallback, and 8 persona packs switch your style in one tap.',
+    '随机后缀·固定': 'Random suffix · fixed',
+    '优先级': 'Priority',
+    '大 → 小': 'high → low',
     '执行：输入': '· run: input',
     '规则系统 · 优先级 1-100 防冲突': 'Rule system · Priority 1-100, conflict-free',
-    '规则页采用列表模型，点「添加规则」即可按类型创建。每条规则都能设':
-      'Rules are a list: tap “Add rule” to create one by type. Every rule can set a ',
-    '优先级 1-100（数字越大越先执行，同级按列表顺序，默认 50）':
-      'priority from 1-100 (higher runs first; ties keep list order; default 50)',
-    '，从根上避免多条规则互相打架；还可开启「按等级全局执行」，让所有类型打散、严格按等级从大到小走一条流水线（例如让「替换」在后缀之后生效）。':
-      ', which keeps multiple rules from fighting each other. You can also enable “run globally by priority” to flatten every type into one pipeline sorted by priority (e.g. let Replace run after Suffix).',
+    '规则页采用列表模型，点「添加规则」即可按类型创建。每条规则都能设': 'Rules are a list: tap “Add rule” to create one by type. Every rule can set a ',
+    '优先级 1-100（数字越大越先执行，同级按列表顺序，默认 50）': 'priority from 1-100 (higher runs first; ties keep list order; default 50)',
+    '，从根上避免多条规则互相打架；还可开启「按等级全局执行」，让所有类型打散、严格按等级从大到小走一条流水线（例如让「替换」在后缀之后生效）。': ', which keeps multiple rules from fighting each other. You can also enable “run globally by priority” to flatten every type into one pipeline sorted by priority (e.g. let Replace run after Suffix).',
     '前缀 / 后缀 / 替换文本': 'Prefix / Suffix / Replace text',
     '随机前缀·后缀（固定 / 不固定两种）': 'Random prefix & suffix (fixed / non-fixed)',
     '优先级 1-100，数字越大越先执行': 'Priority 1-100, higher runs first',
     '按等级全局执行，杜绝规则冲突': 'Run globally by priority — no rule conflicts',
     '字符加空格、转大写、多套预设 + 效果预览': 'Space between chars, uppercase, presets + live preview',
-    '我今天好开心': 'I am so happy today', '我今天好开心喵': 'I am so happy today nya',
+    '我今天好开心': 'I am so happy today',
+    '我今天好开心喵': 'I am so happy today nya',
     '三种模式 · 打字即变 / 断句即改': 'Three modes · rewrite as you type / at punctuation',
     '三种运行模式 · 互斥切换': 'Three run modes · mutex switch',
     '从手动到全自动，三种模式任选其一：': 'From manual to fully automatic, pick one of three: ',
-    '悬浮球模式': 'Floating-ball mode', '点一下改写发送；': 'tap to rewrite and send; ',
+    '悬浮球模式': 'Floating-ball mode',
+    '点一下改写发送；': 'tap to rewrite and send; ',
     '篡改键盘模式': 'Keyboard-rewrite mode',
-    '原生键盘打字即自动改（增量原文算法，后缀永不重复）；':
-      'the native keyboard rewrites as you type (incremental source algorithm, suffixes never duplicate); ',
+    '原生键盘打字即自动改（增量原文算法，后缀永不重复）；': 'the native keyboard rewrites as you type (incremental source algorithm, suffixes never duplicate); ',
     '断句追加模式': 'Punctuation mode',
-    '输入以标点结尾才篡改，打完一句自动改，更自然。随时切换。':
-      'it only rewrites when you end with punctuation — finish a sentence and it changes. Switch anytime.',
+    '输入以标点结尾才篡改，打完一句自动改，更自然。随时切换。': 'it only rewrites when you end with punctuation — finish a sentence and it changes. Switch anytime.',
     '悬浮球模式：点一下即改写发送': 'Floating ball: tap to rewrite and send',
     '篡改键盘模式：打字即变，无需点球': 'Keyboard rewrite: transforms as you type, no tap needed',
     '断句追加模式：标点结尾才改，更自然': 'Punctuation mode: rewrites at sentence end, more natural',
@@ -161,148 +170,97 @@
     '无障碍通道被拒 → 切换 Shizuku': 'Accessibility denied → switching to Shizuku',
     '无弹窗 · 无剪贴板 · 已发送': 'No dialog · no clipboard · sent',
     '静默修改 · 系统级增强': 'Silent edit · system-level boost',
-    '当部分应用（如微信）拒绝无障碍改写时，自动改用 Shizuku 直接注入，全程无弹窗、无剪贴板提示，改完即走。支持 Shizuku / Root 多通道，首页还能':
-      'When an app (e.g. WeChat) refuses accessibility rewrites, NekoType injects text through Shizuku instead — no dialog, no clipboard toast, instantly done. Shizuku / Root channels are supported, and the home screen can even ',
-    '一键授权所有权限': 'grant all permissions in one tap', '，省去逐项点击。': ', skipping per-item setup.',
+    '当部分应用（如微信）拒绝无障碍改写时，自动改用 Shizuku 直接注入，全程无弹窗、无剪贴板提示，改完即走。支持 Shizuku / Root 多通道，首页还能': 'When an app (e.g. WeChat) refuses accessibility rewrites, NekoType injects text through Shizuku instead — no dialog, no clipboard toast, instantly done. Shizuku / Root channels are supported, and the home screen can even ',
+    '一键授权所有权限': 'grant all permissions in one tap',
+    '，省去逐项点击。': ', skipping per-item setup.',
     'Shizuku / Root 多通道注入': 'Shizuku / Root multi-channel injection',
     '一键授权所有权限（Shizuku 直写）': 'One-tap grant all permissions (Shizuku write)',
     '固定动作架构，不接受任意命令，杜绝注入': 'Fixed-action architecture — no arbitrary commands, no injection',
     '免 Root，中文文本自动回退无障碍': 'No root needed; Chinese text falls back to accessibility',
     '🐱 人设语气包 · 一键套用': '🐱 Persona packs · one-tap apply',
-    '萝莉语': 'Loli', '古风文言': 'Classical', '译制片腔': 'Dub voice', '阴阳怪气': 'Sarcastic',
-    '火星文': 'Mars text', '病娇': 'Yandere', '雌小鬼': 'Mesugaki', '猫娘': 'Catgirl',
-    '点击即自动创建对应规则预设并激活 · 可在规则页查看 / 修改':
-      'Tap to auto-create and activate the matching rule preset · review or edit it on the Rules page',
+    '萝莉语': 'Loli',
+    '古风文言': 'Classical',
+    '译制片腔': 'Dub voice',
+    '阴阳怪气': 'Sarcastic',
+    '火星文': 'Mars text',
+    '病娇': 'Yandere',
+    '雌小鬼': 'Mesugaki',
+    '猫娘': 'Catgirl',
+    '点击即自动创建对应规则预设并激活 · 可在规则页查看 / 修改': 'Tap to auto-create and activate the matching rule preset · review or edit it on the Rules page',
     '人设语气包 · 聊天秒换人设': 'Persona packs · switch style instantly',
-    '内置': 'Built-in ', '8 套风格预设': '8 style presets',
-    '：萝莉语 / 古风文言 / 译制片腔 / 阴阳怪气 / 火星文 / 病娇 / 雌小鬼 / 猫娘。点一下':
-      ': Loli / Classical / Dub voice / Sarcastic / Mars text / Yandere / Mesugaki / Catgirl. One tap ',
+    '内置': 'Built-in ',
+    '8 套风格预设': '8 style presets',
+    '：萝莉语 / 古风文言 / 译制片腔 / 阴阳怪气 / 火星文 / 病娇 / 雌小鬼 / 猫娘。点一下': ': Loli / Classical / Dub voice / Sarcastic / Mars text / Yandere / Mesugaki / Catgirl. One tap ',
     '自动创建对应规则预设并激活': 'auto-creates and activates the matching rule preset',
-    '，无需手动配规则，规则页可随时查看与二次修改。':
-      ' — no manual setup, and you can review or edit it on the Rules page anytime.',
+    '，无需手动配规则，规则页可随时查看与二次修改。': ' — no manual setup, and you can review or edit it on the Rules page anytime.',
     '8 套内置人设，点击即创建并激活': '8 built-in personas, tap to create and activate',
     '自动生成规则预设，可二次编辑': 'Auto-generated rule presets, fully editable',
     '🐱 猫娘主题：全 UI 切换猫娘用语': '🐱 Catgirl theme: whole UI switches to catgirl speech',
     '🐱 情绪小猫：随机情绪概率，猫娘主题 +20%': '🐱 Mood cat: random mood chance, +20% under catgirl theme',
-    /* 更多能力 */
-    '更多能力': 'More capabilities', '一只悬浮球，比你想象的更强': 'One floating ball, stronger than you think',
-    '从启动动画到集成终端，从三种模式到防篡改，全部基于系统公开 API 实现。':
-      'From the splash animation to the integrated terminal, from three modes to tamper protection — all built on public system APIs.',
+    '更多能力': 'More capabilities',
+    '一只悬浮球，比你想象的更强': 'One floating ball, stronger than you think',
+    '从启动动画到集成终端，从三种模式到防篡改，全部基于系统公开 API 实现。': 'From the splash animation to the integrated terminal, from three modes to tamper protection — all built on public system APIs.',
     '启动动画': 'Splash animation',
-    '图标圆形弹性弹出 + 标题副标题依次淡入，1 秒进入首页。启动 slogan：Welcome to Mist Unveils Infinite Tomorrows。':
-      'The icon pops in with a circular spring, then title and subtitle fade in — home screen in 1 second. Splash slogan: Welcome to Mist Unveils Infinite Tomorrows.',
+    '图标圆形弹性弹出 + 标题副标题依次淡入，1 秒进入首页。启动 slogan：Welcome to Mist Unveils Infinite Tomorrows。': 'The icon pops in with a circular spring, then title and subtitle fade in — home screen in 1 second. Splash slogan: Welcome to Mist Unveils Infinite Tomorrows.',
     '悬浮按钮': 'Floating button',
-    '永久常驻屏幕边缘，默认 56dp，拖动摆放、边缘吸附、位置记忆。柔光玻璃效果、5 秒空闲收成小圆点、大小与透明度实时可调，还能用任意图片作悬浮球头像（圆形裁剪）。':
-      'Parked on the screen edge for good — 56dp by default, drag it anywhere, edge snapping, position remembered. Soft-glow glass look, shrinks to a dot after 5 s idle, live size and opacity, and any image can become the ball avatar (centre-cropped).',
     '三种运行模式': 'Three run modes',
-    '悬浮球 / 篡改键盘 / 断句追加三种模式互斥切换：手动点一下、打字即自动改、或打完一句才改，各取所需。':
-      'Floating ball / keyboard rewrite / punctuation — three mutually exclusive modes: tap manually, rewrite as you type, or only at sentence end.',
     '兼容性与输入保护': 'Compatibility & input guards',
-    '无障碍服务组件名伪装成系统「随选朗读」，绕过按类名屏蔽无障碍的应用（如微信，与 NyaNote / GKD 同款做法）。删除优化：删文字时暂停改写，停手约 0.5 秒再恢复，避免后缀越删越多；语音输入改用 1 秒长停顿判定，另有 @提及输入保护。':
-      'The accessibility service ships under a system-style class name (Select to Speak) and a matching component id, so apps that block unknown accessibility services by class name — WeChat among them — let it through; same trick as NyaNote and GKD. Delete guard: rewriting pauses while you delete and resumes about 0.5 s after you stop, so a suffix can never pile up. Voice input waits for a 1 s pause instead, and @mentions are protected.',
     '一键授权': 'One-tap grant',
-    'Shizuku 直写一次性写入无障碍、免电、悬浮窗等所有权限，省去逐项跳转系统设置，五步引导一步到位。':
-      'Shizuku writes all permissions at once — accessibility, battery whitelist, overlay — so you skip the per-item system settings. Five-step guide in one go.',
     'Mist 集成终端': 'Mist integrated terminal',
-    'Welcome to Mist Unveils Infinite Tomorrows 集成终端（Beta）。复用 Termux 引擎，PTY 真实交互，内置 460+ 命令与 nekosay / nekomood / catbomb 等猫系命令，JetBrains Mono 等宽字体；字体大小 10-24sp、面板透明度、字体颜色均可调。':
-      'Built-in “Welcome to Mist Unveils Infinite Tomorrows” terminal (Beta) on the Termux engine with a real PTY, 460+ commands, the cat-themed nekosay / nekomood / catbomb, and JetBrains Mono. Font size 10-24sp, panel opacity and text colour are all adjustable.',
     '应用黑白名单': 'App allow & block lists',
-    '应用名单页列出全部已安装应用，可搜索、全选、清空。黑名单模式：名单内应用不自动篡改；白名单模式：只对名单内应用自动篡改。悬浮球手动点击始终不受限。':
-      'One page lists every installed app, with search, select-all and clear. Block-list mode skips the listed apps; allow-list mode only touches the listed apps. Tapping the ball yourself always works.',
     '日志查看器': 'Log viewer',
-    '7 级日志体系 + 系统 logcat 直读，变换失败、发送被拦截一眼定位。系统标签轻汉化，字体可缩放、可复制导出。':
-      '7 log levels plus direct logcat reading, so failed rewrites and blocked sends are easy to spot. System tags lightly localized, scalable font, copy & export.',
+    '7 级日志体系 + 系统 logcat 直读，变换失败、发送被拦截一眼定位。系统标签轻汉化，字体可缩放、可复制导出。': '7 log levels plus direct logcat reading, so failed rewrites and blocked sends are easy to spot. System tags lightly localized, scalable font, copy & export.',
     '数据管理': 'Data management',
-    '一键导出/导入全部配置（规则+行为+外观），文本格式可读可编辑，换机备份都方便。每日变换次数 + 7 天趋势一目了然。':
-      'Export/import the whole config (rules + behaviour + appearance) as readable, editable text — handy for backups and new phones. Daily transform count plus a 7-day trend.',
     '八种语言': 'Eight languages',
-    '简体中文 / 繁體中文 / English / Deutsch / 日本語 / 한국어 / Русский / Türkçe 八种语言一键切换，全局即时生效，含 toast、对话框、按钮全部文案。':
-      'Simplified Chinese / Traditional Chinese / English / German / Japanese / Korean / Russian / Turkish — switch instantly, everywhere: toasts, dialogs and every button label.',
-    '外观与主题': 'Look & themes',
-    '六套主题：深色 / 浅色 / 跟随系统 / 星空 / 猫娘 / 前苏联（CCCP），外加自定义任意图片作应用背景（仅保存在本地），悬浮球大小与透明度实时可调。':
-      'Six themes: Dark / Light / Follow system / Starry Sky / Catgirl / Soviet (CCCP), plus any image as app background (stored locally only). Ball size and opacity adjust in real time.',
     '前苏联主题': 'Soviet theme',
-    '红旗红 + 鎏金 + 深褐底配色，配构造主义红色斜带背景与红星图标，全部纯矢量绘制，任意分辨率都不糊。':
-      'Flag red + gilded gold on a deep brown base, with a constructivist diagonal-stripe background and a red-star icon — all pure vector, crisp at any resolution.',
     '悬浮球快捷菜单': 'Floating-ball quick menu',
-    '长按悬浮球弹出：回到应用、切换规则预设、管理预设、规则开关面板、行为与样式面板、立即变换并发送，还有设置 / 日志 / 终端 / 停止服务。':
-      'Long-press the ball to open it: back to the app, switch rule presets, manage presets, rule switches, behaviour panel, transform & send now — plus settings / logs / terminal / stop service.',
     '应用预设映射': 'Per-app preset mapping',
-    '设置 → 应用预设映射：为指定应用单独绑定规则预设，切到该应用自动换套规则，未映射的应用沿用当前预设，另有「自动切换」总开关。典型用法：工作应用用严谨规则，社交应用用猫娘人设。':
-      'Settings → Per-app preset mapping: bind a rule preset to a specific app and the rules swap automatically when you switch to it; apps without a mapping keep the current preset. One master switch turns auto-switching off. Typical use: strict rules for work apps, catgirl persona for chat apps.',
     'NekoType-OS V1 模块系统': 'NekoType-OS V1 modules',
-    '设置 → 模块管理：导入 ZIP 模块（根目录放':
-      'Settings → Module manager: import a ZIP that holds',
     '清单 +': 'manifest plus',
-    '入口类），用 Android 原生 DexClassLoader 在应用进程内加载，导入即生效。可声明文本变换 / 设置卡片 / 启动画面 / 菜单 / UI 覆盖等能力；模块与宿主同权限运行，只装你信任的模块。':
-      'entry class at its root. It loads through Android’s stock DexClassLoader inside the app process, so it takes effect the moment you import it. Modules can declare abilities — text transform / settings card / splash / menu / UI override — and they run with the app’s own privileges, so only install ones you trust.',
     '高级选项': 'Advanced options',
-    '设置 → 高级：打开应用时自动启动服务、打开应用时自动用 Shizuku 授权所有权限（默认关闭，需 Shizuku 已运行）。':
-      'Settings → Advanced: auto-start the service when the app opens, and auto-grant all permissions via Shizuku on launch (off by default; Shizuku must be running).',
     '人设语气包': 'Persona packs',
-    '萝莉语 / 古风文言 / 译制片腔 / 阴阳怪气 / 火星文 / 病娇 / 雌小鬼 / 猫娘 共 8 套人设，点击即自动创建并激活规则预设，聊天秒换人设。':
-      'Loli / Classical / Dub voice / Sarcastic / Mars text / Yandere / Mesugaki / Catgirl — 8 personas. Tap to auto-create and activate the rule preset; switch style instantly.',
     '猫娘主题': 'Catgirl theme',
-    '全 UI 切换猫娘用语（喵语口癖、自称喵），底部导航换成猫咪头像并给文字加「喵~」，同时联动情绪小猫 +20%。':
-      'The whole UI switches to catgirl speech (nya tics, self-referring as 喵), the bottom nav turns into cat avatars with “喵~” suffixes, and Mood cat gets +20%.',
     '情绪小猫': 'Mood cat',
-    '随机情绪概率 0-100（默认 30），开启猫娘主题自动 +20%。终端': 'Random mood chance 0-100 (default 30), +20% with catgirl theme on. In the terminal, ',
-    '可指定 happy / sleepy / angry / shy / berserk，': 'can pick happy / sleepy / angry / shy / berserk, and ',
-    '一键停止。': 'stops it in one tap.',
     '安全防护': 'Security',
-    'Argon2id 密码锁 + Keystore 加密；隐藏模式 pm hide + 设备管理员防卸载；支持 Shizuku / Root；TamperGuard 签名校验 + Hook 框架检测。':
-      'Argon2id password lock + Keystore encryption; hidden mode via pm hide + device-admin anti-uninstall; Shizuku / Root; TamperGuard signature check + hook-framework detection.',
     '常驻保活': 'Keep-alive',
-    '60 秒心跳 AlarmManager 唤醒、崩溃自启、快捷设置磁贴一键开关、开机自动拉起悬浮服务。vivo / iQOO 等国产系统需手动允许自启动，否则后台会被冻结、改写失效——首页直接给入口。':
-      'A 60-second AlarmManager heartbeat wake-up, auto-restart after crashes, a quick-settings tile, and auto-start on boot. On vivo / iQOO and similar Android skins you have to allow auto-start yourself, or the service gets frozen and rewriting stops — the home screen links straight to that setting.',
-    /* 隐私 */
-    '纯本地与隐私': 'Local & private', '一句话：不联网，数据只在你的手机上': 'In one line: no network — your data stays on your phone',
-    '应用本体不申请任何网络权限，没有联网能力，更没有服务器。断网、飞行模式，全部功能照常运行。':
-      'The app requests no network permission at all: no connectivity, no server. In airplane mode everything still works.',
-    '网络权限': 'Network permissions', '广告 / 追踪 SDK': 'Ad / tracking SDKs', '离线本地处理': 'Processed locally',
-    '内置终端命令': 'Terminal commands', '种内置颜文字': 'Built-in kaomoji', '级发送兜底': 'Send fallbacks',
+    '纯本地与隐私': 'Local & private',
+    '一句话：不联网，数据只在你的手机上': 'In one line: no network — your data stays on your phone',
+    '应用本体不申请任何网络权限，没有联网能力，更没有服务器。断网、飞行模式，全部功能照常运行。': 'The app requests no network permission at all: no connectivity, no server. In airplane mode everything still works.',
+    '网络权限': 'Network permissions',
+    '广告 / 追踪 SDK': 'Ad / tracking SDKs',
+    '离线本地处理': 'Processed locally',
+    '内置终端命令': 'Terminal commands',
+    '种内置颜文字': 'Built-in kaomoji',
+    '级发送兜底': 'Send fallbacks',
     '种运行模式': 'Run modes',
-    '数据不出设备': 'Data never leaves', '所有文本读取、规则变换、发送触发全部在设备本地内存完成，处理完即丢弃，不留存、不上传。':
-      'All reading, transforming and sending happens in local memory — discarded right after, never stored or uploaded.',
+    '数据不出设备': 'Data never leaves',
+    '所有文本读取、规则变换、发送触发全部在设备本地内存完成，处理完即丢弃，不留存、不上传。': 'All reading, transforming and sending happens in local memory — discarded right after, never stored or uploaded.',
     '权限最小化': 'Minimal permissions',
-    '无障碍仅用于读写当前输入框并触发发送，不读密码框；悬浮窗仅显示按钮；所有权限可随时撤销。':
-      'Accessibility only reads/writes the focused input box and triggers send — never password fields; the overlay only shows the ball; revoke anytime.',
+    '无障碍仅用于读写当前输入框并触发发送，不读密码框；悬浮窗仅显示按钮；所有权限可随时撤销。': 'Accessibility only reads/writes the focused input box and triggers send — never password fields; the overlay only shows the ball; revoke anytime.',
     '开源可审计': 'Open & auditable',
-    '项目完全开源，任何一条权限、任何一行代码你都可以查看。你看到的就是全部代码。':
-      'The project is fully open source: every permission and every line of code is visible. What you see is all of it.',
-    /* FAQ */
-    '常见问题': 'FAQ', '先问后用，心里有数': 'Ask first, use with confidence',
+    '项目完全开源，任何一条权限、任何一行代码你都可以查看。你看到的就是全部代码。': 'The project is fully open source: every permission and every line of code is visible. What you see is all of it.',
+    '常见问题': 'FAQ',
+    '先问后用，心里有数': 'Ask first, use with confidence',
     '需要 Root 吗？': 'Do I need root?',
-    '不需要。基础模式仅需悬浮窗 + 无障碍权限即可使用；想要「静默修改」等增强功能，装一个 Shizuku（免 Root）就行。':
-      'No. Basic mode only needs overlay + accessibility permissions. For extras like silent edit, install Shizuku (no root required).',
+    '不需要。基础模式仅需悬浮窗 + 无障碍权限即可使用；想要「静默修改」等增强功能，装一个 Shizuku（免 Root）就行。': 'No. Basic mode only needs overlay + accessibility permissions. For extras like silent edit, install Shizuku (no root required).',
     '微信能用吗？': 'Does it work with WeChat?',
-    '微信目前还在适配中——它对无障碍改写有限制。NekoType 会自动尝试用 Shizuku 静默注入兜底，但部分场景可能仍需手动点悬浮球。':
-      'WeChat is still being adapted — it restricts accessibility rewrites. NekoType automatically falls back to silent Shizuku injection, but some cases may still need a manual ball tap.',
+    '微信目前还在适配中——它对无障碍改写有限制。NekoType 会自动尝试用 Shizuku 静默注入兜底，但部分场景可能仍需手动点悬浮球。': 'WeChat is still being adapted — it restricts accessibility rewrites. NekoType automatically falls back to silent Shizuku injection, but some cases may still need a manual ball tap.',
     '会读取我的聊天记录吗？': 'Does it read my chat history?',
-    '不会。NekoType 只读取当前聚焦输入框里的文本，不扫描、不记录、不存储聊天内容，处理完即丢弃。应用本身也没有任何联网能力。':
-      'No. NekoType only reads the text in the currently focused input box — it never scans, records or stores chats, and discards everything after processing. The app has no network capability at all.',
+    '不会。NekoType 只读取当前聚焦输入框里的文本，不扫描、不记录、不存储聊天内容，处理完即丢弃。应用本身也没有任何联网能力。': 'No. NekoType only reads the text in the currently focused input box — it never scans, records or stores chats, and discards everything after processing. The app has no network capability at all.',
     '篡改键盘模式会把后缀叠成「喵喵喵」吗？': 'Will keyboard-rewrite stack suffixes into “喵喵喵”?',
-    '不会。增量原文算法会记录你的真实输入和上次写回内容，只把新增部分并入原文后重新变换一次，连续打字后缀也只出现一次。':
-      'No. The incremental source algorithm tracks your real input and the last written-back text, merging only the new part and re-transforming once — so the suffix appears exactly once.',
+    '不会。增量原文算法会记录你的真实输入和上次写回内容，只把新增部分并入原文后重新变换一次，连续打字后缀也只出现一次。': 'No. The incremental source algorithm tracks your real input and the last written-back text, merging only the new part and re-transforming once — so the suffix appears exactly once.',
     '有几种运行模式？启动有动画吗？': 'How many run modes? Is there a startup animation?',
-    '三种互斥模式：悬浮球（点一下改写发送）、篡改键盘（打字即自动改）、断句追加（标点结尾才改）。启动时有图标弹性弹出 + 标题淡入的动画，1 秒进入首页。':
-      'Three mutually exclusive modes: floating ball (tap to rewrite and send), keyboard rewrite (as you type), punctuation (only at sentence end). On launch the icon springs in and the title fades in — home screen in 1 second.',
+    '三种互斥模式：悬浮球（点一下改写发送）、篡改键盘（打字即自动改）、断句追加（标点结尾才改）。启动时有图标弹性弹出 + 标题淡入的动画，1 秒进入首页。': 'Three mutually exclusive modes: floating ball (tap to rewrite and send), keyboard rewrite (as you type), punctuation (only at sentence end). On launch the icon springs in and the title fades in — home screen in 1 second.',
     '耗电吗？': 'Does it drain battery?',
-    '无障碍事件监听是系统级轻量回调，无轮询、无常驻网络，耗电可忽略。配合关闭电池优化白名单，后台常驻更稳。':
-      'Accessibility event listening is a lightweight system callback — no polling, no persistent network, negligible battery use. Whitelisting it against battery optimization keeps it alive more reliably.',
+    '无障碍事件监听是系统级轻量回调，无轮询、无常驻网络，耗电可忽略。配合关闭电池优化白名单，后台常驻更稳。': 'Accessibility event listening is a lightweight system callback — no polling, no persistent network, negligible battery use. Whitelisting it against battery optimization keeps it alive more reliably.',
     '如何彻底停用？': 'How do I fully disable it?',
-    'App 内关闭「启动服务」，并在系统设置中撤销无障碍 / 悬浮窗权限即可；卸载即清除全部本地数据，不留痕迹。':
-      'Turn off “Start service” in the app and revoke accessibility / overlay permissions in system settings. Uninstalling clears all local data with no trace.',
-    /* CTA */
+    'App 内关闭「启动服务」，并在系统设置中撤销无障碍 / 悬浮窗权限即可；卸载即清除全部本地数据，不留痕迹。': 'Turn off “Start service” in the app and revoke accessibility / overlay permissions in system settings. Uninstalling clears all local data with no trace.',
     '现在，让悬浮球接管你的输入与发送': 'Now let the floating ball take over your typing and sending',
-    '免费 · 开源 · 完全离线。装上它，让文本处理变得自动、可控、安静。':
-      'Free · open source · fully offline. Install it and make text processing automatic, controllable and quiet.',
+    '免费 · 开源 · 完全离线。装上它，让文本处理变得自动、可控、安静。': 'Free · open source · fully offline. Install it and make text processing automatic, controllable and quiet.',
     '全部版本': 'All releases',
-    /* 备用下载渠道弹窗 */
     '备用下载': 'Mirror',
     '选择下载渠道': 'Choose a download channel',
-    '三个渠道的文件完全相同，按你所在地区挑最快的那个即可。':
-      'All three channels host the same file — just pick the fastest one for where you are.',
+    '三个渠道的文件完全相同，按你所在地区挑最快的那个即可。': 'All three channels host the same file — just pick the fastest one for where you are.',
     '蓝奏云': 'Lanzou Cloud',
     '国内速度较快 · 点击自动复制提取码': 'Faster in mainland China · copies the code on click',
     '提取码': 'Access code',
@@ -311,30 +269,47 @@
     '国内速度较快 · 网页内下载': 'Faster in mainland China · downloads in-page',
     'GitHub 直链': 'GitHub direct link',
     '原始发布地址 · 海外访问较快': 'Original release · faster outside mainland China',
-    '已复制提取码：%s': 'Access code copied: %s', '提取码：%s': 'Access code: %s',
-    '仅限本人设备、合法合规的个人用途，禁止用于骚扰、诈骗、冒充他人等非法用途。':
-      'For your own device and lawful personal use only. Harassment, fraud, impersonation and other illegal uses are prohibited.',
-    /* 页脚 */
-    '悬浮球常驻屏幕边缘，三种运行模式 + 系统级增强，文本处理一键到底。':
-      'A floating ball on the edge of your screen: three run modes, system-level boost, text processing in one tap.',
-    '项目': 'Project', 'GitHub 仓库': 'GitHub repo', 'Releases 下载': 'Releases', 'Issues 反馈': 'Issues',
-    '构建说明': 'Build guide', '社区': 'Community', 'QQ 频道': 'QQ channel', '法律': 'Legal',
+    '已复制提取码：%s': 'Access code copied: %s',
+    '提取码：%s': 'Access code: %s',
+    '仅限本人设备、合法合规的个人用途，禁止用于骚扰、诈骗、冒充他人等非法用途。': 'For your own device and lawful personal use only. Harassment, fraud, impersonation and other illegal uses are prohibited.',
+    '悬浮球常驻屏幕边缘，三种运行模式 + 系统级增强，文本处理一键到底。': 'A floating ball on the edge of your screen: three run modes, system-level boost, text processing in one tap.',
+    '项目': 'Project',
+    'GitHub 仓库': 'GitHub repo',
+    'Releases 下载': 'Releases',
+    'Issues 反馈': 'Issues',
+    '构建说明': 'Build guide',
+    '社区': 'Community',
+    'QQ 频道': 'QQ channel',
+    '法律': 'Legal',
     '无网络权限 · 无服务器': 'No network permission · No server',
     '© 2026 NekoType · 由 NekoType 团队诚意打造': '© 2026 NekoType · Crafted by the NekoType team',
-    '本站基于开源 README 与品牌资源由 NekoType 团队诚意打造':
-      'Built from the open-source README and brand assets by the NekoType team',
-    /* 语言菜单 */
-    '语言': 'Language', '跟随系统': 'Follow system',
-    /* 无障碍属性文案（引擎的 ATTRS 会翻 title / aria-label / placeholder / alt） */
-    'NekoType 首页': 'NekoType home', '主导航': 'Main navigation',
-    '切换主题': 'Toggle theme', '切换亮/暗主题': 'Switch light/dark theme',
-    '语言 / Language': 'Language', '悬浮球': 'Floating ball', '关闭': 'Close',
-    /* 联系方式 */
-    'QQ 群 · 1007865515': 'QQ group · 1007865515', '邮箱 · TR114512@qq.com': 'Email · TR114512@qq.com',
-    /* 动态文案（JS 生成，%s 为占位） */
+    '本站基于开源 README 与品牌资源由 NekoType 团队诚意打造': 'Built from the open-source README and brand assets by the NekoType team',
+    '语言': 'Language',
+    '跟随系统': 'Follow system',
+    'NekoType 首页': 'NekoType home',
+    '主导航': 'Main navigation',
+    '切换主题': 'Toggle theme',
+    '切换亮/暗主题': 'Switch light/dark theme',
+    '语言 / Language': 'Language',
+    '悬浮球': 'Floating ball',
+    '关闭': 'Close',
+    'QQ 群 · 1007865515': 'QQ group · 1007865515',
+    '邮箱 · TR114512@qq.com': 'Email · TR114512@qq.com',
     '已应用「%s」预设': 'Preset “%s” applied',
     '已复制 QQ 群号：%s': 'QQ group copied: %s',
-    'QQ 群号：%s': 'QQ group: %s'
+    '常驻屏幕边缘，默认 56dp，拖动摆放、边缘吸附、位置记忆。柔光玻璃效果、5 秒空闲收成小圆点、大小与透明度实时可调，还能用任意图片作悬浮球头像（圆形裁剪）。': 'Parked on the screen edge — 56dp by default, drag it anywhere, edge snapping, position remembered. Soft-glow glass, shrinks to a dot after 5 s idle, live size and opacity, and any image can become the ball avatar (centre-cropped).',
+    '长按弹出：切换与管理规则预设、规则开关、行为与样式面板、立即变换并发送，以及设置 / 日志 / 终端 / 停止服务。': 'Long-press to get: switch and manage rule presets, rule switches, the behaviour panel, transform & send now — plus settings / logs / terminal / stop service.',
+    '为指定应用单独绑定规则预设，切到该应用自动换套规则，未映射的应用沿用当前预设，另有「自动切换」总开关。': 'Bind a rule preset to a specific app and the rules swap when you switch to it; unmapped apps keep the current preset. One master switch turns auto-switching off.',
+    '导入 ZIP 模块（': 'Import a ZIP module:',
+    '入口类），原生 DexClassLoader 在进程内加载、导入即生效。可声明文本变换 / 设置卡片 / 启动画面 / 菜单 / UI 覆盖；与宿主同权限，只装可信模块。': 'entry class at the root. It loads through Android’s stock DexClassLoader inside the app process, so it works as soon as you import it. Modules declare abilities — text transform / settings card / splash / menu / UI override — and run with the app’s own privileges, so only install ones you trust.',
+    '无障碍服务组件名伪装成系统「随选朗读」，绕过按类名屏蔽无障碍的应用（微信等，NyaNote / GKD 同款做法）。另有删除优化、语音输入 1 秒长停顿判定、@提及输入保护。': 'The accessibility service ships under a system-style class name (Select to Speak) and component id, so apps that block unknown accessibility services by class name — WeChat included — let it through; same trick as NyaNote and GKD. Plus a delete guard (pauses ~0.5 s while you delete), voice input on a 1 s pause, and @mention protection.',
+    '名单页列出全部已安装应用，可搜索、全选、清空。黑名单模式：名单内不自动篡改；白名单模式：只对名单内自动篡改。悬浮球手动点击始终不受限。': 'One page lists every installed app, with search, select-all and clear. Block-list mode skips the listed apps; allow-list mode only touches the listed apps. Tapping the ball yourself always works.',
+    '复用 Termux 引擎的 PTY 真实终端，460+ 命令与 nekosay / nekomood / catbomb 等猫系命令，JetBrains Mono 等宽字体；字号 10-24sp、面板透明度、字体颜色均可调。': 'A real PTY terminal on the Termux engine: 460+ commands, the cat-themed nekosay / nekomood / catbomb, and JetBrains Mono. Font size 10-24sp, panel opacity and text colour are all adjustable.',
+    '外观与六套主题': 'Look & six themes',
+    '深色 / 浅色 / 跟随系统 / 星空 / 猫娘 / 前苏联（CCCP），可自定义任意图片作应用背景。前苏联主题为红旗红 + 鎏金 + 深褐底，构造主义红色斜带与红星图标，纯矢量任意分辨率不糊。': 'Dark / Light / Follow system / Starry Sky / Catgirl / Soviet (CCCP), plus any image as the app background. The Soviet theme is flag red with gilded gold on deep brown, constructivist diagonal stripes and a red star — all pure vector, crisp at any resolution.',
+    'Argon2id 密码锁 + Keystore 加密；隐藏模式 pm hide + 设备管理员防卸载；Shizuku / Root 双通道；TamperGuard 签名校验 + Hook 框架检测。': 'Argon2id password lock with Keystore encryption; a hidden mode via pm hide plus device-admin uninstall protection; Shizuku / Root channels; TamperGuard signature checks and hook-framework detection.',
+    '一键导出/导入全部配置（规则 + 行为 + 外观），文本格式可读可编辑，换机备份方便。每日变换次数 + 7 天趋势一目了然。': 'Export or import the whole config (rules + behaviour + appearance) as readable, editable text — handy for backups and new phones. Daily transform count plus a 7-day trend.',
+    '还有': 'Also',
   };
 
   /* ---------- 3) 引擎 ---------- */
