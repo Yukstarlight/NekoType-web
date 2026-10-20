@@ -307,8 +307,8 @@
        域名故意不写进词条：换域名只改 index.html 里那两个 <code>，这里一个字不用动。 */
     '官网迁移公告': 'Site moving to a new domain',
     '官网要迁到新域名，旧域名': 'The site is moving to a new domain. The old address',
-    '之后不再保留。请顺手更新收藏夹，免得以后打不开。':
-      'will not be kept — update your bookmarks so you can still find us later.',
+    '之后继续保留，两个地址都能打开。':
+      'stays online as well — both addresses work, bookmark whichever you like.',
     '新域名': 'New domain',
     '关闭公告': 'Close announcement',
     '我知道了': 'Got it',
