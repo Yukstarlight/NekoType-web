@@ -168,6 +168,8 @@
     '篡改键盘模式：打字即变，无需点球': 'Keyboard rewrite: transforms as you type, no tap needed',
     '断句追加模式：标点结尾才改，更自然': 'Punctuation mode: rewrites at sentence end, more natural',
     '摇一摇模式：摇一下即改写发送，三档灵敏度': 'Shake mode: shake the phone to rewrite and send, three sensitivity levels',
+    '摇一摇模式': 'Shake mode',
+    'Windows（CMD / PowerShell 通用）': 'Windows (CMD / PowerShell)',
     '写回自动移光标到末尾，不打断输入': 'Cursor returns to the end — typing is never interrupted',
     '无障碍通道被拒 → 切换 Shizuku': 'Accessibility denied → switching to Shizuku',
     '无弹窗 · 无剪贴板 · 已发送': 'No dialog · no clipboard · sent',
