@@ -600,6 +600,29 @@ if (dlmLanzou) dlmLanzou.addEventListener('click', copyDlPwd);
   });
 });
 
+/* ---------------- 官网迁移公告（每次进入都弹，不做「不再提示」） ---------------- */
+const ntcModal = $('#ntcModal');
+function setNtcModal(open) {
+  if (!ntcModal) return;
+  ntcModal.classList.toggle('open', open);
+  document.body.style.overflow = open ? 'hidden' : '';
+  if (open) { const ok = $('#ntcOk'); ok && ok.focus(); }
+}
+if (ntcModal) {
+  $$('[data-ntc-close]', ntcModal).forEach((el) => el.addEventListener('click', () => setNtcModal(false)));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && ntcModal.classList.contains('open')) setNtcModal(false);
+  });
+  // 等首屏（字体 / 星空）画完再弹，避免和初始化抢帧
+  setTimeout(() => setNtcModal(true), 400);
+}
+const ntcCopyBtn = $('#ntcCopy');
+if (ntcCopyBtn) ntcCopyBtn.addEventListener('click', async () => {
+  const v = (($('#ntcDomain') || {}).textContent || '').trim();
+  if (!v) return;
+  toast((await copyText(v)) ? TF('已复制新域名：%s', v) : TF('新域名：%s', v));
+});
+
 /* ---------------- 启动 ---------------- */
 initStars();
 spawnGlyphs();

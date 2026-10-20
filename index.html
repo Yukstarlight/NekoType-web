@@ -22,7 +22,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Noto+Sans+SC:wght@400;500;700;900&family=JetBrains+Mono:wght@400;600;700&display=swap" />
 
-  <link rel="stylesheet" href="assets/css/style.css?v=2.8.1.11" />
+  <link rel="stylesheet" href="assets/css/style.css?v=2.8.1.12" />
 </head>
 <body>
   <!-- 星空背景 canvas -->
@@ -679,10 +679,29 @@ md5sum NekoType-v2.8.1.apk</pre>
     </div>
   </div>
 
+  <!-- 官网迁移公告：每次进入都弹，故意不做「不再提示」——旧域名要停用，用户必须知道。
+       下面两个域名各只出现一次：换域名时改这两行 <code> 即可，i18n 词条里不含域名。 -->
+  <div class="dlm ntc" id="ntcModal" role="dialog" aria-modal="true" aria-labelledby="ntcTitle">
+    <div class="dlm__backdrop" data-ntc-close></div>
+    <div class="dlm__panel" role="document">
+      <button class="dlm__close" type="button" data-ntc-close aria-label="关闭公告">
+        <svg width="18" height="18"><use href="#i-close"/></svg>
+      </button>
+      <h3 class="dlm__title" id="ntcTitle">官网迁移公告</h3>
+      <p class="dlm__lead">官网要迁到新域名，旧域名 <code>nekotype.bbroot.com</code> 之后不再保留。请顺手更新收藏夹，免得以后打不开。</p>
+      <div class="dlm__pwd ntc__domain">
+        <span>新域名</span>
+        <code id="ntcDomain">nekotype.top</code>
+        <button type="button" class="dlm__copy" id="ntcCopy">复制</button>
+      </div>
+      <button type="button" class="btn btn--primary ntc__ok" id="ntcOk" data-ntc-close>我知道了</button>
+    </div>
+  </div>
+
   <!-- 资源带 ?v= 版本号：GitHub Pages 给资源发 Cache-Control: max-age=600，
        不带这个参数时浏览器会继续用 10 分钟内的旧文件，改了代码也「没反应」。
        改动 assets 下任何 css/js 后，把这个数字 +1（三处要一起改）。 -->
-  <script src="assets/js/i18n.js?v=2.8.1.11" defer></script>
-  <script src="assets/js/main.js?v=2.8.1.11" defer></script>
+  <script src="assets/js/i18n.js?v=2.8.1.12" defer></script>
+  <script src="assets/js/main.js?v=2.8.1.12" defer></script>
 </body>
 </html>

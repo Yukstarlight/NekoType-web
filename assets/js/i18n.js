@@ -23,7 +23,7 @@
     实:'實',势:'勢',试:'試',视:'視',适:'適',输:'輸',竖:'豎',说:'說',缩:'縮',锁:'鎖',态:'態',题:'題',体:'體',
     听:'聽',头:'頭',团:'團',网:'網',为:'為',稳:'穩',问:'問',务:'務',闲:'閒',显:'顯',现:'現',响:'響',项:'項',
     销:'銷',绪:'緒',续:'續',选:'選',询:'詢',讯:'訊',严:'嚴',颜:'顏',验:'驗',阳:'陽',样:'樣',义:'義',忆:'憶',
-    译:'譯',阴:'陰',隐:'隱',应:'應',优:'優',邮:'郵',与:'與',语:'語',预:'預',员:'員',圆:'圓',缘:'緣',载:'載',
+    译:'譯',阴:'陰',隐:'隱',应:'應',优:'優',邮:'郵',与:'與',语:'語',预:'預',员:'員',圆:'圓',缘:'緣',载:'載',迁:'遷',
     则:'則',诈:'詐',帧:'幀',执:'執',终:'終',种:'種',驻:'駐',转:'轉',装:'裝',缀:'綴',资:'資',踪:'蹤',纵:'縱',
     组:'組',备:'備',笔:'筆',闭:'閉',边:'邊',编:'編',变:'變',仓:'倉',侧:'側',测:'測',层:'層',尝:'嘗',场:'場',
     畅:'暢',彻:'徹',称:'稱',诚:'誠',础:'礎',储:'儲',传:'傳',纯:'純',错:'錯',哒:'噠',单:'單',当:'當',导:'導',
@@ -303,6 +303,17 @@
     'SHA-256：%s': 'SHA-256: %s',
     '已复制 MD5：%s': 'MD5 copied: %s',
     'MD5：%s': 'MD5: %s',
+    /* —— 官网迁移公告（每次进入都弹）——
+       域名故意不写进词条：换域名只改 index.html 里那两个 <code>，这里一个字不用动。 */
+    '官网迁移公告': 'Site moving to a new domain',
+    '官网要迁到新域名，旧域名': 'The site is moving to a new domain. The old address',
+    '之后不再保留。请顺手更新收藏夹，免得以后打不开。':
+      'will not be kept — update your bookmarks so you can still find us later.',
+    '新域名': 'New domain',
+    '关闭公告': 'Close announcement',
+    '我知道了': 'Got it',
+    '已复制新域名：%s': 'New domain copied: %s',
+    '新域名：%s': 'New domain: %s',
     '常驻屏幕边缘，默认 56dp，拖动摆放、边缘吸附、位置记忆。柔光玻璃效果、5 秒空闲收成小圆点、大小与透明度实时可调，还能用任意图片作悬浮球头像（圆形裁剪）。': 'Parked on the screen edge — 56dp by default, drag it anywhere, edge snapping, position remembered. Soft-glow glass, shrinks to a dot after 5 s idle, live size and opacity, and any image can become the ball avatar (centre-cropped).',
     '长按弹出：切换与管理规则预设、规则开关、行为与样式面板、立即变换并发送，以及设置 / 日志 / 终端 / 停止服务。': 'Long-press to get: switch and manage rule presets, rule switches, the behaviour panel, transform & send now — plus settings / logs / terminal / stop service.',
     '为指定应用单独绑定规则预设，切到该应用自动换套规则，未映射的应用沿用当前预设，另有「自动切换」总开关。': 'Bind a rule preset to a specific app and the rules swap when you switch to it; unmapped apps keep the current preset. One master switch turns auto-switching off.',
