@@ -36,107 +36,6 @@ themeToggle.addEventListener('click', () =>
   applyTheme(root.dataset.theme === 'dark' ? 'light' : 'dark')
 );
 
-/* ---------------- 星空粒子 ---------------- */
-const starCanvas = $('#starfield');
-const sctx = starCanvas.getContext('2d');
-let stars = [], W = 0, H = 0, shooters = [], rafId = null;
-
-function resizeStars() {
-  W = starCanvas.width = window.innerWidth;
-  H = starCanvas.height = window.innerHeight;
-}
-function buildStars() {
-  const isLight = root.dataset.theme === 'light';
-  const count = Math.min(230, Math.floor(W * H / 7000));
-  stars = Array.from({ length: count }, () => {
-    const depth = Math.random() < 0.5 ? 0.35 : 1;
-    const spd = 0.6 + depth * 1.1; // 前景星移动更快 → 纵深视差
-    return {
-      x: Math.random() * W,
-      y: Math.random() * H,
-      r: (Math.random() * 1.5 + 0.3) * (isLight ? 0.8 : 1),
-      tw: Math.random() * Math.PI * 2,
-      sp: Math.random() * 0.05 + 0.015,
-      vx: (Math.random() - 0.5) * 0.3 * spd,
-      vy: (Math.random() - 0.5) * 0.22 * spd,
-      depth: depth,
-      amax: isLight ? 0.34 : 1,
-      hue: isLight
-        ? (Math.random() < 0.7 ? '140,130,205' : '255,120,170')
-        : (Math.random() < 0.78 ? '200,214,255' : (Math.random() < 0.5 ? '255,127,190' : '245,176,66'))
-    };
-  });
-}
-function drawStars(t) {
-  sctx.clearRect(0, 0, W, H);
-  const ox = (typeof px !== 'undefined') ? px : 0;
-  const oy = (typeof py !== 'undefined') ? py : 0;
-  for (const s of stars) {
-    s.x += s.vx; s.y += s.vy;
-    if (s.x < -6) s.x = W + 6; else if (s.x > W + 6) s.x = -6;
-    if (s.y < -6) s.y = H + 6; else if (s.y > H + 6) s.y = -6;
-    const dx = s.x + ox * s.depth * 26;
-    const dy = s.y + oy * s.depth * 26;
-    const a = s.amax * (0.35 + 0.65 * (0.5 + 0.5 * Math.sin(t * s.sp + s.tw)));
-    sctx.beginPath();
-    sctx.arc(dx, dy, s.r, 0, Math.PI * 2);
-    sctx.fillStyle = `rgba(${s.hue},${a})`;
-    sctx.fill();
-    if (s.r > 1.1 && s.amax > 0.5) {
-      sctx.beginPath();
-      sctx.arc(dx, dy, s.r * 3, 0, Math.PI * 2);
-      sctx.fillStyle = `rgba(${s.hue},${a * 0.12})`;
-      sctx.fill();
-    }
-  }
-  // 流星
-  if (Math.random() < 0.02 && shooters.length < 4) {
-    shooters.push({
-      x: Math.random() * W * 0.8 + W * 0.1,
-      y: Math.random() * H * 0.3,
-      vx: -(4 + Math.random() * 4),
-      vy: 2 + Math.random() * 2.2,
-      life: 1
-    });
-  }
-  shooters = shooters.filter(s => s.life > 0);
-  for (const s of shooters) {
-    s.x += s.vx; s.y += s.vy; s.life -= 0.018;
-    const grad = sctx.createLinearGradient(s.x, s.y, s.x - s.vx * 9, s.y - s.vy * 9);
-    grad.addColorStop(0, `rgba(200,162,255,${0.9 * s.life})`);
-    grad.addColorStop(1, 'rgba(200,162,255,0)');
-    sctx.strokeStyle = grad;
-    sctx.lineWidth = 1.6;
-    sctx.beginPath();
-    sctx.moveTo(s.x, s.y);
-    sctx.lineTo(s.x - s.vx * 9, s.y - s.vy * 9);
-    sctx.stroke();
-  }
-}
-let loopRunning = false;
-function starLoop(t) {
-  drawStars(t);
-  rafId = requestAnimationFrame(starLoop);
-}
-function stopStars() {
-  if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
-  loopRunning = false;
-}
-function startStars() {
-  if (loopRunning) return;
-  loopRunning = true;
-  starLoop(performance.now());
-}
-function initStars() {
-  resizeStars();
-  buildStars();
-  stopStars();
-  sctx.clearRect(0, 0, W, H);
-  if (isMobile) { drawStars(0); return; } // 移动端：静态星空（画一帧即可，不跑动画循环）
-  startStars(); // 桌面端：持续动画
-}
-window.addEventListener('resize', initStars);
-
 /* ---------------- 导航 ---------------- */
 const nav = $('#nav');
 const burger = $('#burger');
@@ -446,24 +345,8 @@ $('#qqGroup').addEventListener('click', async () => {
 });
 
 /* ============================================================
-   动态背景层：漂浮符号雨 + 鼠标视差 + 统计计数 + 卡片光斑
+   鼠标视差 + 统计计数 + 卡片光斑
    ============================================================ */
-const GLYPHS = ['🐾','ฅ','(=^･ω･^=)','(^・ω・^)','nya~','~喵','(=^ᴗ^=)','ฅ^•ﻌ•^ฅ','awa','qwq','(｡•̀ᴗ-)✧','(=ↀωↀ=)'];
-const glyphRain = $('#glyphRain');
-function spawnGlyphs() {
-  if (isMobile || !glyphRain) return; // 移动端不生成漂浮颜文字，省性能
-  const n = 18;
-  for (let i = 0; i < n; i++) {
-    const s = document.createElement('span');
-    s.textContent = GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
-    s.style.left = Math.random() * 100 + '%';
-    s.style.fontSize = (12 + Math.random() * 24) + 'px';
-    s.style.animationDuration = (16 + Math.random() * 24) + 's';
-    s.style.animationDelay = (-Math.random() * 30) + 's';
-    glyphRain.appendChild(s);
-  }
-}
-
 /* 鼠标视差 + Hero 手机 3D 倾斜 */
 let mx = 0, my = 0, px = 0, py = 0, parallaxRAF = null;
 const heroPhone = $('.hero__visual .phone');
@@ -613,7 +496,7 @@ if (ntcModal) {
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && ntcModal.classList.contains('open')) setNtcModal(false);
   });
-  // 等首屏（字体 / 星空）画完再弹，避免和初始化抢帧
+  // 等首屏画完再弹，避免和初始化抢帧
   setTimeout(() => setNtcModal(true), 400);
 }
 const ntcCopyBtn = $('#ntcCopy');
@@ -624,7 +507,3 @@ if (ntcCopyBtn) ntcCopyBtn.addEventListener('click', async () => {
 });
 
 /* ---------------- 启动 ---------------- */
-initStars();
-spawnGlyphs();
-// 主题切换后重绘星空
-new MutationObserver(() => initStars()).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
