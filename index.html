@@ -22,7 +22,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Noto+Sans+SC:wght@400;500;700;900&family=JetBrains+Mono:wght@400;600;700&display=swap" />
 
-  <link rel="stylesheet" href="assets/css/style.css?v=2.8.5.4" />
+  <link rel="stylesheet" href="assets/css/style.css?v=2.8.5.5" />
 </head>
 <body>
   <!-- 背景为纯色（纯灰 / 纯白）：不再有星空 canvas、彩色光斑、漂浮颜文字 -->
@@ -493,13 +493,77 @@
           <div class="stat"><b class="grad-text" data-count="460" data-suffix="+">0</b><span>内置终端命令</span></div>
           <div class="stat"><b class="grad-text" data-count="65">0</b><span>种内置颜文字</span></div>
           <div class="stat"><b class="grad-text" data-count="3">0</b><span>级发送兜底</span></div>
-          <div class="stat"><b class="grad-text" data-count="3">0</b><span>种运行模式</span></div>
+          <div class="stat"><b class="grad-text" data-count="4">0</b><span>种运行模式</span></div>
         </div>
         <div class="trust-grid reveal" data-reveal-delay="120">
           <div class="trust"><span class="trust__ico"><svg width="20" height="20"><use href="#i-shield"/></svg></span><h4>数据不出设备</h4><p>所有文本读取、规则变换、发送触发全部在设备本地内存完成，处理完即丢弃，不留存、不上传。</p></div>
           <div class="trust"><span class="trust__ico"><svg width="20" height="20"><use href="#i-plug"/></svg></span><h4>权限最小化</h4><p>无障碍仅用于读写当前输入框并触发发送，不读密码框；悬浮窗仅显示按钮；所有权限可随时撤销。</p></div>
           <div class="trust"><span class="trust__ico"><svg width="20" height="20"><use href="#i-github"/></svg></span><h4>开源可审计</h4><p>项目完全开源，任何一条权限、任何一行代码你都可以查看。你看到的就是全部代码。</p></div>
         </div>
+      </div>
+    </section>
+
+    <!-- 变更记录（来源：仓库提交记录 / 发行说明 / v2.8.5 源码核对） -->
+    <section class="section" id="changes">
+      <div class="container container--narrow">
+        <header class="section__head reveal">
+          <span class="kicker">变更记录</span>
+          <h2 class="section__title">从 2.5.5 到现在</h2>
+          <p class="section__lead">每一版实际改了什么，取自仓库源码提交与发行说明。</p>
+        </header>
+        <ol class="chg">
+          <li class="chg__item chg__item--now reveal" data-reveal-delay="0">
+            <span class="chg__ver">v2.8.5</span>
+            <span class="chg__date">最新版</span>
+            <p class="chg__text">摇一摇模式（摇一下就改写并发送）、权限自动巡检（每 5 分钟自检一次）、大量漏洞修复。</p>
+          </li>
+          <li class="chg__item reveal" data-reveal-delay="60">
+            <span class="chg__ver">v2.8.0</span>
+            <span class="chg__date">2026-10-09</span>
+            <p class="chg__text">微信免 root 适配、应用白名单、应用预设映射、规则预设面板重排。</p>
+          </li>
+          <li class="chg__item reveal" data-reveal-delay="120">
+            <span class="chg__ver">v2.7.9</span>
+            <span class="chg__date">2026-09-26</span>
+            <p class="chg__text">前苏联（CCCP）主题、悬浮球快捷菜单、高级自动授权、预设重命名与合并。</p>
+          </li>
+          <li class="chg__item reveal" data-reveal-delay="0">
+            <span class="chg__ver">v2.7.5</span>
+            <span class="chg__date">2026-09-17</span>
+            <p class="chg__text">微信适配、篡改模式即时改写、规则等级、法律文档、Material 3 界面。</p>
+          </li>
+          <li class="chg__item reveal" data-reveal-delay="60">
+            <span class="chg__ver">v2.6.9</span>
+            <span class="chg__date">2026-09-06</span>
+            <p class="chg__text">界面重构为底部导航（首页 / 规则 / 模式 / 设置），新增主题系统。</p>
+          </li>
+          <li class="chg__item reveal" data-reveal-delay="120">
+            <span class="chg__ver">v2.6.4</span>
+            <span class="chg__date">2026-09-05</span>
+            <p class="chg__text">集成终端（Mist）、Shizuku 固定动作安全架构、日志性能优化。</p>
+          </li>
+          <li class="chg__item reveal" data-reveal-delay="0">
+            <span class="chg__ver">v2.6.3</span>
+            <span class="chg__date">2026-08-31</span>
+            <p class="chg__text">全量国际化：简体中文 / 繁體中文 / English，字符串全部资源化。</p>
+          </li>
+          <li class="chg__item reveal" data-reveal-delay="60">
+            <span class="chg__ver">v2.6.1</span>
+            <span class="chg__date">2026-08-30</span>
+            <p class="chg__text">应用黑名单、闪屏修复、导入对话框、QQ 频道。</p>
+          </li>
+          <li class="chg__item reveal" data-reveal-delay="120">
+            <span class="chg__ver">v2.6.0</span>
+            <span class="chg__date">2026-08-30</span>
+            <p class="chg__text">源码公开，许可证改为 BSD-2-Clause。</p>
+          </li>
+          <li class="chg__item reveal" data-reveal-delay="0">
+            <span class="chg__ver">v2.5.5</span>
+            <span class="chg__date">2026-08-26</span>
+            <p class="chg__text">首个公开版本。</p>
+          </li>
+        </ol>
+        <p class="chg__note reveal">条目取自源码提交与发行说明；没有单独发 Release 的版本，日期按提交时间记。</p>
       </div>
     </section>
 
@@ -695,7 +759,7 @@ md5sum NekoType-v2.8.5.apk</pre>
   <!-- 资源带 ?v= 版本号：GitHub Pages 给资源发 Cache-Control: max-age=600，
        不带这个参数时浏览器会继续用 10 分钟内的旧文件，改了代码也「没反应」。
        改动 assets 下任何 css/js 后，把这个数字 +1（三处要一起改）。 -->
-  <script src="assets/js/i18n.js?v=2.8.5.4" defer></script>
-  <script src="assets/js/main.js?v=2.8.5.4" defer></script>
+  <script src="assets/js/i18n.js?v=2.8.5.5" defer></script>
+  <script src="assets/js/main.js?v=2.8.5.5" defer></script>
 </body>
 </html>

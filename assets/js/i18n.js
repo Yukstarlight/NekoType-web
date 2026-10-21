@@ -15,7 +15,7 @@
     点:'點',写:'寫',无:'無',断:'斷',标:'標',结:'結',输:'輸',静:'靜',强:'強',绝:'絕',碍:'礙',触:'觸',转:'轉',
     弹:'彈',贴:'貼',构:'構',设:'設',气:'氣',创:'創',页:'頁',辑:'輯',题:'題',绪:'緒',启:'啟',图:'圖',圆:'圓',
     进:'進',号:'號',个:'個',给:'給',关:'關',观:'觀',广:'廣',过:'過',还:'還',汉:'漢',横:'橫',护:'護',画:'畫',
-    话:'話',环:'環',唤:'喚',会:'會',绘:'繪',击:'擊',计:'計',记:'記',迹:'跡',间:'間',监:'監',检:'檢',减:'減',
+    话:'話',环:'環',唤:'喚',会:'會',绘:'繪',击:'擊',计:'計',记:'記',迹:'跡',际:'際',间:'間',监:'監',检:'檢',减:'減',
     简:'簡',见:'見',娇:'嬌',脚:'腳',仅:'僅',据:'據',库:'庫',块:'塊',宽:'寬',馈:'饋',溃:'潰',赖:'賴',拦:'攔',摇:'搖',灵:'靈',档:'檔',
     览:'覽',类:'類',离:'離',里:'裡',连:'連',联:'聯',两:'兩',录:'錄',轮:'輪',萝:'蘿',络:'絡',马:'馬',码:'碼',
     吗:'嗎',猫:'貓',么:'麼',没:'沒',内:'內',拟:'擬',钮:'鈕',盘:'盤',骗:'騙',频:'頻',弃:'棄',签:'簽',浅:'淺',
@@ -72,6 +72,7 @@
   /* 词语级修正（单字映射会译错的） */
   const WORD_FIX = [
     ['恢复','恢復'], ['回复','回覆'], ['重复','重複'], ['复制','複製'], ['复现','復現'],
+    ['修复','修復'], ['合并','合併'],
     ['后台','後台'], ['网址','網址'], ['接口','介面'], ['内存','記憶體'],
     // 单字映射会译错的：制→製 只用于製作类，志→誌 只用于日誌，签→簽 与標籤不同字
     // 只→隻 仅限量词（一只），副词「只在 / 只读取 / 只出现」必须保持「只」，所以只能用词级修正
@@ -318,6 +319,21 @@
     '我知道了': 'Got it',
     '已复制新域名：%s': 'New domain copied: %s',
     '新域名：%s': 'New domain: %s',
+    '变更记录': 'Changelog',
+    '从 2.5.5 到现在': 'From 2.5.5 to today',
+    '每一版实际改了什么，取自仓库源码提交与发行说明。': 'What actually changed in each version, taken from the repository commits and release notes.',
+    '条目取自源码提交与发行说明；没有单独发 Release 的版本，日期按提交时间记。': 'Entries come from source commits and release notes; for versions without their own Release, the date is the commit date.',
+    '最新版': 'Latest',
+    '摇一摇模式（摇一下就改写并发送）、权限自动巡检（每 5 分钟自检一次）、大量漏洞修复。': 'Shake mode that rewrites and sends on a shake, permission self-checks every 5 minutes, plus a large batch of bug fixes.',
+    '微信免 root 适配、应用白名单、应用预设映射、规则预设面板重排。': 'WeChat support without root, a per-app allowlist, per-app preset mapping, and a rearranged preset panel.',
+    '前苏联（CCCP）主题、悬浮球快捷菜单、高级自动授权、预设重命名与合并。': 'The Soviet (CCCP) theme, a floating-ball quick menu, advanced auto-grant, and preset rename plus merge.',
+    '微信适配、篡改模式即时改写、规则等级、法律文档、Material 3 界面。': 'WeChat fixes, instant rewriting in keyboard mode, rule levels, legal documents, and a Material 3 interface.',
+    '界面重构为底部导航（首页 / 规则 / 模式 / 设置），新增主题系统。': 'UI rebuilt around bottom navigation (Home / Rules / Modes / Settings), plus a new theme system.',
+    '集成终端（Mist）、Shizuku 固定动作安全架构、日志性能优化。': 'A built-in terminal (Mist), a Shizuku fixed-action security architecture, and faster logging.',
+    '全量国际化：简体中文 / 繁體中文 / English，字符串全部资源化。': 'Fully localised into Simplified Chinese, Traditional Chinese and English, with every string moved into resources.',
+    '应用黑名单、闪屏修复、导入对话框、QQ 频道。': 'An app blacklist, splash fixes, an import dialog and a QQ channel.',
+    '源码公开，许可证改为 BSD-2-Clause。': 'Source published, with the licence switched to BSD-2-Clause.',
+    '首个公开版本。': 'The first public release.',
     '常驻屏幕边缘，默认 56dp，拖动摆放、边缘吸附、位置记忆。柔光玻璃效果、5 秒空闲收成小圆点、大小与透明度实时可调，还能用任意图片作悬浮球头像（圆形裁剪）。': 'Parked on the screen edge — 56dp by default, drag it anywhere, edge snapping, position remembered. Soft-glow glass, shrinks to a dot after 5 s idle, live size and opacity, and any image can become the ball avatar (centre-cropped).',
     '长按弹出：切换与管理规则预设、规则开关、行为与样式面板、立即变换并发送，以及设置 / 日志 / 终端 / 停止服务。': 'Long-press to get: switch and manage rule presets, rule switches, the behaviour panel, transform & send now — plus settings / logs / terminal / stop service.',
     '为指定应用单独绑定规则预设，切到该应用自动换套规则，未映射的应用沿用当前预设，另有「自动切换」总开关。': 'Bind a rule preset to a specific app and the rules swap when you switch to it; unmapped apps keep the current preset. One master switch turns auto-switching off.',
