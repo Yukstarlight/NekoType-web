@@ -317,7 +317,7 @@
     '我知道了': 'Got it',
     '已复制新域名：%s': 'New domain copied: %s',
     '新域名：%s': 'New domain: %s',
-    '您的终极Android文本改写器': 'Your ultimate Android text rewriter',
+    '终极Android文本改写器': 'The ultimate Android text rewriter',
     '四种运行模式，一条规则链，点一下就走。': 'Four run modes, one rule chain, one tap.',
     '悬浮球改写、打字即变、断句追加、摇一摇触发': 'Floating ball, keyboard rewrite, punctuation trigger, shake.',
     '，全都离线，没有服务器。': ', all offline. No server, no account, no network permission.',
