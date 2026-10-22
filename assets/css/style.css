@@ -1016,8 +1016,8 @@ html.is-mobile .hero__visual .phone { transform: perspective(1200px) rotateY(-4d
 }
 .chg__item {
   position: relative;
-  display: grid; grid-template-columns: 84px 92px minmax(0, 1fr);
-  gap: 16px; align-items: baseline;
+  display: grid; grid-template-columns: 76px minmax(0, 1fr);
+  gap: 18px; align-items: baseline;
 }
 .chg__item::before {
   content: ""; position: absolute; left: -28px; top: 7px;
@@ -1026,12 +1026,23 @@ html.is-mobile .hero__visual .phone { transform: perspective(1200px) rotateY(-4d
 }
 .chg__item--now::before { background: var(--primary); border-color: var(--primary); box-shadow: 0 0 0 4px rgba(200,162,255,.14); }
 .chg__ver { font-family: var(--font-mono); font-size: 13.5px; font-weight: 700; letter-spacing: .01em; }
-.chg__date { font-family: var(--font-mono); font-size: 11.5px; color: var(--fg2); white-space: nowrap; }
 .chg__text { margin: 0; font-size: 14.5px; line-height: 1.65; color: var(--fg1); }
 .chg__note { margin: 26px 0 0; padding-left: 28px; font-size: 12.5px; color: var(--fg2); }
 
 @media (max-width: 720px) {
   .chg__item { grid-template-columns: 1fr; gap: 4px; }
   .chg__item::before { top: 6px; }
-  .chg__date { order: -1; }
+}
+
+/* hero 上那行定位语：等宽 + 拉开字距，做出"标语"的分量 */
+.hero__kicker {
+  margin: 20px 0 10px;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  color: var(--primary);
+}
+@media (max-width: 720px) {
+  .hero__kicker { font-size: 11.5px; letter-spacing: .1em; margin: 16px 0 8px; }
 }

@@ -22,7 +22,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Noto+Sans+SC:wght@400;500;700;900&family=JetBrains+Mono:wght@400;600;700&display=swap" />
 
-  <link rel="stylesheet" href="assets/css/style.css?v=2.8.5.5" />
+  <link rel="stylesheet" href="assets/css/style.css?v=2.8.5.8" />
 </head>
 <body>
   <!-- 背景为纯色（纯灰 / 纯白）：不再有星空 canvas、彩色光斑、漂浮颜文字 -->
@@ -130,6 +130,7 @@
           <span class="pill pill--badge">
             <span class="dot"></span> v2.8.5 · 系统级文本处理 · 完全离线
           </span>
+          <p class="hero__kicker">终极Android文本改写器</p>
           <h1 class="hero__title">
             全平台通用的<br><span class="grad-text">文本处理工具</span>
           </h1>
@@ -509,61 +510,103 @@
         <header class="section__head reveal">
           <span class="kicker">变更记录</span>
           <h2 class="section__title">从 2.5.5 到现在</h2>
-          <p class="section__lead">每一版实际改了什么，取自仓库源码提交与发行说明。</p>
+          <p class="section__lead">每一版实际新增了什么：把官方安装包逐个解开、相邻版本做差集得到。</p>
         </header>
         <ol class="chg">
           <li class="chg__item chg__item--now reveal" data-reveal-delay="0">
             <span class="chg__ver">v2.8.5</span>
-            <span class="chg__date">最新版</span>
-            <p class="chg__text">摇一摇模式（摇一下就改写并发送）、权限自动巡检（每 5 分钟自检一次）、大量漏洞修复。</p>
+            <p class="chg__text">摇一摇模式（三档强度）；权限自动巡检每 5 分钟自动补授权；随机前缀 / 后缀支持互斥与并发。</p>
           </li>
           <li class="chg__item reveal" data-reveal-delay="60">
-            <span class="chg__ver">v2.8.0</span>
-            <span class="chg__date">2026-10-09</span>
-            <p class="chg__text">微信免 root 适配、应用白名单、应用预设映射、规则预设面板重排。</p>
+            <span class="chg__ver">v2.8.1</span>
+            <p class="chg__text">NekoType-OS V1 模块化扩展：导入 ZIP 模块（module.json + classes.dex），可声明文本变换、设置卡片、界面覆盖等能力。</p>
           </li>
           <li class="chg__item reveal" data-reveal-delay="120">
-            <span class="chg__ver">v2.7.9</span>
-            <span class="chg__date">2026-09-26</span>
-            <p class="chg__text">前苏联（CCCP）主题、悬浮球快捷菜单、高级自动授权、预设重命名与合并。</p>
+            <span class="chg__ver">v2.8.0</span>
+            <p class="chg__text">应用名单支持黑名单 / 白名单两种模式；应用预设映射：切到某个应用自动换预设。</p>
           </li>
           <li class="chg__item reveal" data-reveal-delay="0">
+            <span class="chg__ver">v2.7.9</span>
+            <p class="chg__text">打开应用自动用 Shizuku 授权全部权限；只暴露输入框的应用改用「盲操作」追加后缀；许可证改为 GPL-3.0。</p>
+          </li>
+          <li class="chg__item reveal" data-reveal-delay="60">
+            <span class="chg__ver">v2.7.8</span>
+            <p class="chg__text">长按悬浮球弹出快捷菜单（切预设、立即变换发送、看日志）；预设合并；一键清空全部本地数据。</p>
+          </li>
+          <li class="chg__item reveal" data-reveal-delay="120">
+            <span class="chg__ver">v2.7.7</span>
+            <p class="chg__text">开发者模式（连点进入）：系统 logcat、崩溃日志、黑名单批量管理。</p>
+          </li>
+          <li class="chg__item reveal" data-reveal-delay="0">
+            <span class="chg__ver">v2.7.6</span>
+            <p class="chg__text">法律信息与开源许可页、隐私政策、第三方共享清单；Shizuku 长连接更稳。</p>
+          </li>
+          <li class="chg__item reveal" data-reveal-delay="60">
             <span class="chg__ver">v2.7.5</span>
-            <span class="chg__date">2026-09-17</span>
-            <p class="chg__text">微信适配、篡改模式即时改写、规则等级、法律文档、Material 3 界面。</p>
+            <p class="chg__text">自启动保活（vivo / iQOO 等国产系统），Shizuku 通道自检与失败诊断。</p>
+          </li>
+          <li class="chg__item reveal" data-reveal-delay="120">
+            <span class="chg__ver">v2.7.4</span>
+            <p class="chg__text">规则可按等级全局执行（严格按优先级逐条跑），预设可新建、另存。</p>
+          </li>
+          <li class="chg__item reveal" data-reveal-delay="0">
+            <span class="chg__ver">v2.7.3</span>
+            <p class="chg__text">删字时暂停改写（停手约 0.5 秒恢复）；语音停顿判定；情绪小猫 nekomood；悬浮球头像圆形裁剪。</p>
+          </li>
+          <li class="chg__item reveal" data-reveal-delay="60">
+            <span class="chg__ver">v2.7.2</span>
+            <p class="chg__text">随机前缀 / 后缀（固定与不固定两种）；自定义悬浮球图标；终端小猫互动 neko feed / play / pet。</p>
+          </li>
+          <li class="chg__item reveal" data-reveal-delay="120">
+            <span class="chg__ver">v2.7.1</span>
+            <p class="chg__text">病娇人设语气包；兼容自定义输入框（主动查找节点，剪贴板兜底）。</p>
+          </li>
+          <li class="chg__item reveal" data-reveal-delay="0">
+            <span class="chg__ver">v2.7.0</span>
+            <p class="chg__text">猫娘主题：全界面换成猫娘用语、随机概率 +20%；Shizuku 一键授权全部权限；电池优化白名单。</p>
           </li>
           <li class="chg__item reveal" data-reveal-delay="60">
             <span class="chg__ver">v2.6.9</span>
-            <span class="chg__date">2026-09-06</span>
-            <p class="chg__text">界面重构为底部导航（首页 / 规则 / 模式 / 设置），新增主题系统。</p>
+            <p class="chg__text">界面重构为底部导航（首页 / 规则 / 模式 / 终端 / 设置），三种互斥模式成型，新增主题系统。</p>
           </li>
           <li class="chg__item reveal" data-reveal-delay="120">
             <span class="chg__ver">v2.6.4</span>
-            <span class="chg__date">2026-09-05</span>
-            <p class="chg__text">集成终端（Mist）、Shizuku 固定动作安全架构、日志性能优化。</p>
+            <p class="chg__text">内嵌终端（Mist）：系统 sh + toybox，可用 ls / cat / ps / grep 等命令。</p>
           </li>
           <li class="chg__item reveal" data-reveal-delay="0">
             <span class="chg__ver">v2.6.3</span>
-            <span class="chg__date">2026-08-31</span>
-            <p class="chg__text">全量国际化：简体中文 / 繁體中文 / English，字符串全部资源化。</p>
+            <p class="chg__text">界面文案全部资源化，全量国际化（简中 / 繁中 / English），权限引导重做。</p>
           </li>
           <li class="chg__item reveal" data-reveal-delay="60">
             <span class="chg__ver">v2.6.1</span>
-            <span class="chg__date">2026-08-30</span>
-            <p class="chg__text">应用黑名单、闪屏修复、导入对话框、QQ 频道。</p>
+            <p class="chg__text">黑名单管理补齐，加入 QQ 频道入口。</p>
           </li>
           <li class="chg__item reveal" data-reveal-delay="120">
             <span class="chg__ver">v2.6.0</span>
-            <span class="chg__date">2026-08-30</span>
-            <p class="chg__text">源码公开，许可证改为 BSD-2-Clause。</p>
+            <p class="chg__text">应用黑名单：名单内应用不自动改写；许可证改为 BSD-2-Clause。</p>
           </li>
           <li class="chg__item reveal" data-reveal-delay="0">
+            <span class="chg__ver">v2.5.9</span>
+            <p class="chg__text">随机颜文字：每条消息自动追加，内置颜文字库。</p>
+          </li>
+          <li class="chg__item reveal" data-reveal-delay="60">
+            <span class="chg__ver">v2.5.8</span>
+            <p class="chg__text">心跳保活（每 60 秒拉活）、崩溃自启、标点触发，以及签名校验：被 Hook 或改包即停止运行。</p>
+          </li>
+          <li class="chg__item reveal" data-reveal-delay="120">
+            <span class="chg__ver">v2.5.7</span>
+            <p class="chg__text">密码锁定；隐藏模式配合设备管理员，桌面图标消失、后台不易被杀。</p>
+          </li>
+          <li class="chg__item reveal" data-reveal-delay="0">
+            <span class="chg__ver">v2.5.6</span>
+            <p class="chg__text">强制篡改键盘（首次开启需确认免责声明）、静默修改（Shizuku 直写）。</p>
+          </li>
+          <li class="chg__item reveal" data-reveal-delay="60">
             <span class="chg__ver">v2.5.5</span>
-            <span class="chg__date">2026-08-26</span>
-            <p class="chg__text">首个公开版本。</p>
+            <p class="chg__text">首个公开版本（MIT）：悬浮球改写发送、前缀 / 后缀 / 替换规则、规则预设、Shizuku 与 Root 双通道、设备管理员；源码同时公开。</p>
           </li>
         </ol>
-        <p class="chg__note reveal">条目取自源码提交与发行说明；没有单独发 Release 的版本，日期按提交时间记。</p>
+        <p class="chg__note reveal">条目来自 24 个官方 APK 的字符串差异：2.6.3 之前文案写死在代码里（读 DEX），之后进了资源表（读 resources）。同版本的 Beta 与正式版内容相同，合并为一条。</p>
       </div>
     </section>
 
@@ -759,7 +802,7 @@ md5sum NekoType-v2.8.5.apk</pre>
   <!-- 资源带 ?v= 版本号：GitHub Pages 给资源发 Cache-Control: max-age=600，
        不带这个参数时浏览器会继续用 10 分钟内的旧文件，改了代码也「没反应」。
        改动 assets 下任何 css/js 后，把这个数字 +1（三处要一起改）。 -->
-  <script src="assets/js/i18n.js?v=2.8.5.5" defer></script>
-  <script src="assets/js/main.js?v=2.8.5.5" defer></script>
+  <script src="assets/js/i18n.js?v=2.8.5.8" defer></script>
+  <script src="assets/js/main.js?v=2.8.5.8" defer></script>
 </body>
 </html>
