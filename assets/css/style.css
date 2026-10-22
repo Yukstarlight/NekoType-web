@@ -1046,3 +1046,71 @@ html.is-mobile .hero__visual .phone { transform: perspective(1200px) rotateY(-4d
 @media (max-width: 720px) {
   .hero__kicker { font-size: 11.5px; letter-spacing: .1em; margin: 16px 0 8px; }
 }
+
+/* ============================================================
+   2026-10-20 · 参考 laby.net/zh/client 的视觉语言（用户指定）
+   抄的是它的"骨架"，不是配色：Geist 字体、近黑底、6–10px 硬圆角、
+   短句文案、等宽小标签、发丝边框。
+   ============================================================ */
+
+/* 1) 自托管 Geist（laby.net 用的就是这套，官方 Google Fonts 可拉到 latin 子集） */
+@font-face { font-family: 'Geist'; font-style: normal; font-weight: 400; font-display: swap;
+  src: url('../fonts/geist-400.woff2') format('woff2'); unicode-range: U+0000-00FF; }
+@font-face { font-family: 'Geist'; font-style: normal; font-weight: 500; font-display: swap;
+  src: url('../fonts/geist-500.woff2') format('woff2'); unicode-range: U+0000-00FF; }
+@font-face { font-family: 'Geist'; font-style: normal; font-weight: 600; font-display: swap;
+  src: url('../fonts/geist-600.woff2') format('woff2'); unicode-range: U+0000-00FF; }
+@font-face { font-family: 'Geist'; font-style: normal; font-weight: 700; font-display: swap;
+  src: url('../fonts/geist-700.woff2') format('woff2'); unicode-range: U+0000-00FF; }
+@font-face { font-family: 'Geist'; font-style: normal; font-weight: 800; font-display: swap;
+  src: url('../fonts/geist-800.woff2') format('woff2'); unicode-range: U+0000-00FF; }
+@font-face { font-family: 'Geist Mono'; font-style: normal; font-weight: 400; font-display: swap;
+  src: url('../fonts/geist-mono-400.woff2') format('woff2'); unicode-range: U+0000-00FF; }
+@font-face { font-family: 'Geist Mono'; font-style: normal; font-weight: 500; font-display: swap;
+  src: url('../fonts/geist-mono-500.woff2') format('woff2'); unicode-range: U+0000-00FF; }
+@font-face { font-family: 'Geist Mono'; font-style: normal; font-weight: 600; font-display: swap;
+  src: url('../fonts/geist-mono-600.woff2') format('woff2'); unicode-range: U+0000-00FF; }
+
+:root {
+  --font-disp: 'Geist', 'PingFang SC', 'HarmonyOS Sans SC', 'MiSans', 'Noto Sans SC', 'Microsoft YaHei', system-ui, sans-serif;
+  --font-body: 'Geist', 'PingFang SC', 'HarmonyOS Sans SC', 'MiSans', 'Noto Sans SC', 'Microsoft YaHei', system-ui, sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, SFMono-Regular, Consolas, monospace;
+}
+
+/* 2) 近黑冷底 + 发丝边框（laby 的 #04060b / #1c1d22 那一挂） */
+:root {
+  --bg0: #08080c;
+  --bg1: #0f1015;
+  --bg2: #17181f;
+  --glass: rgba(15, 16, 21, .78);
+  --glass-strong: rgba(23, 24, 31, .94);
+  --border: rgba(255, 255, 255, .08);
+  --border-strong: rgba(255, 255, 255, .18);
+}
+html[data-theme="light"] {
+  --bg0: #ffffff;
+  --bg1: #fbfbfc;
+  --bg2: #f2f3f5;
+  --border: rgba(12, 14, 20, .10);
+  --border-strong: rgba(12, 14, 20, .22);
+}
+
+/* 3) 圆角收紧：10px 级，不做大软圆角 */
+:root { --radius-sm: 6px; --radius: 10px; --radius-lg: 12px; }
+
+/* 4) 大标题：更紧的字距、更小的行高（Geist 本身紧凑，别再加戏） */
+.hero__title { letter-spacing: -.035em; line-height: 1.02; }
+.section__title, .cta__title { letter-spacing: -.028em; line-height: 1.1; }
+
+/* 5) 短句文案：副标题不再是一整段，按句断开更硬 */
+.hero__sub { max-width: 560px; font-size: 16.5px; line-height: 1.65; }
+
+/* 6) 小标签统一等宽大写（laby 用 Geist Mono 做这种标注） */
+.hero__kicker, .kicker, .cap-row__label, .chg__ver, .feature-block__num, .btn__meta {
+  font-family: var(--font-mono);
+}
+
+/* 7) 卡片/按钮跟着硬圆角，hover 只动边框和一点位移 */
+.card { border-radius: var(--radius-lg); }
+.btn { border-radius: var(--radius); }
+.card:hover { transform: translateY(-2px); }
