@@ -319,7 +319,7 @@
     '我知道了': 'Got it',
     '已复制新域名：%s': 'New domain copied: %s',
     '新域名：%s': 'New domain: %s',
-    '终极Android文本改写器': 'The ultimate Android text rewriter',
+    '您的终极Android文本改写器': 'Your ultimate Android text rewriter',
     '每一版实际新增了什么：把官方安装包逐个解开、相邻版本做差集得到。': 'What each version actually added, diffed from the official APK builds.',
     '条目来自 24 个官方 APK 的字符串差异：2.6.3 之前文案写死在代码里（读 DEX），之后进了资源表（读 resources）。同版本的 Beta 与正式版内容相同，合并为一条。': 'Entries come from string diffs across the 24 official APK builds: before 2.6.3 the UI text lived in code (read from DEX), after that in resources. Beta and final builds share a versionCode, so they are merged.',
     '首个公开版本（MIT）：悬浮球改写发送、前缀 / 后缀 / 替换规则、规则预设、Shizuku 与 Root 双通道、设备管理员；源码同时公开。': 'First public release, MIT: floating-ball rewriting, prefix / suffix / replace rules, rule presets, Shizuku and Root channels, device admin. Source published at the same time.',

@@ -1036,11 +1036,12 @@ html.is-mobile .hero__visual .phone { transform: perspective(1200px) rotateY(-4d
 
 /* hero 上那行定位语：等宽 + 拉开字距，做出"标语"的分量 */
 .hero__kicker {
-  margin: 20px 0 10px;
-  font-family: var(--font-mono);
-  font-size: 12.5px;
-  font-weight: 700;
-  letter-spacing: .14em;
+  margin: 22px 0 12px;
+  font-family: var(--font-disp);
+  font-size: 50px;
+  line-height: 1.04;
+  font-weight: 800;
+  letter-spacing: -.03em;
   color: var(--primary);
 }
 @media (max-width: 720px) {
