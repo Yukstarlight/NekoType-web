@@ -93,7 +93,7 @@
     'v2.8.5 · 系统级文本处理 · 完全离线': 'v2.8.5 · System-level text processing · Fully offline',
     '全平台通用的': 'Cross-platform',
     '文本处理工具': 'text processing tool',
-    'NekoType 是一款系统级文本处理工具：悬浮球常驻屏幕边缘，一键为输入框内容应用前缀、后缀、随机尾缀、文本替换等规则并自动发送。四种运行模式（悬浮球 / 篡改键盘 / 断句追加 / 摇一摇）自由切换，规则自由组合、概率可控、实时预览。': 'NekoType is a system-level text processing tool. A floating ball stays on the edge of your screen and rewrites what you type — prefix, suffix, random tail, text replace — then sends it in one tap. Four run modes (floating ball / keyboard rewrite / punctuation trigger / shake) switch freely, rules combine freely with controllable odds and live preview.',
+    'NekoType 是一款系统级文本处理工具：一键为输入框内容应用前缀、后缀、随机尾缀、文本替换等规则并自动发送。四种运行模式（悬浮球 / 篡改键盘 / 断句追加 / 摇一摇）自由切换，规则自由组合、概率可控、实时预览。': 'NekoType is a system-level text processing tool. It rewrites what you type — prefix, suffix, random tail, text replace — then sends it in one tap. Four run modes (floating ball / keyboard rewrite / punctuation trigger / shake) switch freely, rules combine freely with controllable odds and live preview.',
     '完全离线运行，无服务器、无广告、无追踪。': 'Fully offline: no server, no ads, no tracking.',
     '下载 v2.8.5': 'Download v2.8.5',
     '查看源码': 'View source',
