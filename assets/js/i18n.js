@@ -319,6 +319,7 @@
     '我知道了': 'Got it',
     '已复制新域名：%s': 'New domain copied: %s',
     '新域名：%s': 'New domain: %s',
+    '累计下载约 %s 次': 'About %s downloads so far',
     '您的终极': 'Your ultimate',
     '文本改写器': 'text rewriter',
     '每一版实际新增了什么：把官方安装包逐个解开、相邻版本做差集得到。': 'What each version actually added, diffed from the official APK builds.',
