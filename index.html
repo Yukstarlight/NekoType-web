@@ -22,7 +22,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Noto+Sans+SC:wght@400;500;700;900&family=JetBrains+Mono:wght@400;600;700&display=swap" />
 
-  <link rel="stylesheet" href="assets/css/style.css?v=2.8.5.10" />
+  <link rel="stylesheet" href="assets/css/style.css?v=2.8.5.12" />
 </head>
 <body>
   <!-- 背景为纯色（纯灰 / 纯白）：不再有星空 canvas、彩色光斑、漂浮颜文字 -->
@@ -658,7 +658,7 @@
           <h2 class="cta__title">现在，让悬浮球接管你的输入与发送</h2>
           <p class="cta__sub">免费 · 开源 · 完全离线。装上它，让文本处理变得自动、可控、安静。</p>
           <div class="cta__btns">
-            <a class="btn btn--primary btn--lg" href="https://github.com/Yukstarlight/NekoType/releases/download/NekoType-latestversion/NekoType-v2.8.5.apk" target="_blank" rel="noopener">
+            <a class="btn btn--primary btn--lg" id="ctaDownload" href="https://github.com/Yukstarlight/NekoType/releases/download/NekoType-latestversion/NekoType-v2.8.5.apk" target="_blank" rel="noopener">
               <svg width="20" height="20"><use href="#i-download"/></svg><span>下载 v2.8.5</span><span class="btn__meta">8.1 MB</span>
             </a>
             <a class="btn btn--ghost btn--lg" href="#download" data-dl-open>
@@ -736,12 +736,12 @@
           <span>提取码</span><code id="dlmPwd">9ubs</code>
           <button type="button" class="dlm__copy" id="dlmCopyPwd">复制</button>
         </div>
-        <a class="dlm__item" href="https://share.feijipan.com/s/VKxVvKC1" target="_blank" rel="noopener">
+        <a class="dlm__item" id="dlFeiji" href="https://share.feijipan.com/s/VKxVvKC1" target="_blank" rel="noopener">
           <span class="dlm__ico"><svg width="20" height="20"><use href="#i-cloud"/></svg></span>
           <span class="dlm__body"><strong>小飞机网盘</strong><em>国内速度较快 · 网页内下载</em></span>
           <span class="dlm__arrow"><svg width="18" height="18"><use href="#i-arrow"/></svg></span>
         </a>
-        <a class="dlm__item" href="https://github.com/Yukstarlight/NekoType/releases/download/NekoType-latestversion/NekoType-v2.8.5.apk" target="_blank" rel="noopener">
+        <a class="dlm__item" id="dlGithub" href="https://github.com/Yukstarlight/NekoType/releases/download/NekoType-latestversion/NekoType-v2.8.5.apk" target="_blank" rel="noopener">
           <span class="dlm__ico"><svg width="20" height="20"><use href="#i-github"/></svg></span>
           <span class="dlm__body"><strong>GitHub 直链</strong><em>原始发布地址 · 海外访问较快</em></span>
           <span class="dlm__arrow"><svg width="18" height="18"><use href="#i-arrow"/></svg></span>
@@ -802,7 +802,7 @@ md5sum NekoType-v2.8.5.apk</pre>
   <!-- 资源带 ?v= 版本号：GitHub Pages 给资源发 Cache-Control: max-age=600，
        不带这个参数时浏览器会继续用 10 分钟内的旧文件，改了代码也「没反应」。
        改动 assets 下任何 css/js 后，把这个数字 +1（三处要一起改）。 -->
-  <script src="assets/js/i18n.js?v=2.8.5.10" defer></script>
-  <script src="assets/js/main.js?v=2.8.5.10" defer></script>
+  <script src="assets/js/i18n.js?v=2.8.5.12" defer></script>
+  <script src="assets/js/main.js?v=2.8.5.12" defer></script>
 </body>
 </html>

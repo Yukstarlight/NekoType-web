@@ -506,4 +506,37 @@ if (ntcCopyBtn) ntcCopyBtn.addEventListener('click', async () => {
   toast((await copyText(v)) ? TF('已复制新域名：%s', v) : TF('新域名：%s', v));
 });
 
+/* ---------------- 下载点击计数 ----------------
+   纯静态站没有后端，用 abacus 公共计数器（无需任何密钥）：
+   GET  https://abacus.jasoncameron.dev/get/<ns>/<key>  读
+   GET  https://abacus.jasoncameron.dev/hit/<ns>/<key>  读并 +1
+   同一浏览器对同一渠道 6 小时内只计一次（localStorage），避免刷新刷数。 */
+const DL_API = 'https://abacus.jasoncameron.dev';
+const DL_NS = 'nekotype-site';
+const DL_CH = { github: 'dl-github', lanzou: 'dl-lanzou', feiji: 'dl-feiji' };
+
+function dlOnce(id) {
+  const key = 'neko-dl-' + id;
+  try {
+    const raw = localStorage.getItem(key);
+    if (raw && Date.now() - +raw < 6 * 3600 * 1000) return true;
+    localStorage.setItem(key, String(Date.now()));
+  } catch (e) { /* 隐私模式下存不了，就每次都算 */ }
+  return false;
+}
+
+function dlHit(ch) {
+  if (!DL_CH[ch] || dlOnce(ch)) return;
+  fetch(DL_API + '/hit/' + DL_NS + '/' + DL_CH[ch], { mode: 'cors', cache: 'no-store' })
+    .catch(() => { /* 计数失败不影响下载 */ });
+}
+
+
+
+[['#heroDownload', 'github'], ['#ctaDownload', 'github'], ['#dlLanzou', 'lanzou'],
+ ['#dlFeiji', 'feiji'], ['#dlGithub', 'github']].forEach(([sel, ch]) => {
+  const el = $(sel);
+  if (el) el.addEventListener('click', () => dlHit(ch));
+});
+
 /* ---------------- 启动 ---------------- */
