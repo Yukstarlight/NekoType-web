@@ -513,13 +513,21 @@ if (ntcCopyBtn) ntcCopyBtn.addEventListener('click', async () => {
    同一浏览器对同一渠道 10 分钟内只计一次（localStorage），避免刷新刷数。 */
 const DL_API = 'https://abacus.jasoncameron.dev';
 const DL_NS = 'nekotype-site';
-const DL_CH = { github: 'dl-github', lanzou: 'dl-lanzou', feiji: 'dl-feiji' };
+/* 计数器 key 带上当前 APK 版本：链接一换（发新版本），key 就变，计数自动从 0 开始，
+   不需要任何人去手动重置。版本号从主下载链接里取，三个渠道共用同一个版本后缀。 */
+const DL_VER = (function () {
+  const a = document.getElementById('heroDownload');
+  const m = a && (a.getAttribute('href') || '').match(/NekoType-v([\d.]+)\.apk/);
+  return m ? m[1].replace(/\./g, '') : 'v0';
+})();
+const dlKey = (ch) => 'dl-' + ch + '-' + DL_VER;
+const DL_CH = { github: dlKey('github'), lanzou: dlKey('lanzou'), feiji: dlKey('feiji') };
 
 function dlOnce(id) {
   const key = 'neko-dl-' + id;
   try {
     const raw = localStorage.getItem(key);
-    if (raw && Date.now() - +raw < 10 * 60 * 1000) return true;   // 10 分钟内同一渠道只计一次
+    if (raw && Date.now() - +raw < 5 * 60 * 1000) return true;   // 5 分钟内同一渠道只计一次
     localStorage.setItem(key, String(Date.now()));
   } catch (e) { /* 隐私模式下存不了，就每次都算 */ }
   return false;
