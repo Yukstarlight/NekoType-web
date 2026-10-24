@@ -510,7 +510,7 @@ if (ntcCopyBtn) ntcCopyBtn.addEventListener('click', async () => {
    纯静态站没有后端，用 abacus 公共计数器（无需任何密钥）：
    GET  https://abacus.jasoncameron.dev/get/<ns>/<key>  读
    GET  https://abacus.jasoncameron.dev/hit/<ns>/<key>  读并 +1
-   同一浏览器对同一渠道 6 小时内只计一次（localStorage），避免刷新刷数。 */
+   同一浏览器对同一渠道 10 分钟内只计一次（localStorage），避免刷新刷数。 */
 const DL_API = 'https://abacus.jasoncameron.dev';
 const DL_NS = 'nekotype-site';
 const DL_CH = { github: 'dl-github', lanzou: 'dl-lanzou', feiji: 'dl-feiji' };
@@ -519,7 +519,7 @@ function dlOnce(id) {
   const key = 'neko-dl-' + id;
   try {
     const raw = localStorage.getItem(key);
-    if (raw && Date.now() - +raw < 6 * 3600 * 1000) return true;
+    if (raw && Date.now() - +raw < 10 * 60 * 1000) return true;   // 10 分钟内同一渠道只计一次
     localStorage.setItem(key, String(Date.now()));
   } catch (e) { /* 隐私模式下存不了，就每次都算 */ }
   return false;
