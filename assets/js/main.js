@@ -527,7 +527,7 @@ function dlOnce(id) {
   const key = 'neko-dl-' + id;
   try {
     const raw = localStorage.getItem(key);
-    if (raw && Date.now() - +raw < 5 * 60 * 1000) return true;   // 5 分钟内同一渠道只计一次
+    if (raw && Date.now() - +raw < 60 * 1000) return true;   // 1 分钟内同一渠道只计一次（防连点，几乎等于每点都算）
     localStorage.setItem(key, String(Date.now()));
   } catch (e) { /* 隐私模式下存不了，就每次都算 */ }
   return false;
