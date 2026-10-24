@@ -506,46 +506,6 @@ if (ntcCopyBtn) ntcCopyBtn.addEventListener('click', async () => {
   toast((await copyText(v)) ? TF('已复制新域名：%s', v) : TF('新域名：%s', v));
 });
 
-/* ---------------- 下载点击计数 ----------------
-   纯静态站没有后端，用 abacus 公共计数器（无需任何密钥）：
-   GET  https://abacus.jasoncameron.dev/get/<ns>/<key>  读
-   GET  https://abacus.jasoncameron.dev/hit/<ns>/<key>  读并 +1
-   同一浏览器对同一渠道 10 分钟内只计一次（localStorage），避免刷新刷数。 */
-const DL_API = 'https://abacus.jasoncameron.dev';
-const DL_NS = 'nekotype-site';
-/* 计数器 key 带上当前 APK 版本：链接一换（发新版本），key 就变，计数自动从 0 开始，
-   不需要任何人去手动重置。版本号从主下载链接里取，三个渠道共用同一个版本后缀。 */
-const DL_VER = (function () {
-  const a = document.getElementById('heroDownload');
-  const m = a && (a.getAttribute('href') || '').match(/NekoType-v([\d.]+)\.apk/);
-  return m ? m[1].replace(/\./g, '') : 'v0';
-})();
-const dlKey = (ch) => 'dl-' + ch + '-' + DL_VER;
-const DL_CH = { github: dlKey('github'), lanzou: dlKey('lanzou'), feiji: dlKey('feiji') };
-
-function dlOnce(id) {
-  const key = 'neko-dl-' + id;
-  try {
-    const raw = localStorage.getItem(key);
-    if (raw && Date.now() - +raw < 60 * 1000) return true;   // 1 分钟内同一渠道只计一次（防连点，几乎等于每点都算）
-    localStorage.setItem(key, String(Date.now()));
-  } catch (e) { /* 隐私模式下存不了，就每次都算 */ }
-  return false;
-}
-
-function dlHit(ch) {
-  if (!DL_CH[ch] || dlOnce(ch)) return;
-  fetch(DL_API + '/hit/' + DL_NS + '/' + DL_CH[ch], { mode: 'cors', cache: 'no-store' })
-    .catch(() => { /* 计数失败不影响下载 */ });
-}
-
-
-
-[['#heroDownload', 'github'], ['#ctaDownload', 'github'], ['#dlLanzou', 'lanzou'],
- ['#dlFeiji', 'feiji'], ['#dlGithub', 'github']].forEach(([sel, ch]) => {
-  const el = $(sel);
-  if (el) el.addEventListener('click', () => dlHit(ch));
-});
 
 /* ---------------- 页脚累计下载 ----------------
    GitHub 只统计走它直链的下载（蓝奏云 / 小飞机不计），
