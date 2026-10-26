@@ -1079,3 +1079,18 @@ html[data-theme="light"] html[data-theme="light"] @media (max-width: 720px) {
   content-visibility: auto;
   contain-intrinsic-size: auto 900px;
 }
+
+/* hero 那行定位语（恢复）：50px 桌面；手机按视口缩放，最窄也有 30px 不糊 */
+.hero__kicker {
+  margin: 8px 0 16px;
+  font-family: var(--font-disp);
+  font-size: clamp(30px, 3.5vw, 50px);
+  line-height: 1.06;
+  font-weight: 800;
+  letter-spacing: -.03em;
+  color: #FFFFFF;
+  text-align: center;
+}
+.hero__kicker .kicker-os { color: #FFD7E8; }
+html[data-theme="light"] .hero__kicker { color: #14161F; }
+html[data-theme="light"] .hero__kicker .kicker-os { color: #D4568C; }

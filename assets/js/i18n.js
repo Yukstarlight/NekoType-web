@@ -283,6 +283,8 @@
     'QQ 频道': 'QQ channel',
     '法律': 'Legal',
     '无网络权限 · 无服务器': 'No network permission · No server',
+    '您的终极': 'Your ultimate',
+    '文本改写器': 'text rewriter',
     '© 2026 NekoType': '© 2026 NekoType',
     '语言': 'Language',
     '跟随系统': 'Follow system',
