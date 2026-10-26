@@ -1,3 +1,14 @@
+/* 自托管字体（latin 子集，共 111 KB）：不再依赖 fonts.googleapis.com——
+   那玩意在国内打不开，外链只会白等。中文字符走系统字体（苹方 / 雅黑 / MiSans）。 */
+@font-face { font-family: 'Sora'; font-style: normal; font-weight: 600; font-display: swap;
+  src: url('../fonts/sora-600.woff2') format('woff2'); unicode-range: U+0000-00FF; }
+@font-face { font-family: 'Sora'; font-style: normal; font-weight: 700; font-display: swap;
+  src: url('../fonts/sora-700.woff2') format('woff2'); unicode-range: U+0000-00FF; }
+@font-face { font-family: 'JetBrains Mono'; font-style: normal; font-weight: 400; font-display: swap;
+  src: url('../fonts/jbmono-400.woff2') format('woff2'); unicode-range: U+0000-00FF; }
+@font-face { font-family: 'JetBrains Mono'; font-style: normal; font-weight: 600; font-display: swap;
+  src: url('../fonts/jbmono-600.woff2') format('woff2'); unicode-range: U+0000-00FF; }
+
 /* ============================================================
    NekoType 官网 · style.css
    双主题：星空暗色（默认） / 浅色清新
