@@ -272,49 +272,6 @@ $$('.chip-btn').forEach(btn => {
   });
 });
 
-/* ============================================================
-   Hero 手机自动演示（打字 → 悬浮球改写 → 发出）
-   ============================================================ */
-const HERO_SEQ = [
-  { raw: '好的',       out: '~好的喵' },
-  { raw: '今天好开心', out: '今天好开心awa' },
-  { raw: '我到家了',   out: '~我到家了(=^･ω･^=)' }
-];
-const heroChat = $('#heroChat');
-const heroInput = $('#heroInput');
-const heroSendBtn = $('#heroSendBtn');
-const heroFab = $('#heroFab');
-let heroStep = 0;
-
-function heroTick() {
-  const seq = HERO_SEQ[heroStep % HERO_SEQ.length];
-  heroStep++;
-  heroInput.textContent = seq.raw;
-  setTimeout(() => {
-    heroSendBtn.classList.add('flash');
-    const t = document.createElement('div');
-    t.className = 'bubble bubble--in typing';
-    t.innerHTML = '<i></i><i></i><i></i>';
-    heroChat.appendChild(t);
-    setTimeout(() => {
-      t.remove();
-      heroChat.appendChild(bubbleOut(seq.raw, seq.out));
-      while (heroChat.children.length > 4) heroChat.firstElementChild.remove();
-      heroSendBtn.classList.remove('flash');
-      setTimeout(heroTick, 1900);
-    }, 620);
-  }, 800);
-}
-if (!isMobile) heroTick(); // 移动端跳过 Hero 自动演示，提升流畅度
-
-heroFab.addEventListener('click', () => pushHeroNow());
-function pushHeroNow() {
-  const seq = HERO_SEQ[Math.floor(Math.random() * HERO_SEQ.length)];
-  heroInput.textContent = seq.raw;
-  heroChat.appendChild(bubbleOut(seq.raw, seq.out));
-  while (heroChat.children.length > 4) heroChat.firstElementChild.remove();
-  pawBurst(null, null, heroFab);
-}
 
 /* ============================================================
    键盘模拟（特性区 02）
@@ -514,7 +471,7 @@ if (ntcCopyBtn) ntcCopyBtn.addEventListener('click', async () => {
 (function footerDownloads() {
   const el = $('#footerDl');
   if (!el) return;
-  const COVERAGE = 0.7;
+  const COVERAGE = 0.5;
   fetch('https://api.github.com/repos/Yukstarlight/NekoType/releases?per_page=100',
         { cache: 'no-store', headers: { Accept: 'application/vnd.github+json' } })
     .then((r) => (r.ok ? r.json() : Promise.reject(0)))
@@ -534,6 +491,28 @@ if (ntcCopyBtn) ntcCopyBtn.addEventListener('click', async () => {
       el.hidden = false;
     })
     .catch(() => { /* 网络/限流：静默隐藏 */ });
+})();
+
+/* 导航锚点：照旧滚动，但不把 #xxx 写进地址栏（用户嫌地址里的 # 碍眼） */
+(function plainAnchors() {
+  const strip = () => {
+    if (location.hash) history.replaceState(null, '', location.pathname + location.search);
+  };
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest && e.target.closest('a[href^="#"]');
+    if (!a) return;
+    const id = a.getAttribute('href').slice(1);
+    if (!id || id.startsWith('i-')) return;          // #i-xxx 是 SVG 图标引用，不是锚点
+    const t = document.getElementById(id);
+    if (!t) return;
+    e.preventDefault();
+    t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    strip();
+  }, true);
+  strip();                                            // 带 # 进来时清掉
+  // 直接带 #faq 打开时，浏览器会在脚本之后才应用片段，所以补挂三处再清一次
+  ['DOMContentLoaded', 'load', 'hashchange'].forEach((ev) => window.addEventListener(ev, strip));
+  window.addEventListener('pageshow', strip);
 })();
 
 /* ---------------- 启动 ---------------- */

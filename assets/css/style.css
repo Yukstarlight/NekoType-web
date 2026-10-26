@@ -1056,3 +1056,19 @@ html[data-theme="light"] .hero__kicker .kicker-os { color: #D4568C; }
   font-family: var(--font-mono); font-size: 12px; letter-spacing: .03em;
   color: var(--fg2);
 }
+
+/* hero 改单栏居中（2026-10-24 用户要求：右侧手机演示去掉，左侧居中） */
+.hero__grid {
+  grid-template-columns: 1fr;
+  gap: 0;
+  text-align: center;
+  padding-block: clamp(56px, 10vh, 120px) clamp(40px, 7vh, 80px);
+}
+.hero__copy { display: flex; flex-direction: column; align-items: center; }
+.hero__kicker, .hero__title { text-align: center; }
+.hero__sub { margin-inline: auto; max-width: 640px; }
+.hero__cta, .hero__trust { justify-content: center; }
+@media (max-width: 720px) {
+  .hero__grid { padding-block: clamp(28px, 6vh, 56px) clamp(28px, 5vh, 48px); }
+  .hero__sub { max-width: 100%; }
+}
