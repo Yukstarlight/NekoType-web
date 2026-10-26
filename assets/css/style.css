@@ -1095,3 +1095,9 @@ html[data-theme="light"] .hero__kicker .kicker-os { color: #D4568C; }
   .hero__sub { font-size: 16.5px; line-height: 1.7; }
   .hero__trust { font-size: 13.5px; }
 }
+
+/* 折叠区延迟渲染：屏幕外的整块先不排版/绘制，滚到附近才算（首屏快很多） */
+#changes, #faq, #more, .footer {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 900px;
+}

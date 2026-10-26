@@ -15,14 +15,17 @@
   <meta property="og:image" content="https://nekotype.bbroot.com/assets/index.jpg" />
   <meta property="og:type" content="website" />
 
-  <link rel="icon" href="assets/index.jpg" type="image/jpeg" />
-  <link rel="apple-touch-icon" href="assets/index.jpg" />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="assets/logo-72.png" sizes="72x72" type="image/png" />
+  <link rel="apple-touch-icon" href="assets/logo-180.png" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Noto+Sans+SC:wght@400;500;700;900&family=JetBrains+Mono:wght@400;600;700&display=swap" />
+  <!-- 字体不阻塞首屏：先当 print 样式表加载，加载完再切回 all；被墙时最多不生效，不会卡渲染 -->
+  <link rel="stylesheet" media="print" onload="this.media='all'"
+        href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Noto+Sans+SC:wght@400;500;700;900&family=JetBrains+Mono:wght@400;600;700&display=swap" />
 
-  <link rel="stylesheet" href="assets/css/style.css?v=2.8.5.21" />
+  <link rel="stylesheet" href="assets/css/style.css?v=2.8.5.23" />
 </head>
 <body>
   <!-- 背景为纯色（纯灰 / 纯白）：不再有星空 canvas、彩色光斑、漂浮颜文字 -->
@@ -78,7 +81,7 @@
   <header class="nav" id="nav">
     <div class="nav__inner container">
       <a class="brand" href="#top" aria-label="NekoType 首页">
-        <span class="brand__logo brand__logo--img"><img src="assets/index.jpg" alt="" width="36" height="36" /></span>
+        <span class="brand__logo brand__logo--img"><img src="assets/logo-72.png" alt="" width="36" height="36" decoding="async" /></span>
         <span class="brand__name">NekoType</span>
       </a>
       <nav class="nav__links" aria-label="主导航">
@@ -480,7 +483,6 @@
         <header class="section__head reveal">
           <span class="kicker">变更记录</span>
           <h2 class="section__title">从 2.5.5 到现在</h2>
-          <p class="section__lead">每一版实际新增了什么：把官方安装包逐个解开、相邻版本做差集得到。</p>
         </header>
         <ol class="chg">
           <li class="chg__item chg__item--now reveal" data-reveal-delay="0">
@@ -649,13 +651,13 @@
     <div class="container footer__grid">
       <div class="footer__brand">
         <a class="brand" href="#top">
-          <span class="brand__logo brand__logo--img"><img src="assets/index.jpg" alt="" width="36" height="36" /></span>
+          <span class="brand__logo brand__logo--img"><img src="assets/logo-72.png" alt="" width="36" height="36" decoding="async" /></span>
           <span class="brand__name">NekoType</span>
         </a>
         <p class="footer__tag">悬浮球常驻屏幕边缘，四种运行模式 + 系统级增强，文本处理一键到底。</p>
         <div class="footer__badges">
-          <img src="https://img.shields.io/github/stars/Yukstarlight/NekoType?style=flat-square&label=Star&color=9B6CFF&logoColor=fff" alt="GitHub Stars" height="20" loading="lazy" />
-          <img src="https://img.shields.io/github/v/release/Yukstarlight/NekoType?style=flat-square&label=Release&color=4A7DFF" alt="Latest Release" height="20" loading="lazy" />
+          <img loading="lazy" decoding="async" src="https://img.shields.io/github/stars/Yukstarlight/NekoType?style=flat-square&label=Star&color=9B6CFF&logoColor=fff" alt="GitHub Stars" height="20" loading="lazy" />
+          <img loading="lazy" decoding="async" src="https://img.shields.io/github/v/release/Yukstarlight/NekoType?style=flat-square&label=Release&color=4A7DFF" alt="Latest Release" height="20" loading="lazy" />
         </div>
       </div>
       <div class="footer__col">
@@ -772,7 +774,7 @@ md5sum NekoType-v2.8.5.apk</pre>
   <!-- 资源带 ?v= 版本号：GitHub Pages 给资源发 Cache-Control: max-age=600，
        不带这个参数时浏览器会继续用 10 分钟内的旧文件，改了代码也「没反应」。
        改动 assets 下任何 css/js 后，把这个数字 +1（三处要一起改）。 -->
-  <script src="assets/js/i18n.js?v=2.8.5.21" defer></script>
-  <script src="assets/js/main.js?v=2.8.5.21" defer></script>
+  <script src="assets/js/i18n.js?v=2.8.5.23" defer></script>
+  <script src="assets/js/main.js?v=2.8.5.23" defer></script>
 </body>
 </html>
