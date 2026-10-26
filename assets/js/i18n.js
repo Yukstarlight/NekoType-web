@@ -315,8 +315,6 @@
     '已复制新域名：%s': 'New domain copied: %s',
     '新域名：%s': 'New domain: %s',
     '累计下载约 %s 次': 'About %s downloads so far',
-    '您的终极': 'Your ultimate',
-    '文本改写器': 'text rewriter',
     '条目来自 24 个官方 APK 的字符串差异：2.6.3 之前文案写死在代码里（读 DEX），之后进了资源表（读 resources）。同版本的 Beta 与正式版内容相同，合并为一条。': 'Entries come from string diffs across the 24 official APK builds: before 2.6.3 the UI text lived in code (read from DEX), after that in resources. Beta and final builds share a versionCode, so they are merged.',
     '首个公开版本（MIT）：悬浮球改写发送、前缀 / 后缀 / 替换规则、规则预设、Shizuku 与 Root 双通道、设备管理员；源码同时公开。': 'First public release, MIT: floating-ball rewriting, prefix / suffix / replace rules, rule presets, Shizuku and Root channels, device admin. Source published at the same time.',
     '强制篡改键盘（首次开启需确认免责声明）、静默修改（Shizuku 直写）。': 'Keyboard-hijack mode, gated by a one-time disclaimer, plus silent editing via Shizuku.',

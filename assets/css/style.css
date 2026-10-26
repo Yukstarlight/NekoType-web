@@ -1046,21 +1046,8 @@ html.is-mobile .hero__visual .phone { transform: perspective(1200px) rotateY(-4d
 }
 
 /* hero 上那行定位语：等宽 + 拉开字距，做出"标语"的分量 */
-.hero__kicker {
-  margin: 22px 0 12px;
-  font-family: var(--font-disp);
-  font-size: 50px;
-  line-height: 1.04;
-  font-weight: 800;
-  letter-spacing: -.03em;
-  color: #FFFFFF;              /* 白色 */
-}
-.hero__kicker .kicker-os { color: #FFD7E8; }   /* Android：白中带一点浅粉 */
-html[data-theme="light"] .hero__kicker { color: #14161F; }
-html[data-theme="light"] .hero__kicker .kicker-os { color: #D4568C; }
-@media (max-width: 720px) {
-  .hero__kicker { font-size: 11.5px; letter-spacing: .1em; margin: 16px 0 8px; }
-}
+html[data-theme="light"] html[data-theme="light"] @media (max-width: 720px) {
+  }
 
 /* 页脚累计下载（约数，实时从 GitHub 拉） */
 .footer__stat {
@@ -1076,7 +1063,6 @@ html[data-theme="light"] .hero__kicker .kicker-os { color: #D4568C; }
   padding-block: clamp(56px, 10vh, 120px) clamp(40px, 7vh, 80px);
 }
 .hero__copy { display: flex; flex-direction: column; align-items: center; }
-.hero__kicker, .hero__title { text-align: center; }
 .hero__sub { margin-inline: auto; max-width: 640px; }
 .hero__cta, .hero__trust { justify-content: center; }
 @media (max-width: 720px) {
@@ -1087,11 +1073,6 @@ html[data-theme="light"] .hero__kicker .kicker-os { color: #D4568C; }
 /* hero 微调：保留副标题宽度与两端对齐断行；
    垂直位置回到原来的居中（min-height:100svh + align-items:center 是原始布局）。 */
 .hero__sub { max-width: 720px; text-wrap: balance; }
-
-/* 那行「您的终极 Android 文本改写器」：手机上别用 11.5px（太小），按视口放大 */
-@media (max-width: 720px) {
-  .hero__kicker { font-size: clamp(26px, 7.6vw, 38px); line-height: 1.15; }
-}
 
 /* 折叠区延迟渲染：屏幕外的整块先不排版/绘制，滚到附近才算（首屏快很多） */
 #changes, #faq, #more, .footer {
