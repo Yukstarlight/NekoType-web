@@ -1084,27 +1084,18 @@ html[data-theme="light"] .hero__kicker .kicker-os { color: #D4568C; }
   .hero__sub { max-width: 100%; }
 }
 
-/* hero 字号 + 上移（2026-10-24）
-   原来 .hero__grid 有 min-height:100svh + align-items:center，内容被垂直居中 → 看着偏低。
-   改成从顶部起排 + 小上边距，同时把字号整体抬一档（副标题、信任行原来相对 74px 大标题太小）。 */
+/* hero 上移（字号已改回原样，只保留位置调整）
+   原来 .hero__grid 有 min-height:100svh + align-items:center，内容被垂直居中 → 看着偏低。 */
 .hero__grid {
   min-height: calc(86svh - var(--nav-h));
   align-items: start;
   padding-block: clamp(20px, 3.6vh, 52px) clamp(32px, 5vh, 66px);
 }
 .hero__kicker { margin: 4px 0 12px; }
-.hero__title { font-size: clamp(46px, 5.6vw, 86px); line-height: 1.03; }
-.hero__sub { font-size: 19px; line-height: 1.72; max-width: 780px; text-wrap: balance; }
-.hero__trust { font-size: 14.5px; margin-top: 20px; }
-.pill--badge { font-size: 14px; }
-.hero__cta .btn--lg { font-size: 16.5px; }
+.hero__sub { max-width: 720px; text-wrap: balance; }
 
 @media (max-width: 720px) {
   .hero__grid { min-height: auto; padding-block: 10px clamp(24px, 4vh, 40px); }
-  .hero__kicker { font-size: 22px; letter-spacing: .06em; margin: 2px 0 10px; }
-  .hero__title { font-size: clamp(34px, 9.6vw, 46px); }
-  .hero__sub { font-size: 16.5px; line-height: 1.7; }
-  .hero__trust { font-size: 13.5px; }
 }
 
 /* 折叠区延迟渲染：屏幕外的整块先不排版/绘制，滚到附近才算（首屏快很多） */
