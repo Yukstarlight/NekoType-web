@@ -1082,7 +1082,7 @@ html[data-theme="light"] html[data-theme="light"] @media (max-width: 720px) {
 
 /* hero 那行定位语（恢复）：50px 桌面；手机按视口缩放，最窄也有 30px 不糊 */
 .hero__kicker {
-  margin: 8px 0 16px;
+  margin: 8px auto 16px;
   font-family: var(--font-disp);
   font-size: clamp(30px, 3.5vw, 50px);
   line-height: 1.06;
@@ -1091,6 +1091,13 @@ html[data-theme="light"] html[data-theme="light"] @media (max-width: 720px) {
   color: #FFFFFF;
   text-align: center;
 }
+/* 兜底：hero 文字层整体居中，防旧样式/旧缓存下回退成左对齐 */
+.hero__copy { text-align: center; }
 .hero__kicker .kicker-os { color: #FFD7E8; }
 html[data-theme="light"] .hero__kicker { color: #14161F; }
 html[data-theme="light"] .hero__kicker .kicker-os { color: #D4568C; }
+
+/* 页面有竖向滚动条时，内容是在「扣掉滚动条」的宽度里居中的，
+   屏幕上就会看着整体偏左约半个滚动条宽（7-8px）。
+   both-edges 让左右各留一条槽，内容才相对整个窗口真正居中。 */
+html { scrollbar-gutter: stable both-edges; }
