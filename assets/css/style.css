@@ -1084,18 +1084,13 @@ html[data-theme="light"] .hero__kicker .kicker-os { color: #D4568C; }
   .hero__sub { max-width: 100%; }
 }
 
-/* hero 上移（字号已改回原样，只保留位置调整）
-   原来 .hero__grid 有 min-height:100svh + align-items:center，内容被垂直居中 → 看着偏低。 */
-.hero__grid {
-  min-height: calc(86svh - var(--nav-h));
-  align-items: start;
-  padding-block: clamp(20px, 3.6vh, 52px) clamp(32px, 5vh, 66px);
-}
-.hero__kicker { margin: 4px 0 12px; }
+/* hero 微调：保留副标题宽度与两端对齐断行；
+   垂直位置回到原来的居中（min-height:100svh + align-items:center 是原始布局）。 */
 .hero__sub { max-width: 720px; text-wrap: balance; }
 
+/* 那行「您的终极 Android 文本改写器」：手机上别用 11.5px（太小），按视口放大 */
 @media (max-width: 720px) {
-  .hero__grid { min-height: auto; padding-block: 10px clamp(24px, 4vh, 40px); }
+  .hero__kicker { font-size: clamp(26px, 7.6vw, 38px); line-height: 1.15; }
 }
 
 /* 折叠区延迟渲染：屏幕外的整块先不排版/绘制，滚到附近才算（首屏快很多） */
