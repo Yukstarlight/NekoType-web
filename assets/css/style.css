@@ -1103,3 +1103,59 @@ html[data-theme="light"] .hero__kicker .kicker-os { color: #D4568C; }
    屏幕上就会看着整体偏左约半个滚动条宽（7-8px）。
    both-edges 让左右各留一条槽，内容才相对整个窗口真正居中。 */
 html { scrollbar-gutter: stable both-edges; }
+
+/* ============================================================
+   laby 按钮 / 文字规格（照它页面里真实的 Tailwind 类量出来的）
+   主按钮  rounded-md px-4 py-2 text-xs font-medium bg-brand-600 text-white
+   次按钮  rounded-md px-4 py-2 text-xs font-medium bg-surface-2 hover:bg-surface-3
+   导航    h-16 text-sm font-medium text-gray-300 hover:text-white（下划线 3px 指示）
+   小标签  rounded-md px-1.5 py-0.5 font-mono text-[11px]
+   共同点：圆角 6px、不做位移/投影/扫光、hover 只换背景色。
+   ============================================================ */
+:root {
+  --btn-r: 6px;
+  --surface-2: #232330;
+  --surface-3: #2C2C3B;
+}
+html[data-theme="light"] {
+  --surface-2: #F1F1F4;
+  --surface-3: #E6E6EB;
+}
+
+/* 基础按钮：6px 圆角、只动颜色 */
+.btn {
+  border-radius: var(--btn-r);
+  font-weight: 500;
+  letter-spacing: 0;
+  border: 0;
+  transition: background-color .16s ease, color .16s ease, border-color .16s ease;
+}
+.btn:hover { transform: none; }
+.btn:active { transform: none; }
+
+/* 主按钮：实色 + 白字，去掉渐变/扫光/脉冲/发光 */
+.btn--primary,
+.btn--primary:hover {
+  background: var(--primary-deep);
+  box-shadow: none;
+  filter: none;
+  animation: none;
+}
+.btn--primary::before { display: none; }
+.btn--primary:hover { background: #8A5BF2; }
+
+/* 次按钮：surface-2 → hover surface-3，文字由灰转白 */
+.btn--ghost {
+  background: var(--surface-2);
+  border: 0;
+  backdrop-filter: none;
+  color: var(--fg1);
+}
+.btn--ghost:hover { background: var(--surface-3); color: var(--fg0); }
+
+/* 尺寸：px-4 py-2 = 16/8；大号也收一档，别再是 15/26 */
+.btn--lg { padding: 11px 18px; font-size: 14px; border-radius: var(--btn-r); }
+.btn--sm { padding: 7px 14px; font-size: 13px; border-radius: var(--btn-r); }
+
+/* 导航：14px / 500 / 灰 → 白 */
+.nav__links a { font-size: 14px; font-weight: 500; letter-spacing: 0; }
