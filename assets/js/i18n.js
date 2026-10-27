@@ -97,7 +97,7 @@
     '完全离线运行，无服务器、无广告、无追踪。': 'Fully offline: no server, no ads, no tracking.',
     '下载 v2.8.5': 'Download v2.8.5',
     '查看源码': 'View source',
-    '不申请网络权限 · 无服务器 · 开源可审计 · 权限可随时撤销': 'No network permission · No server · Open source & auditable · Revoke anytime',
+    '更强的体验，更多的功能，更大的可能，对所有人免费': 'Better experience, more features, bigger possibilities — free for everyone',
     '前缀': 'Prefix',
     '后缀': 'Suffix',
     '替换': 'Replace',
