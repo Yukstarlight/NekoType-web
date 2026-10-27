@@ -464,47 +464,6 @@ if (ntcCopyBtn) ntcCopyBtn.addEventListener('click', async () => {
 });
 
 
-/* ---------------- 页脚累计下载 ----------------
-   GitHub 只统计走它直链的下载（蓝奏云 / 小飞机不计），
-   按约定用 70% 覆盖率折算成"约数"：估 ≈ GitHub 次数 ÷ 0.7。
-   拉不到就保持隐藏，绝不显示 0。 */
-(function footerDownloadsLazy() {
-  const el = document.getElementById('footerDl');
-  if (!el) return;
-  const run = () => { (function footerDownloads() {
-    const el = $('#footerDl');
-    if (!el) return;
-    const COVERAGE = 0.5;
-    fetch('https://api.github.com/repos/Yukstarlight/NekoType/releases?per_page=100',
-          { cache: 'no-store', headers: { Accept: 'application/vnd.github+json' } })
-      .then((r) => (r.ok ? r.json() : Promise.reject(0)))
-      .then((rels) => {
-        const seen = new Set();
-        let sum = 0;
-        for (const rel of rels) {
-          for (const a of rel.assets || []) {
-            if (seen.has(a.name)) continue;      // 两个 release 都挂了 v2.8.5，只算一次
-            seen.add(a.name);
-            sum += a.download_count || 0;
-          }
-        }
-        if (!sum) return;
-        const est = Math.round(sum / COVERAGE);
-        el.textContent = TF('累计下载约 %s 次', est.toLocaleString());
-        el.hidden = false;
-      })
-      .catch(() => { /* 网络/限流：静默隐藏 */ });
-  })(); };
-  // 注意：观察的必须是"可见的容器"。#footerDl 自己带 hidden（display:none），
-  // 对 display:none 的元素 IntersectionObserver 永远不会回调，之前就是这样一直不显示。
-  const watch = el.closest('.footer__bottom') || el.parentElement || el;
-  if ('IntersectionObserver' in window) {
-    const io = new IntersectionObserver((es) => {
-      if (es.some((e) => e.isIntersecting)) { io.disconnect(); run(); }
-    }, { rootMargin: '600px' });
-    io.observe(watch);
-  } else { run(); }
-})();
 
 /* 导航锚点：照旧滚动，但不把 #xxx 写进地址栏（用户嫌地址里的 # 碍眼） */
 (function plainAnchors() {

@@ -1049,11 +1049,6 @@ html.is-mobile .hero__visual .phone { transform: perspective(1200px) rotateY(-4d
 html[data-theme="light"] html[data-theme="light"] @media (max-width: 720px) {
   }
 
-/* 页脚累计下载（约数，实时从 GitHub 拉） */
-.footer__stat {
-  font-family: var(--font-mono); font-size: 12px; letter-spacing: .03em;
-  color: var(--fg2);
-}
 
 /* hero 改单栏居中（2026-10-24 用户要求：右侧手机演示去掉，左侧居中） */
 .hero__grid {
