@@ -495,11 +495,14 @@ if (ntcCopyBtn) ntcCopyBtn.addEventListener('click', async () => {
       })
       .catch(() => { /* 网络/限流：静默隐藏 */ });
   })(); };
+  // 注意：观察的必须是"可见的容器"。#footerDl 自己带 hidden（display:none），
+  // 对 display:none 的元素 IntersectionObserver 永远不会回调，之前就是这样一直不显示。
+  const watch = el.closest('.footer__bottom') || el.parentElement || el;
   if ('IntersectionObserver' in window) {
     const io = new IntersectionObserver((es) => {
       if (es.some((e) => e.isIntersecting)) { io.disconnect(); run(); }
-    }, { rootMargin: '400px' });
-    io.observe(el);
+    }, { rootMargin: '600px' });
+    io.observe(watch);
   } else { run(); }
 })();
 
