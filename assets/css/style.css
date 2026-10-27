@@ -1084,12 +1084,14 @@ html[data-theme="light"] html[data-theme="light"] @media (max-width: 720px) {
 .hero__kicker {
   margin: 8px auto 16px;
   font-family: var(--font-disp);
-  font-size: clamp(30px, 3.5vw, 50px);
-  line-height: 1.06;
+  font-size: clamp(20px, 5.4vw, 50px);
+  line-height: 1.16;
   font-weight: 800;
-  letter-spacing: -.03em;
+  letter-spacing: -.02em;
   color: #FFFFFF;
   text-align: center;
+  /* 手机端不让它断行：断成「文本改 / 写器」时视觉重心会歪，看着像偏左 */
+  white-space: nowrap;
 }
 /* 兜底：hero 文字层整体居中，防旧样式/旧缓存下回退成左对齐 */
 .hero__copy { text-align: center; }
