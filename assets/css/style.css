@@ -1159,3 +1159,78 @@ html[data-theme="light"] {
 
 /* 导航：14px / 500 / 灰 → 白 */
 .nav__links a { font-size: 14px; font-weight: 500; letter-spacing: 0; }
+
+/* ============================================================
+   laby 首屏按钮（照它截图里的实际形态）
+   主按钮：白底 + 深色字 + 图标，接近纯白 #fff
+   次按钮：深灰底 + 白字（不是透明描边）
+   两者同高同宽、8px 圆角、hover 只变底色。
+   ============================================================ */
+:root {
+  --btn-r: 8px;
+  --btn-bg-primary: #FFFFFF;
+  --btn-fg-primary: #14161F;
+  --btn-bg-primary-hover: #E9E9EF;
+  --btn-bg-secondary: #26262C;
+  --btn-fg-secondary: #EDEDF2;
+  --btn-bg-secondary-hover: #32323A;
+}
+html[data-theme="light"] {
+  --btn-bg-primary: #14161F;
+  --btn-fg-primary: #FFFFFF;
+  --btn-bg-primary-hover: #26293A;
+  --btn-bg-secondary: #F1F1F4;
+  --btn-fg-secondary: #1A1A1A;
+  --btn-bg-secondary-hover: #E5E5EA;
+}
+
+.btn {
+  border-radius: var(--btn-r);
+  border: 1px solid rgba(255, 255, 255, .08);
+  font-weight: 600;
+  letter-spacing: 0;
+  transition: background-color .16s ease, color .16s ease, border-color .16s ease;
+}
+.btn:hover, .btn:active { transform: none; }
+
+.btn--primary,
+.btn--primary:hover { box-shadow: none; filter: none; animation: none; }
+.btn--primary::before { display: none; }
+.btn--primary {
+  background: var(--btn-bg-primary);
+  color: var(--btn-fg-primary);
+  border-color: transparent;
+}
+.btn--primary:hover { background: var(--btn-bg-primary-hover); }
+/* .btn--lg.btn--primary 的脉冲动画选择器更具体，必须同权重压掉，否则白按钮底下还有一圈紫光 */
+.btn--lg.btn--primary, .btn--lg.btn--primary:hover { animation: none; box-shadow: none; }
+
+.btn--ghost {
+  background: var(--btn-bg-secondary);
+  color: var(--btn-fg-secondary);
+  border-color: rgba(255, 255, 255, .08);
+  backdrop-filter: none;
+}
+.btn--ghost:hover {
+  background: var(--btn-bg-secondary-hover);
+  color: var(--btn-fg-secondary);
+  border-color: rgba(255, 255, 255, .14);
+}
+
+/* 尺寸：laby 那对按钮又高又宽 */
+.btn--lg { padding: 17px 28px; font-size: 17px; border-radius: var(--btn-r); gap: 10px; }
+.btn--sm { padding: 9px 16px; font-size: 14px; border-radius: 6px; }
+
+/* 主按钮里的体积小标签：白底上不能用原来的灰 */
+.btn--primary .btn__meta {
+  background: rgba(20, 22, 31, .08);
+  color: rgba(20, 22, 31, .62);
+}
+html[data-theme="light"] .btn--primary .btn__meta {
+  background: rgba(255, 255, 255, .14);
+  color: rgba(255, 255, 255, .74);
+}
+
+@media (max-width: 720px) {
+  .btn--lg { padding: 15px 20px; font-size: 15.5px; }
+}
