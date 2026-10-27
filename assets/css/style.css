@@ -1168,17 +1168,17 @@ html[data-theme="light"] {
    ============================================================ */
 :root {
   --btn-r: 8px;
-  --btn-bg-primary: #FFFFFF;
-  --btn-fg-primary: #14161F;
-  --btn-bg-primary-hover: #E9E9EF;
+  --btn-bg-primary: #4A7DFF;
+  --btn-fg-primary: #FFFFFF;
+  --btn-bg-primary-hover: #3A6BEE;
   --btn-bg-secondary: #26262C;
   --btn-fg-secondary: #EDEDF2;
   --btn-bg-secondary-hover: #32323A;
 }
 html[data-theme="light"] {
-  --btn-bg-primary: #14161F;
+  --btn-bg-primary: #4A7DFF;
   --btn-fg-primary: #FFFFFF;
-  --btn-bg-primary-hover: #26293A;
+  --btn-bg-primary-hover: #3A6BEE;
   --btn-bg-secondary: #F1F1F4;
   --btn-fg-secondary: #1A1A1A;
   --btn-bg-secondary-hover: #E5E5EA;
@@ -1223,8 +1223,8 @@ html[data-theme="light"] {
 
 /* 主按钮里的体积小标签：白底上不能用原来的灰 */
 .btn--primary .btn__meta {
-  background: rgba(20, 22, 31, .08);
-  color: rgba(20, 22, 31, .62);
+  background: rgba(255, 255, 255, .18);
+  color: rgba(255, 255, 255, .92);
 }
 html[data-theme="light"] .btn--primary .btn__meta {
   background: rgba(255, 255, 255, .14);
