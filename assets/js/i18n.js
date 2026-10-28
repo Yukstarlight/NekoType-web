@@ -12,7 +12,7 @@
   const S2T = {
     规:'規',统:'統',级:'級',处:'處',线:'線',运:'運',悬:'懸',驻:'駐',键:'鍵',缀:'綴',随:'隨',机:'機',后:'後',
     换:'換',并:'並',发:'發',则:'則',组:'組',优:'優',数:'數',认:'認',顺:'順',严:'嚴',从:'從',条:'條',让:'讓',
-    点:'點',写:'寫',无:'無',断:'斷',标:'標',结:'結',输:'輸',静:'靜',强:'強',绝:'絕',碍:'礙',触:'觸',补:'補',转:'轉',
+    点:'點',写:'寫',无:'無',断:'斷',标:'標',结:'結',输:'輸',静:'靜',强:'強',绝:'絕',碍:'礙',触:'觸',补:'補',逻:'邏',转:'轉',
     弹:'彈',贴:'貼',构:'構',设:'設',气:'氣',创:'創',页:'頁',辑:'輯',题:'題',绪:'緒',启:'啟',图:'圖',圆:'圓',
     进:'進',号:'號',个:'個',给:'給',关:'關',观:'觀',广:'廣',过:'過',还:'還',汉:'漢',横:'橫',护:'護',画:'畫',
     话:'話',环:'環',唤:'喚',会:'會',绘:'繪',击:'擊',计:'計',记:'記',迹:'跡',际:'際',间:'間',监:'監',检:'檢',减:'減',
@@ -285,7 +285,7 @@
     '无网络权限 · 无服务器': 'No network permission · No server',
     '您的终极': 'Your ultimate',
     '文本改写器': 'text rewriter',
-    '微信适配做成全局默认：无障碍服务伪装为 Google 随选朗读（应用全局生效），微信实验性适配整段删除、改为完整适配；修复剪贴板漏洞；新增功能体检（通知权限 / 电池优化 / 改写服务自检，给出「N/M 项正常」）。': 'WeChat support is now global and default: the accessibility service masquerades as Google Select-to-Speak across all apps, the old experimental WeChat path is gone, and WeChat is fully supported. Also: a clipboard vulnerability fix, plus a new health check (notification access / battery optimisation / rewrite service, reporting N/M passing).',
+    '微信适配做成全局默认：无障碍服务伪装为 Google 随选朗读（应用全局生效），微信实验性适配整段删除、改为完整适配；新增功能体检（通知权限 / 电池优化 / 改写服务自检，给出「N/M 项正常」）；修复剪贴板漏洞与一键授权的逻辑漏洞；改写引擎更强。': 'WeChat support is now global and default: the accessibility service masquerades as Google Select-to-Speak across all apps, the old experimental WeChat path is gone, and WeChat is fully supported. Also: a new health check (notification access / battery optimisation / rewrite service, reporting N/M passing), fixes for a clipboard vulnerability and a logic flaw in the one-tap authorisation, and a more capable rewrite engine.',
     '© 2026 NekoType': '© 2026 NekoType',
     '语言': 'Language',
     '跟随系统': 'Follow system',
