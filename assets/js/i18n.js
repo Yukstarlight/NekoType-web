@@ -285,7 +285,7 @@
     '无网络权限 · 无服务器': 'No network permission · No server',
     '您的终极': 'Your ultimate',
     '文本改写器': 'text rewriter',
-    '功能体检：一键自检通知权限 / 电池优化 / 改写服务等是否正常，直接给出「N/M 项正常」并可重新检测；写回链路补了 Shizuku 注入重试。': 'A built-in health check: one tap verifies notification access, battery optimisation and the rewrite service, reports N/M passing, and can re-run on demand. The write-back path now also retries through Shizuku.',
+    '微信适配做成全局默认：无障碍服务伪装为 Google 随选朗读（应用全局生效），微信实验性适配整段删除、改为完整适配；修复剪贴板漏洞；新增功能体检（通知权限 / 电池优化 / 改写服务自检，给出「N/M 项正常」）。': 'WeChat support is now global and default: the accessibility service masquerades as Google Select-to-Speak across all apps, the old experimental WeChat path is gone, and WeChat is fully supported. Also: a clipboard vulnerability fix, plus a new health check (notification access / battery optimisation / rewrite service, reporting N/M passing).',
     '© 2026 NekoType': '© 2026 NekoType',
     '语言': 'Language',
     '跟随系统': 'Follow system',

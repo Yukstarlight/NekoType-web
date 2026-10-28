@@ -16,14 +16,14 @@
   <meta property="og:type" content="website" />
 
   <!-- 标签页图标 = NekoType 自己的图标（assets/index.jpg 缩小版，原图 247KB 不能直接当 favicon） -->
-  <link rel="icon" type="image/png" sizes="32x32" href="assets/icon-32.png?v=2.9.0.1" />
-  <link rel="icon" type="image/png" sizes="48x48" href="assets/icon-48.png?v=2.9.0.1" />
-  <link rel="icon" type="image/png" sizes="192x192" href="assets/icon-192.png?v=2.9.0.1" />
-  <link rel="apple-touch-icon" sizes="180x180" href="assets/icon-180.png?v=2.9.0.1" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/icon-32.png?v=2.9.0.2" />
+  <link rel="icon" type="image/png" sizes="48x48" href="assets/icon-48.png?v=2.9.0.2" />
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/icon-192.png?v=2.9.0.2" />
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/icon-180.png?v=2.9.0.2" />
 
   <!-- 字体全部自托管在 assets/fonts/，不再依赖 fonts.googleapis.com（国内打不开） -->
 
-  <link rel="stylesheet" href="assets/css/style.css?v=2.9.0.1" />
+  <link rel="stylesheet" href="assets/css/style.css?v=2.9.0.2" />
 </head>
 <body>
   <!-- 背景为纯色（纯灰 / 纯白）：不再有星空 canvas、彩色光斑、漂浮颜文字 -->
@@ -485,7 +485,7 @@
         <ol class="chg">
           <li class="chg__item chg__item--now reveal" data-reveal-delay="0">
             <span class="chg__ver">v2.9.0</span>
-            <p class="chg__text">功能体检：一键自检通知权限 / 电池优化 / 改写服务等是否正常，直接给出「N/M 项正常」并可重新检测；写回链路补了 Shizuku 注入重试。</p>
+            <p class="chg__text">微信适配做成全局默认：无障碍服务伪装为 Google 随选朗读（应用全局生效），微信实验性适配整段删除、改为完整适配；修复剪贴板漏洞；新增功能体检（通知权限 / 电池优化 / 改写服务自检，给出「N/M 项正常」）。</p>
           </li>
           <li class="chg__item reveal" data-reveal-delay="60">
             <span class="chg__ver">v2.8.5</span>
@@ -775,7 +775,7 @@ md5sum NekoType-v2.9.0.apk</pre>
   <!-- 资源带 ?v= 版本号：GitHub Pages 给资源发 Cache-Control: max-age=600，
        不带这个参数时浏览器会继续用 10 分钟内的旧文件，改了代码也「没反应」。
        改动 assets 下任何 css/js 后，把这个数字 +1（三处要一起改）。 -->
-  <script src="assets/js/i18n.js?v=2.9.0.1" defer></script>
-  <script src="assets/js/main.js?v=2.9.0.1" defer></script>
+  <script src="assets/js/i18n.js?v=2.9.0.2" defer></script>
+  <script src="assets/js/main.js?v=2.9.0.2" defer></script>
 </body>
 </html>
