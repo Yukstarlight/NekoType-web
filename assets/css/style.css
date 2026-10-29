@@ -306,6 +306,7 @@ html[data-theme="light"] .theme-toggle .ico-moon { display: none; }
 @keyframes spinGlow { to { transform: rotate(360deg); } }
 .phone {
   position: relative; z-index: 1;
+  box-sizing: border-box;
   width: min(318px, 82vw);
   border-radius: 46px; padding: 12px;
   background: linear-gradient(160deg, var(--bg2), var(--bg1));
@@ -965,7 +966,7 @@ html[data-theme="light"] .theme-toggle .ico-moon { display: none; }
 @media (max-width: 520px) {
   .footer__grid { grid-template-columns: 1fr; }
   .hero__title { font-size: 38px; }
-  .phone { width: 88vw; }
+  .phone { width: 100%; max-width: 320px; }   /* 原来 88vw + 左右 padding/border 会超出视口，把整页撑宽 23px → 看着偏左 */
   .chip--1 { left: 4px; top: 12%; } .chip--2 { left: 4px; bottom: 24%; } .chip--3 { right: 4px; top: 38%; }
   .cta__btns { flex-direction: column; align-items: stretch; }
   .cta__btns .btn { justify-content: center; }
@@ -1097,7 +1098,7 @@ html[data-theme="light"] .hero__kicker .kicker-os { color: #D4568C; }
 /* 页面有竖向滚动条时，内容是在「扣掉滚动条」的宽度里居中的，
    屏幕上就会看着整体偏左约半个滚动条宽（7-8px）。
    both-edges 让左右各留一条槽，内容才相对整个窗口真正居中。 */
-html { scrollbar-gutter: stable both-edges; }
+@media (min-width: 1024px) { html { scrollbar-gutter: stable both-edges; } }   /* 只对桌面生效：手机上它会让内容看起来偏左 */
 
 /* ============================================================
    laby 按钮 / 文字规格（照它页面里真实的 Tailwind 类量出来的）
@@ -1228,4 +1229,19 @@ html[data-theme="light"] .btn--primary .btn__meta {
 
 @media (max-width: 720px) {
   .btn--lg { padding: 15px 20px; font-size: 15.5px; }
+}
+
+/* 区块标题旁的补充说明（如「仅记录大更新，小更新不写」） */
+.section__note {
+  display: inline-block;
+  margin-left: 10px;
+  font-size: .42em;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: var(--fg2);
+  vertical-align: middle;
+  white-space: nowrap;
+}
+@media (max-width: 720px) {
+  .section__note { display: block; margin: 8px 0 0; font-size: 13px; white-space: normal; }
 }
