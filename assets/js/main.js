@@ -440,8 +440,12 @@ if (dlmLanzou) dlmLanzou.addEventListener('click', copyDlPwd);
   });
 });
 
-/* ---------------- 官网迁移公告（每次进入都弹，不做「不再提示」） ---------------- */
+/* ---------------- 备用域名公告：只在「当前域名 ≠ 主域名」时弹 ----------------
+   主站 nekotype.top 是主域名，nekotype.bbroot.com 是备用站（同一份代码、另一个 Pages 仓库）。
+   备用站才提示主域名；主站进来什么都不弹。换域名只改下面 PRIMARY_HOST 一行。 */
+const PRIMARY_HOST = 'nekotype.top';
 const ntcModal = $('#ntcModal');
+const ntcSeen = () => { try { return localStorage.getItem('ntcDismissed') === '1'; } catch (e) { return false; } };
 function setNtcModal(open) {
   if (!ntcModal) return;
   ntcModal.classList.toggle('open', open);
@@ -449,18 +453,32 @@ function setNtcModal(open) {
   if (open) { const ok = $('#ntcOk'); ok && ok.focus(); }
 }
 if (ntcModal) {
-  $$('[data-ntc-close]', ntcModal).forEach((el) => el.addEventListener('click', () => setNtcModal(false)));
+  const onBackup = location.hostname !== PRIMARY_HOST && location.hostname !== 'www.' + PRIMARY_HOST;
+  const oldEl = $('#ntcOld');
+  if (oldEl) oldEl.textContent = location.hostname;      // 当前域名自动填，换域名不用改 HTML
+  if (onBackup) {
+    // 备用站与主站内容一致，canonical 指回主站，免得被搜索引擎当成两个站
+    const canon = document.createElement('link');
+    canon.rel = 'canonical';
+    canon.href = 'https://' + PRIMARY_HOST + (location.pathname || '/');
+    document.head.appendChild(canon);
+  }
+  const closeNtc = () => {
+    setNtcModal(false);
+    try { localStorage.setItem('ntcDismissed', '1'); } catch (e) {}
+  };
+  $$('[data-ntc-close]', ntcModal).forEach((el) => el.addEventListener('click', closeNtc));
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && ntcModal.classList.contains('open')) setNtcModal(false);
+    if (e.key === 'Escape' && ntcModal.classList.contains('open')) closeNtc();
   });
-  // 等首屏画完再弹，避免和初始化抢帧
-  setTimeout(() => setNtcModal(true), 400);
+  // 只在备用域名弹，且记过「我知道了」就不再弹；等首屏画完再弹，避免和初始化抢帧
+  if (onBackup && !ntcSeen()) setTimeout(() => setNtcModal(true), 400);
 }
 const ntcCopyBtn = $('#ntcCopy');
 if (ntcCopyBtn) ntcCopyBtn.addEventListener('click', async () => {
   const v = (($('#ntcDomain') || {}).textContent || '').trim();
   if (!v) return;
-  toast((await copyText(v)) ? TF('已复制新域名：%s', v) : TF('新域名：%s', v));
+  toast((await copyText(v)) ? TF('已复制主域名：%s', v) : TF('主域名：%s', v));
 });
 
 
