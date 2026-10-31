@@ -307,17 +307,17 @@
     'SHA-256：%s': 'SHA-256: %s',
     '已复制 MD5：%s': 'MD5 copied: %s',
     'MD5：%s': 'MD5: %s',
-    /* —— 官网迁移公告（每次进入都弹）——
+    /* —— 备用域名公告（仅非主域名访问时弹）——
        域名故意不写进词条：换域名只改 index.html 里那两个 <code>，这里一个字不用动。 */
-    '官网迁移公告': 'Site moving to a new domain',
-    '官网要迁到新域名，旧域名': 'The site is moving to a new domain. The old address',
-    '之后继续保留，两个地址都能打开。':
-      'stays online as well — both addresses work, bookmark whichever you like.',
-    '新域名': 'New domain',
+    '备用域名提示': 'Backup domain',
+    '当前访问的是备用域名': 'You are on the backup domain',
+    '，内容与主站完全一致。建议改用主域名：':
+      ', which mirrors the main site. Prefer the primary domain:',
+    '主域名': 'Primary domain',
     '关闭公告': 'Close announcement',
     '我知道了': 'Got it',
-    '已复制新域名：%s': 'New domain copied: %s',
-    '新域名：%s': 'New domain: %s',
+    '已复制主域名：%s': 'Primary domain copied: %s',
+    '主域名：%s': 'Primary domain: %s',
     '条目来自 24 个官方 APK 的字符串差异：2.6.3 之前文案写死在代码里（读 DEX），之后进了资源表（读 resources）。同版本的 Beta 与正式版内容相同，合并为一条。': 'Entries come from string diffs across the 24 official APK builds: before 2.6.3 the UI text lived in code (read from DEX), after that in resources. Beta and final builds share a versionCode, so they are merged.',
     '首个公开版本（MIT）：悬浮球改写发送、前缀 / 后缀 / 替换规则、规则预设、Shizuku 与 Root 双通道、设备管理员；源码同时公开。': 'First public release, MIT: floating-ball rewriting, prefix / suffix / replace rules, rule presets, Shizuku and Root channels, device admin. Source published at the same time.',
     '强制篡改键盘（首次开启需确认免责声明）、静默修改（Shizuku 直写）。': 'Keyboard-hijack mode, gated by a one-time disclaimer, plus silent editing via Shizuku.',
