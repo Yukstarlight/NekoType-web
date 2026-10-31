@@ -150,15 +150,19 @@
     <p class="hero__slogan">科技不再是高高在上，而是服务于人民</p>
     <p class="hero__slogan2">让科技触手可及，终极 Android 工具箱</p>
 
+    <!-- APK 只托管在 NekoType-web 仓库（镜像仓库推不上 5MB 二进制），所以这里用绝对地址 -->
     <div class="cta">
-      <a class="btn btn--pri" href="GuangLab-1.0.1.apk?v=1.0.1" download>
+      <a class="btn btn--pri" id="dlMain" href="https://nekotype.bbroot.com/starlight/GuangLab-1.0.1.apk?v=1.0.1" download>
         下载 APK<span class="btn__meta">4.89 MB</span>
       </a>
-      <a class="btn btn--ghost" href="#features">看看能干什么</a>
+      <a class="btn btn--ghost" href="https://github.com/Yukstarlight/NekoType-web/releases/download/guanglab-1.0.1/GuangLab-1.0.1.apk" rel="noopener">
+        GitHub 直链
+      </a>
     </div>
     <p class="hero__note">
       不用电脑、不用模拟点击、不弹设置页：三条 shell 通道自动降级，
-      <code>pm</code> / <code>appops</code> / <code>settings</code> 直写，写完回读系统真值。
+      <code>pm</code> / <code>appops</code> / <code>settings</code> 直写，写完回读系统真值。<br />
+      主下载走官网直链（国内较快），GitHub 直链为备用；两个地址是同一个文件，SHA-256 见页底。
     </p>
   </header>
 
