@@ -27,6 +27,8 @@
   }
   * { box-sizing: border-box; }
   html { scrollbar-gutter: stable both-edges; }
+  /* 桌面端与主站一致：整体放大 1.2×（等价 Edge 125% 缩放） */
+  @media (min-width: 1024px) { html { zoom: 1.2; } }
   body {
     margin: 0; background: var(--bg); color: var(--fg);
     font: 16px/1.7 system-ui, -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
