@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>NekoType · Blog</title>
+<meta name="robots" content="noindex, nofollow" />
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/icon-32.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/icon-180.png" />
+<!-- 站内分支：nekotype.top/Blog → 博客站 -->
+<link rel="canonical" href="https://yukastromuit.bbroot.com/" />
+<meta http-equiv="refresh" content="0; url=https://yukastromuit.bbroot.com/" />
+<style>
+  :root { --bg: #171717; --fg: #E8ECFF; --dim: #8C93AB; --pri: #C8A2FF; }
+  html { scrollbar-gutter: stable both-edges; }
+  body {
+    margin: 0; min-height: 100svh; display: grid; place-items: center;
+    background: var(--bg); color: var(--fg); text-align: center; padding: 32px 20px;
+    font: 16px/1.7 system-ui, -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+  }
+  .box { max-width: 460px; }
+  h1 { font-size: 22px; margin: 0 0 6px; letter-spacing: -.01em; }
+  p { color: var(--dim); font-size: 14px; margin: 0 0 20px; }
+  a {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 11px 20px; border-radius: 8px; text-decoration: none;
+    background: #4A7DFF; color: #fff; font-weight: 600; font-size: 15px;
+  }
+  a:hover { background: #3A6BEE; }
+  code { font-family: ui-monospace, Consolas, monospace; font-size: 12.5px; color: var(--pri); }
+</style>
+</head>
+<body>
+  <div class="box">
+    <h1>正在前往 NekoType Blog</h1>
+    <p>如果没有自动跳转，点下面的按钮。<br>目标：<code>yukastromuit.bbroot.com</code></p>
+    <a id="go" href="https://yukastromuit.bbroot.com/">前往 Blog</a>
+    <p style="margin-top:18px"><a href="/" style="background:none;color:var(--pri);padding:0;font-weight:400">← 回官网首页</a></p>
+  </div>
+
+<script>
+  // 把 /Blog 之后的路径、查询串、锚点一并带过去（/Blog/post/x → https://yukastromuit.bbroot.com/post/x）
+  (function () {
+    var TARGET = 'https://yukastromuit.bbroot.com';
+    var rest = location.pathname.replace(/^\/Blog\/?/i, '');
+    var url = TARGET + '/' + rest + location.search + location.hash;
+    document.getElementById('go').href = url;
+    location.replace(url);
+  })();
+</script>
+</body>
+</html>
