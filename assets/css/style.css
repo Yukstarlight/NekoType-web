@@ -1245,3 +1245,35 @@ html[data-theme="light"] .btn--primary .btn__meta {
 @media (max-width: 720px) {
   .section__note { display: block; margin: 8px 0 0; font-size: 13px; white-space: normal; }
 }
+
+/* 首页博客入口：导航里带个小圆点提示「有新东西」，区块里是一条可点的宣传卡 */
+.nav__blog { position: relative; }
+.nav__blog-dot {
+  display: inline-block; width: 5px; height: 5px; margin-left: 5px;
+  border-radius: 50%; background: var(--primary); vertical-align: 2px;
+}
+.section--tight { padding-block: clamp(28px, 5vh, 56px) 0; }
+.blog-promo {
+  display: grid; grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center; gap: 16px;
+  padding: 18px 20px; border-radius: var(--btn-r, 8px);
+  background: var(--surface-2, #232330); color: var(--fg0);
+  text-decoration: none; border: 1px solid transparent;
+  transition: background-color .16s ease, border-color .16s ease;
+}
+.blog-promo:hover { background: var(--surface-3, #2C2C3B); border-color: var(--border); }
+.blog-promo__ico {
+  width: 42px; height: 42px; border-radius: 10px; display: grid; place-items: center;
+  background: rgba(200, 162, 255, .14); color: var(--primary);
+}
+.blog-promo__body { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.blog-promo__body strong { font-size: 16px; font-weight: 600; letter-spacing: 0; }
+.blog-promo__body em { font-style: normal; font-size: 13.5px; color: var(--fg2); }
+.blog-promo__cta { font-family: var(--font-mono); font-size: 13px; color: var(--primary); white-space: nowrap; }
+html[data-theme="light"] .blog-promo { background: #F3F3F6; }
+html[data-theme="light"] .blog-promo:hover { background: #EAEAF0; }
+@media (max-width: 640px) {
+  .blog-promo { grid-template-columns: auto minmax(0, 1fr); gap: 12px; padding: 15px 16px; }
+  .blog-promo__cta { grid-column: 1 / -1; font-size: 12.5px; }
+  .blog-promo__ico { width: 36px; height: 36px; border-radius: 8px; }
+}
