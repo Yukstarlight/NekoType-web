@@ -12,18 +12,18 @@
   <meta property="og:title" content="NekoType · 一键改写，一键发出" />
   <meta property="og:description" content="悬浮球 · 全平台文本处理工具 · 完全离线" />
   <!-- 换域名时改这一行 + 根目录 CNAME 文件，全站仅此两处写死了域名 -->
-  <meta property="og:image" content="https://nekotype.bbroot.com/assets/index.jpg" />
+  <meta property="og:image" content="https://nekotype.top/assets/index.jpg" />
   <meta property="og:type" content="website" />
 
   <!-- 标签页图标 = NekoType 自己的图标（assets/index.jpg 缩小版，原图 247KB 不能直接当 favicon） -->
-  <link rel="icon" type="image/png" sizes="32x32" href="assets/icon-32.png?v=2.9.0.6" />
-  <link rel="icon" type="image/png" sizes="48x48" href="assets/icon-48.png?v=2.9.0.6" />
-  <link rel="icon" type="image/png" sizes="192x192" href="assets/icon-192.png?v=2.9.0.6" />
-  <link rel="apple-touch-icon" sizes="180x180" href="assets/icon-180.png?v=2.9.0.6" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/icon-32.png?v=2.9.0.7" />
+  <link rel="icon" type="image/png" sizes="48x48" href="assets/icon-48.png?v=2.9.0.7" />
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/icon-192.png?v=2.9.0.7" />
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/icon-180.png?v=2.9.0.7" />
 
   <!-- 字体全部自托管在 assets/fonts/，不再依赖 fonts.googleapis.com（国内打不开） -->
 
-  <link rel="stylesheet" href="assets/css/style.css?v=2.9.0.6" />
+  <link rel="stylesheet" href="assets/css/style.css?v=2.9.0.7" />
 </head>
 <body>
   <!-- 背景为纯色（纯灰 / 纯白）：不再有星空 canvas、彩色光斑、漂浮颜文字 -->
@@ -753,18 +753,19 @@ md5sum NekoType-v2.9.0.apk</pre>
     </div>
   </div>
 
-  <!-- 官网迁移公告：每次进入都弹，故意不做「不再提示」——旧域名要停用，用户必须知道。
-       下面两个域名各只出现一次：换域名时改这两行 <code> 即可，i18n 词条里不含域名。 -->
+  <!-- 备用域名公告：只在「当前域名 ≠ 主域名」时弹（见 main.js），主域名访问时完全不出现。
+       主域名全站只写在下面这个 <code id="ntcDomain">；当前域名由 main.js 自动填，
+       所以换域名只需改这一行 + 根目录 CNAME，i18n 词条里也不含域名。 -->
   <div class="dlm ntc" id="ntcModal" role="dialog" aria-modal="true" aria-labelledby="ntcTitle">
     <div class="dlm__backdrop" data-ntc-close></div>
     <div class="dlm__panel" role="document">
       <button class="dlm__close" type="button" data-ntc-close aria-label="关闭公告">
         <svg width="18" height="18"><use href="#i-close"/></svg>
       </button>
-      <h3 class="dlm__title" id="ntcTitle">官网迁移公告</h3>
-      <p class="dlm__lead">官网要迁到新域名，旧域名 <code>nekotype.bbroot.com</code> 之后继续保留，两个地址都能打开。</p>
+      <h3 class="dlm__title" id="ntcTitle">备用域名提示</h3>
+      <p class="dlm__lead">当前访问的是备用域名 <code id="ntcOld">nekotype.bbroot.com</code>，内容与主站完全一致。建议改用主域名：</p>
       <div class="dlm__pwd ntc__domain">
-        <span>新域名</span>
+        <span>主域名</span>
         <code id="ntcDomain">nekotype.top</code>
         <button type="button" class="dlm__copy" id="ntcCopy">复制</button>
       </div>
@@ -775,7 +776,7 @@ md5sum NekoType-v2.9.0.apk</pre>
   <!-- 资源带 ?v= 版本号：GitHub Pages 给资源发 Cache-Control: max-age=600，
        不带这个参数时浏览器会继续用 10 分钟内的旧文件，改了代码也「没反应」。
        改动 assets 下任何 css/js 后，把这个数字 +1（三处要一起改）。 -->
-  <script src="assets/js/i18n.js?v=2.9.0.6" defer></script>
-  <script src="assets/js/main.js?v=2.9.0.6" defer></script>
+  <script src="assets/js/i18n.js?v=2.9.0.7" defer></script>
+  <script src="assets/js/main.js?v=2.9.0.7" defer></script>
 </body>
 </html>
