@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>光 · 实验室 —— 终极 Android 工具箱</title>
+<meta name="description" content="光 · 实验室：Android 系统级权限工具箱。Shizuku / 无线调试 ADB / Root 三通道自动降级，一键授权、冻结卸载、任意 shell。让科技触手可及。" />
+<meta property="og:title" content="光 · 实验室 —— 终极 Android 工具箱" />
+<meta property="og:description" content="科技不再是高高在上，而是服务于人民。三通道 shell 直写，一键授权 / 冻结卸载 / 实验台。" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="/starlight/icon-192.png" />
+<link rel="icon" type="image/png" sizes="32x32" href="icon-96.png" />
+<link rel="apple-touch-icon" href="icon-192.png" />
+<style>
+  @font-face { font-family: 'Sora'; font-style: normal; font-weight: 700; font-display: swap;
+    src: url('../assets/fonts/sora-700.woff2') format('woff2'); unicode-range: U+0000-00FF; }
+  @font-face { font-family: 'JB Mono'; font-style: normal; font-weight: 400; font-display: swap;
+    src: url('../assets/fonts/jbmono-400.woff2') format('woff2'); unicode-range: U+0000-00FF; }
+
+  :root {
+    --bg: #171717; --bg1: #1D1D1D; --bg2: #232330; --bg3: #2C2C3B;
+    --fg: #E8ECFF; --fg1: #B9C0D4; --fg2: #8C93AB;
+    --line: rgba(255,255,255,.10); --line2: rgba(255,255,255,.18);
+    --pri: #C8A2FF; --blue: #4A7DFF; --blue-h: #3A6BEE; --green: #35C97A; --pink: #FF7FBE;
+    --mono: 'JB Mono', ui-monospace, Consolas, monospace;
+    --disp: 'Sora', system-ui, -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { scrollbar-gutter: stable both-edges; }
+  body {
+    margin: 0; background: var(--bg); color: var(--fg);
+    font: 16px/1.7 system-ui, -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--pri); text-decoration: none; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+  /* 顶栏 */
+  .top { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 0; }
+  .top__home { display: inline-flex; align-items: center; gap: 9px; color: var(--fg1); font-size: 14px; }
+  .top__home:hover { color: var(--fg); }
+  .top__badge { font-family: var(--mono); font-size: 12px; color: var(--fg2); }
+
+  /* Hero */
+  .hero { text-align: center; padding: clamp(28px, 6vh, 64px) 0 clamp(36px, 7vh, 72px); }
+  .hero__icon {
+    width: 96px; height: 96px; border-radius: 24px; border: 1px solid var(--line2);
+    box-shadow: 0 18px 40px -18px rgba(0,0,0,.8);
+  }
+  .hero__name {
+    font-family: var(--disp); font-weight: 700; font-size: clamp(30px, 4.6vw, 46px);
+    letter-spacing: -.02em; margin: 20px 0 6px;
+  }
+  .hero__tag { color: var(--fg2); font-size: 14px; font-family: var(--mono); margin: 0 0 26px; }
+  .hero__slogan {
+    font-family: var(--disp); font-weight: 700; letter-spacing: -.01em;
+    font-size: clamp(19px, 2.4vw, 26px); line-height: 1.45; margin: 0 0 12px;
+  }
+  .hero__slogan2 {
+    font-family: var(--disp); font-weight: 700; letter-spacing: -.01em;
+    font-size: clamp(22px, 3.2vw, 34px); line-height: 1.35; margin: 0 0 30px;
+    background: linear-gradient(92deg, var(--pri), var(--pink) 55%, #FFB870);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .cta { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; align-items: center; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px; border-radius: 8px;
+    padding: 15px 26px; font-size: 16.5px; font-weight: 600; border: 1px solid transparent;
+    transition: background-color .16s ease, border-color .16s ease, color .16s ease;
+  }
+  .btn--pri { background: var(--blue); color: #fff; }
+  .btn--pri:hover { background: var(--blue-h); }
+  .btn--ghost { background: var(--bg2); color: var(--fg); border-color: var(--line); }
+  .btn--ghost:hover { background: var(--bg3); border-color: var(--line2); }
+  .btn__meta {
+    font-family: var(--mono); font-size: 12px; padding: 2px 7px; border-radius: 5px;
+    background: rgba(255,255,255,.18);
+  }
+  .hero__note { color: var(--fg2); font-size: 13px; margin: 18px 0 0; }
+  .hero__note code { font-family: var(--mono); color: var(--fg1); }
+
+  /* 通用区块 */
+  .sec { padding: clamp(34px, 6vh, 64px) 0; border-top: 1px solid var(--line); }
+  .sec__kicker { font-family: var(--mono); font-size: 12px; letter-spacing: .12em; color: var(--pri); text-transform: uppercase; }
+  h2 { font-family: var(--disp); font-weight: 700; font-size: clamp(22px, 2.6vw, 30px); letter-spacing: -.02em; margin: 10px 0 8px; }
+  .sec__lead { color: var(--fg2); font-size: 15px; margin: 0 0 26px; max-width: 720px; }
+
+  .grid { display: grid; gap: 14px; }
+  .grid--3 { grid-template-columns: repeat(3, 1fr); }
+  .grid--2 { grid-template-columns: repeat(2, 1fr); }
+  .card {
+    background: var(--bg1); border: 1px solid var(--line); border-radius: 10px; padding: 20px;
+  }
+  .card h3 { font-size: 16.5px; margin: 0 0 8px; font-weight: 600; }
+  .card p { margin: 0; color: var(--fg1); font-size: 14.5px; }
+  .card .mono { font-family: var(--mono); font-size: 12.5px; color: var(--fg2); }
+  .card--hero { background: linear-gradient(180deg, #1B1B24, var(--bg1)); border-color: var(--line2); }
+
+  ul.ticks { list-style: none; margin: 0; padding: 0; }
+  ul.ticks li { position: relative; padding-left: 22px; margin: 9px 0; color: var(--fg1); font-size: 14.5px; }
+  ul.ticks li::before {
+    content: ""; position: absolute; left: 4px; top: .62em; width: 6px; height: 6px;
+    border-radius: 50%; background: var(--green);
+  }
+  ul.ticks li b { color: var(--fg); font-weight: 600; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 14.5px; }
+  th, td { text-align: left; padding: 11px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--fg2); font-weight: 600; font-size: 13px; }
+  td code { font-family: var(--mono); font-size: 12.5px; color: var(--pri); }
+
+  .verify { display: grid; gap: 10px; }
+  .verify__row {
+    display: grid; grid-template-columns: 84px minmax(0, 1fr) auto; gap: 12px; align-items: center;
+    background: var(--bg1); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px;
+  }
+  .verify__row span { color: var(--fg2); font-size: 13px; }
+  .verify__row code { font-family: var(--mono); font-size: 12.5px; color: var(--fg); overflow-wrap: anywhere; }
+  .copy {
+    font-family: inherit; font-size: 12.5px; padding: 5px 11px; border-radius: 6px;
+    background: var(--bg2); color: var(--fg1); border: 1px solid var(--line); cursor: pointer;
+  }
+  .copy:hover { background: var(--bg3); color: var(--fg); }
+
+  .warn { background: rgba(255,127,190,.08); border: 1px solid rgba(255,127,190,.28); border-radius: 10px; padding: 16px 18px; }
+  .warn b { color: var(--pink); }
+
+  footer { border-top: 1px solid var(--line); padding: 26px 0 40px; color: var(--fg2); font-size: 13px; display: flex; justify-content: space-between; gap: 14px; flex-wrap: wrap; }
+
+  @media (max-width: 860px) {
+    .grid--3, .grid--2 { grid-template-columns: 1fr; }
+    .verify__row { grid-template-columns: 70px minmax(0, 1fr); }
+    .verify__row .copy { grid-column: 1 / -1; justify-self: start; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="top">
+    <a class="top__home" href="/">← 回 NekoType 官网</a>
+    <span class="top__badge">v1.0.1 · 4.89 MB · minSdk 26</span>
+  </div>
+
+  <header class="hero">
+    <img class="hero__icon" src="icon-192.png" alt="光 · 实验室 图标" width="96" height="96" />
+    <h1 class="hero__name">光 · 实验室</h1>
+    <p class="hero__tag">com.guang.lab　·　Android 系统级权限工具箱</p>
+
+    <p class="hero__slogan">科技不再是高高在上，而是服务于人民</p>
+    <p class="hero__slogan2">让科技触手可及，终极 Android 工具箱</p>
+
+    <div class="cta">
+      <a class="btn btn--pri" href="GuangLab-1.0.1.apk?v=1.0.1" download>
+        下载 APK<span class="btn__meta">4.89 MB</span>
+      </a>
+      <a class="btn btn--ghost" href="#features">看看能干什么</a>
+    </div>
+    <p class="hero__note">
+      不用电脑、不用模拟点击、不弹设置页：三条 shell 通道自动降级，
+      <code>pm</code> / <code>appops</code> / <code>settings</code> 直写，写完回读系统真值。
+    </p>
+  </header>
+
+  <section class="sec" id="channels">
+    <span class="sec__kicker">三条通道</span>
+    <h2>有哪个用哪个，失败自动降级</h2>
+    <p class="sec__lead">所有操作都是 shell 直写，不做模拟点击、不靠无障碍去点开关。设置页可指定优先级。</p>
+    <div class="grid grid--3">
+      <div class="card card--hero">
+        <h3>Shizuku</h3>
+        <p>装好并启动 Shizuku 并授权本应用，服务端以 shell 身份 fork <code>sh -c</code> 执行脚本。</p>
+      </div>
+      <div class="card card--hero">
+        <h3>无线调试 ADB</h3>
+        <p>Android 11+ 打开「无线调试」，用 6 位配对码与本机 adbd 配对，之后本机直连 shell——<b>不用 root、不用电脑</b>。</p>
+      </div>
+      <div class="card card--hero">
+        <h3>Root</h3>
+        <p>有 <code>su</code> 就直接 <code>su -c</code>。三条通道任一失败，自动试下一条。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="features">
+    <span class="sec__kicker">功能</span>
+    <h2>一键授权、冻结卸载、任意 shell</h2>
+    <p class="sec__lead">每项操作写完都在同一段脚本里回读系统真值（<code>appops get</code> / <code>settings get</code> / <code>dumpsys</code>）再判定成功，不信退出码。</p>
+    <div class="grid grid--2">
+      <div class="card">
+        <h3>一键授权 / 撤销</h3>
+        <ul class="ticks">
+          <li>解除停用 → <b>可授予的权限</b>（<code>pm grant</code>）</li>
+          <li><b>20 项 AppOps</b>（<code>appops set</code>）一次写入</li>
+          <li>无障碍服务、通知使用权、设备管理员、电池白名单</li>
+          <li>反向「撤销」同法，详情页还能逐权限开关</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>应用管理</h3>
+        <ul class="ticks">
+          <li><b>冻结 / 解冻</b>：禁用、挂起（Android 12+，数据保留）、隐藏、强制停止</li>
+          <li><b>卸载 / 恢复</b>：<code>pm uninstall --user 0</code> 与 <code>install-existing</code>，「已卸载」可一键装回</li>
+          <li>强停、清数据、直接启动</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>实验台</h3>
+        <p>走当前通道执行任意 shell，输出原样返回。想验证什么系统行为，不用再连电脑。</p>
+      </div>
+      <div class="card">
+        <h3>系统级 + 屏幕灰度</h3>
+        <p>通道页可用 Root 生成本应用的 Magisk 模块（含 priv-app 白名单），重启后冻结走系统 API、不依赖 shell；
+        屏幕灰度用 <code>daltonizer</code> 单色开关，可逆、不改亮度与分辨率。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="safety">
+    <span class="sec__kicker">安全模型</span>
+    <h2>脚本写死，输入过不了命令</h2>
+    <div class="grid grid--2">
+      <div class="card">
+        <h3>怎么防止注入</h3>
+        <p>脚本正文都在 <code>res/raw/*.sh</code>，Kotlin 侧只做两件事：<b>字符集校验</b>（包名只允许 <code>[A-Za-z0-9._]</code>，组件名额外允许 <code>$</code>）+ <b>占位符替换</b>。用户输入不可能变成任意命令。</p>
+      </div>
+      <div class="card">
+        <h3>唯一的任意命令入口</h3>
+        <p>就是「通道」页的手动命令台——这是显式功能，不是漏洞。你敲什么它跑什么，所以别粘来路不明的脚本。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="limits">
+    <span class="sec__kicker">已知限制</span>
+    <h2>先说清楚做不到的</h2>
+    <div class="grid">
+      <div class="warn">
+        <p style="margin:0 0 8px"><b>签名级 / 系统专属权限</b>：shell 也无权授予，报告里的 ✕ 属正常。</p>
+        <p style="margin:0 0 8px"><b>恢复只对预装应用有效</b>：第三方应用用 <code>--user 0</code> 卸载是<b>真删</b>，恢复不了。</p>
+        <p style="margin:0 0 8px"><b>无线调试通道需要 Android 11+</b>，且要求同一个 Wi-Fi 下能连到本机 adbd。</p>
+        <p style="margin:0"><b>冻结的「隐藏 / 挂起」依 ROM 而异</b>，部分深度定制系统会拦或重启后回滚。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="verify">
+    <span class="sec__kicker">文件校验</span>
+    <h2>下载完对一下指纹</h2>
+    <div class="verify">
+      <div class="verify__row">
+        <span>SHA-256</span>
+        <code id="sha">4955d4438d13f71cbdb734096893479dbdcd4b3fa0a86b76d794ffa70f609fe5</code>
+        <button class="copy" data-copy="sha">复制</button>
+      </div>
+      <div class="verify__row">
+        <span>MD5</span>
+        <code id="md5">63d7973aec027a14d93cfefb7f4ac792</code>
+        <button class="copy" data-copy="md5">复制</button>
+      </div>
+    </div>
+    <table style="margin-top:18px">
+      <tr><th>项目</th><th>值</th></tr>
+      <tr><td>文件名</td><td><code>GuangLab-1.0.1.apk</code></td></tr>
+      <tr><td>大小</td><td>5,129,905 字节（4.89 MB）</td></tr>
+      <tr><td>包名 / 版本</td><td><code>com.guang.lab</code> · 1.0.1（versionCode 2）</td></tr>
+      <tr><td>系统要求</td><td>Android 8.0+（minSdk 26），targetSdk 34</td></tr>
+      <tr><td>申请权限</td><td><code>CHANGE_COMPONENT_ENABLED_STATE</code>、<code>QUERY_ALL_PACKAGES</code>、<code>moe.shizuku.manager.permission.API_V23</code>、<code>INTERNET</code></td></tr>
+    </table>
+    <p class="hero__note" style="margin-top:16px">
+      Windows：<code>certutil -hashfile GuangLab-1.0.1.apk SHA256</code>　·　macOS / Linux：<code>shasum -a 256 GuangLab-1.0.1.apk</code>
+    </p>
+  </section>
+
+  <footer>
+    <span>© 2026 光 · 实验室　·　由 Yukstarlight 制作</span>
+    <span><a href="/">NekoType 官网</a>　·　<a href="/Blog/">博客</a></span>
+  </footer>
+</div>
+
+<script>
+  document.querySelectorAll('.copy').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var el = document.getElementById(btn.dataset.copy);
+      var text = el ? el.textContent.trim() : '';
+      var done = function () { var t = btn.textContent; btn.textContent = '已复制'; setTimeout(function () { btn.textContent = t; }, 1400); };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done, function () {});
+      } else {
+        var ta = document.createElement('textarea');
+        ta.value = text; document.body.appendChild(ta); ta.select();
+        try { document.execCommand('copy'); done(); } catch (e) {}
+        ta.remove();
+      }
+    });
+  });
+</script>
+</body>
+</html>

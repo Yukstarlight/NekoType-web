@@ -1277,3 +1277,8 @@ html[data-theme="light"] .blog-promo:hover { background: #EAEAF0; }
   .blog-promo__cta { grid-column: 1 / -1; font-size: 12.5px; }
   .blog-promo__ico { width: 36px; height: 36px; border-radius: 8px; }
 }
+
+/* 「光 · 实验室」那条：蓝色主色 + 与博客条之间留一点缝 */
+.blog-promo--lab { margin-bottom: 10px; }
+.blog-promo--lab .blog-promo__ico { background: rgba(74, 125, 255, .16); color: var(--blue); }
+.blog-promo--lab .blog-promo__cta { color: var(--blue); }
