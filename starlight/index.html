@@ -195,30 +195,12 @@
     </p>
   </header>
 
-  <section class="sec" id="security-update">
-    <span class="sec__kicker">安全更新</span>
-    <h2>1.0.3 已修复两个高危问题（1.0.7 已包含）</h2>
-    <div class="grid grid--2" style="margin-top:22px">
-      <div class="card">
-        <h3>① 脚本执行路径越界（高危）</h3>
-        <p>旧版 <code>run_script</code> 只要求脚本路径在 <code>/sdcard/</code> 或 <code>/storage/emulated/0/</code> 下——任何能写共享存储的应用都能放一个 <code>.sh</code>，让本应用以 <b>shell 身份</b>执行它。<br />
-        1.0.3 起路径必须落在<b>目标包自己的</b> <code>Android/data/&lt;pkg&gt;/</code> 内，其它路径一律拒绝。</p>
-      </div>
-      <div class="card">
-        <h3>② 重装后 Shizuku 授权失效（高危）</h3>
-        <p>重装或换签名后，binder 层不再承认旧授权记录（系统里看着还是「已授予」），通道会<b>静默失效</b>、操作显得成功其实没生效。<br />
-        1.0.3 起启动时检测并主动重新请求授权，点一次「允许」即可恢复。</p>
-      </div>
-    </div>
-    <p class="hero__note" style="margin-top:16px">使用过旧版本的用户请直接覆盖安装 <b>1.0.7</b>：<code>versionCode 8</code>，数据不丢。</p>
-  </section>
 
   <section class="sec" id="whats-new">
     <span class="sec__kicker">1.0.7 更新</span>
-    <h2>AppOps 兼容与黑阈支持</h2>
+    <h2>AppOps 兼容性改进</h2>
     <ul class="ticks" style="margin-top:22px">
       <li><b>AppOps 写入兼容</b>：同时执行 <code>appops set</code> 与 <code>cmd appops set</code>（部分 ROM 只有其中一条生效），回读改成<b>最多 6 次、间隔 0.5 秒轮询</b>——EMUI 一类系统的 AppOp 写入是异步的，一次读不到就报 <code>skip</code> 属于误判。</li>
-      <li><b>黑阈（Brevent）支持</b>：新增 <code>brevent_up</code>，以 shell 身份拉起 <code>/data/local/tmp/brevent.sh</code> 并检测 <code>brevent_server</code> 是否在跑；同时修掉「黑阈被误判成没有可用授权方式」。</li>
       <li><b>报告项数固定</b>：已授权的项也会记一行 <code>R|perm|…|ok|已有</code>，每次体检报告不再忽多忽少。</li>
     </ul>
   </section>
