@@ -32,9 +32,16 @@ applyTheme((() => {
   try { return localStorage.getItem(THEME_KEY) || 'dark'; } catch (e) { return 'dark'; }
 })());
 
-themeToggle.addEventListener('click', () =>
-  applyTheme(root.dataset.theme === 'dark' ? 'light' : 'dark')
-);
+function toggleTheme() {
+  const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+  // 支持 View Transitions 的浏览器做一次交叉淡化，否则瞬切
+  if (document.startViewTransition && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.startViewTransition(() => applyTheme(next));
+  } else {
+    applyTheme(next);
+  }
+}
+themeToggle.addEventListener('click', toggleTheme);
 
 /* ---------------- 导航 ---------------- */
 const nav = $('#nav');
@@ -55,6 +62,72 @@ $$('.nav__mobile a, .nav__links a').forEach(a => a.addEventListener('click', () 
   burger.setAttribute('aria-expanded', 'false');
   burger.querySelector('use').setAttribute('href', '#i-menu');
 }));
+
+/* ---------------- 加载条 + 首屏就绪 ---------------- */
+(function pageReady() {
+  const bar = document.getElementById('loadBar');
+  const paint = (p) => { if (bar) bar.style.transform = 'scaleX(' + p + ')'; };
+  paint(0.7);
+  const done = () => {
+    paint(1);
+    document.documentElement.classList.add('is-ready');
+    if (bar) { bar.classList.add('done'); setTimeout(() => bar.remove(), 400); }
+  };
+  if (document.readyState === 'complete') done();
+  else window.addEventListener('load', done, { once: true });
+  // 兜底：3 秒还没 load 也放行，别让首屏一直藏着
+  setTimeout(() => { if (!document.documentElement.classList.contains('is-ready')) done(); }, 3000);
+})();
+
+/* ---------------- 导航下划线 + 滚动高亮 ---------------- */
+(function navMotion() {
+  const linksWrap = document.querySelector('.nav__links');
+  if (!linksWrap) return;
+  const links = [...linksWrap.querySelectorAll('a')];
+  const ink = document.createElement('span');
+  ink.className = 'nav__ink';
+  ink.setAttribute('aria-hidden', 'true');
+  linksWrap.appendChild(ink);
+
+  let current = null;
+  const moveTo = (a) => {
+    if (!a) { ink.classList.remove('on'); current = null; return; }
+    const r = a.getBoundingClientRect();
+    const w = linksWrap.getBoundingClientRect();
+    ink.style.width = r.width + 'px';
+    ink.style.transform = 'translateX(' + (r.left - w.left) + 'px)';
+    ink.classList.add('on');
+    current = a;
+  };
+
+  // 悬停/聚焦时跟着走，离开后回到当前区块对应的链接
+  links.forEach((a) => {
+    a.addEventListener('mouseenter', () => moveTo(a));
+    a.addEventListener('focus', () => moveTo(a));
+  });
+  linksWrap.addEventListener('mouseleave', () => moveTo(activeLink()));
+
+  function activeLink() {
+    const id = document.documentElement.dataset.section || '';
+    return links.find((a) => a.getAttribute('href') === '#' + id) || null;
+  }
+
+  // 滚动高亮：哪个区块占住视口中部就点亮哪个
+  const ids = links.map((a) => (a.getAttribute('href') || '').replace('#', '')).filter((id) => id && document.getElementById(id));
+  if (ids.length && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) {
+        if (!e.isIntersecting) continue;
+        document.documentElement.dataset.section = e.target.id;
+        links.forEach((a) => a.classList.toggle('is-active', a.getAttribute('href') === '#' + e.target.id));
+        if (!linksWrap.matches(':hover')) moveTo(activeLink());
+      }
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    ids.forEach((id) => io.observe(document.getElementById(id)));
+  }
+
+  window.addEventListener('resize', () => moveTo(linksWrap.matches(':hover') ? current : activeLink()), { passive: true });
+})();
 
 /* ---------------- 滚动显现 ---------------- */
 const revealIO = new IntersectionObserver((entries) => {

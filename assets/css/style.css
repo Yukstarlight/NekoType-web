@@ -1288,3 +1288,43 @@ html[data-theme="light"] .blog-promo:hover { background: #EAEAF0; }
   /* 桌面端缩放（用户指定 90%）：小于 1 时首屏本来就装得下，不需要再改 hero 高度 */
   html { zoom: 0.9; }
 }
+
+/* ===== 动效移植（加载 / 导航切换 / 主题过渡），全原生，无第三方库 ===== */
+
+/* ① 顶部加载条：DOMContentLoaded 到 70%，load 后到 100% 并淡出 */
+.loadbar {
+  position: fixed; inset: 0 auto auto 0; z-index: 999;
+  width: 100%; height: 2px;
+  transform: scaleX(0); transform-origin: 0 50%;
+  background: linear-gradient(90deg, var(--primary), var(--pink));
+  transition: transform .35s cubic-bezier(.22,1,.36,1), opacity .3s ease;
+  pointer-events: none;
+}
+.loadbar.done { opacity: 0; }
+
+/* 首屏淡入：JS 打上 is-ready 之后才显示，避免 FOUC 式的生硬跳出 */
+html:not(.is-ready) .hero__copy { opacity: 0; transform: translateY(10px); }
+html.is-ready .hero__copy {
+  opacity: 1; transform: none;
+  transition: opacity .5s ease, transform .55s cubic-bezier(.22,1,.36,1);
+}
+
+/* ② 导航下划线：跟着 hover / 当前区块滑动 */
+.nav__links { position: relative; }
+.nav__ink {
+  position: absolute; bottom: -2px; left: 0; height: 2px; width: 0;
+  border-radius: 2px; background: var(--primary);
+  opacity: 0; pointer-events: none;
+  transition: transform .3s cubic-bezier(.22,1,.36,1), width .3s cubic-bezier(.22,1,.36,1), opacity .2s ease;
+}
+.nav__ink.on { opacity: 1; }
+.nav__links a { transition: color .18s ease; }
+.nav__links a.is-active { color: var(--fg0); }
+
+/* ③ 主题切换：View Transitions 做一次交叉淡化（不支持的浏览器直接瞬切） */
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: .32s; animation-timing-function: ease; }
+
+@media (prefers-reduced-motion: reduce) {
+  .loadbar, .nav__ink, html.is-ready .hero__copy { transition: none !important; }
+  ::view-transition-old(root), ::view-transition-new(root) { animation-duration: .001s; }
+}
