@@ -167,24 +167,24 @@
 
   <div class="top">
     <a class="top__home" href="/">← 回 NekoType 官网</a>
-    <span class="top__badge">v1.0.7 · 4.35 MB · minSdk 26</span>
+    <span class="top__badge">v1.13 · 4.36 MB · minSdk 26</span>
   </div>
 
   <header class="hero">
     <p class="hero__welcome">Welcome to Mist Unveils Infinite Tomorrows !</p>
     <img class="hero__icon" src="icon-192.png" alt="光 · 实验室 图标" width="96" height="96" />
     <h1 class="hero__name">光 · 实验室</h1>
-    <p class="hero__tag">Android 系统级权限工具箱<span class="hero__tag-ver"> · v1.0.7</span></p>
+    <p class="hero__tag">Android 系统级权限工具箱<span class="hero__tag-ver"> · v1.13</span></p>
 
     <p class="hero__slogan">科技不再是高高在上，而是服务于人民</p>
     <p class="hero__slogan2"><span class="nowrap">让科技触手可及，</span><span class="nowrap">终极 Android 工具箱</span></p>
 
     <!-- APK 只托管在 NekoType-web 仓库（镜像仓库推不上 5MB 二进制），所以这里用绝对地址 -->
     <div class="cta">
-      <a class="btn btn--pri" id="dlMain" href="https://nekotype.bbroot.com/starlight/GuangLab-1.0.7.apk?v=1.0.7" download>
-        下载 APK<span class="btn__meta">4.35 MB</span>
+      <a class="btn btn--pri" id="dlMain" href="https://nekotype.bbroot.com/starlight/GuangLab-1.13.apk?v=1.13" download>
+        下载 APK<span class="btn__meta">4.36 MB</span>
       </a>
-      <a class="btn btn--ghost" href="https://github.com/Yukstarlight/guang-lab/releases/download/v1.0.7/GuangLab-1.0.7.apk" rel="noopener">
+      <a class="btn btn--ghost" href="https://github.com/Yukstarlight/guang-lab/releases/download/v1.13/GuangLab-1.13.apk" rel="noopener">
         GitHub 直链
       </a>
     </div>
@@ -197,11 +197,12 @@
 
 
   <section class="sec" id="whats-new">
-    <span class="sec__kicker">1.0.7 更新</span>
-    <h2>AppOps 兼容性改进</h2>
+    <span class="sec__kicker">1.13 更新</span>
+    <h2>应用预设 · 无障碍静默授权</h2>
     <ul class="ticks" style="margin-top:22px">
-      <li><b>AppOps 写入兼容</b>：同时执行 <code>appops set</code> 与 <code>cmd appops set</code>（部分 ROM 只有其中一条生效），回读改成<b>最多 6 次、间隔 0.5 秒轮询</b>——EMUI 一类系统的 AppOp 写入是异步的，一次读不到就报 <code>skip</code> 属于误判。</li>
-      <li><b>报告项数固定</b>：已授权的项也会记一行 <code>R|perm|…|ok|已有</code>，每次体检报告不再忽多忽少。</li>
+      <li><b>给指定应用绑定它的无障碍服务</b>：那个应用一回到前台，就静默把服务打开——走 Shizuku 直写 <code>secure settings</code>，不弹设置页。</li>
+      <li><b>映射可增可删</b>：添加映射时从已装应用里挑，绑定关系列在「已绑定」里，随时删除。</li>
+      <li><b>本应用自己的监听服务会被自动开启</b>，不需要你再去系统设置里点一次。</li>
     </ul>
   </section>
 
@@ -293,25 +294,25 @@
     <div class="verify">
       <div class="verify__row">
         <span>SHA-256</span>
-        <code id="sha">60d1e7eeb53deff9d1890770d47c7618bb53c6cae719e72f24f0a8b67507514b</code>
+        <code id="sha">926b0be4107fc59eef99270b7fa6c69fd0bcf7a317557d8953811171c33fa294</code>
         <button class="copy" data-copy="sha">复制</button>
       </div>
       <div class="verify__row">
         <span>MD5</span>
-        <code id="md5">6fead4746d7c5cbce959b7604514b24f</code>
+        <code id="md5">449f2155c741cfaecdc436c1c99ad633</code>
         <button class="copy" data-copy="md5">复制</button>
       </div>
     </div>
     <table style="margin-top:18px">
       <tr><th>项目</th><th>值</th></tr>
-      <tr><td>文件名</td><td><code>GuangLab-1.0.7.apk</code></td></tr>
-      <tr><td>大小</td><td>4,559,272 字节（4.35 MB）</td></tr>
-      <tr><td>版本</td><td>1.0.7（versionCode 8）</td></tr>
+      <tr><td>文件名</td><td><code>GuangLab-1.13.apk</code></td></tr>
+      <tr><td>大小</td><td>4,576,596 字节（4.36 MB）</td></tr>
+      <tr><td>版本</td><td>1.13（versionCode 15）</td></tr>
       <tr><td>系统要求</td><td>Android 8.0+（minSdk 26），targetSdk 34</td></tr>
       <tr><td>申请权限</td><td><code>CHANGE_COMPONENT_ENABLED_STATE</code>、<code>QUERY_ALL_PACKAGES</code>、<code>moe.shizuku.manager.permission.API_V23</code>、<code>INTERNET</code></td></tr>
     </table>
     <p class="hero__note" style="margin-top:16px">
-      Windows：<code>certutil -hashfile GuangLab-1.0.7.apk SHA256</code>　·　macOS / Linux：<code>shasum -a 256 GuangLab-1.0.7.apk</code>
+      Windows：<code>certutil -hashfile GuangLab-1.13.apk SHA256</code>　·　macOS / Linux：<code>shasum -a 256 GuangLab-1.13.apk</code>
     </p>
   </section>
 
