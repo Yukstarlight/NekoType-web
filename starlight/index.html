@@ -167,24 +167,24 @@
 
   <div class="top">
     <a class="top__home" href="/">← 回 NekoType 官网</a>
-    <span class="top__badge">v1.0.1 · 4.89 MB · minSdk 26</span>
+    <span class="top__badge">v1.0.3 · 4.35 MB · minSdk 26</span>
   </div>
 
   <header class="hero">
     <p class="hero__welcome">Welcome to Mist Unveils Infinite Tomorrows !</p>
     <img class="hero__icon" src="icon-192.png" alt="光 · 实验室 图标" width="96" height="96" />
     <h1 class="hero__name">光 · 实验室</h1>
-    <p class="hero__tag">Android 系统级权限工具箱<span class="hero__tag-ver"> · v1.0.1</span></p>
+    <p class="hero__tag">Android 系统级权限工具箱<span class="hero__tag-ver"> · v1.0.3</span></p>
 
     <p class="hero__slogan">科技不再是高高在上，而是服务于人民</p>
     <p class="hero__slogan2"><span class="nowrap">让科技触手可及，</span><span class="nowrap">终极 Android 工具箱</span></p>
 
     <!-- APK 只托管在 NekoType-web 仓库（镜像仓库推不上 5MB 二进制），所以这里用绝对地址 -->
     <div class="cta">
-      <a class="btn btn--pri" id="dlMain" href="https://nekotype.bbroot.com/starlight/GuangLab-1.0.1.apk?v=1.0.1" download>
-        下载 APK<span class="btn__meta">4.89 MB</span>
+      <a class="btn btn--pri" id="dlMain" href="https://nekotype.bbroot.com/starlight/GuangLab-1.0.3.apk?v=1.0.3" download>
+        下载 APK<span class="btn__meta">4.35 MB</span>
       </a>
-      <a class="btn btn--ghost" href="https://github.com/Yukstarlight/NekoType-web/releases/download/guanglab-1.0.1/GuangLab-1.0.1.apk" rel="noopener">
+      <a class="btn btn--ghost" href="https://github.com/Yukstarlight/guang-lab/releases/download/v1.0.3/GuangLab-1.0.3.apk" rel="noopener">
         GitHub 直链
       </a>
     </div>
@@ -194,6 +194,24 @@
       主下载走官网直链（国内较快），GitHub 直链为备用；两个地址是同一个文件，SHA-256 见页底。
     </p>
   </header>
+
+  <section class="sec" id="security-update">
+    <span class="sec__kicker">安全更新</span>
+    <h2>1.0.3 修复两个高危问题，建议立即升级</h2>
+    <div class="grid grid--2" style="margin-top:22px">
+      <div class="card">
+        <h3>① 脚本执行路径越界（高危）</h3>
+        <p>旧版 <code>run_script</code> 只要求脚本路径在 <code>/sdcard/</code> 或 <code>/storage/emulated/0/</code> 下——任何能写共享存储的应用都能放一个 <code>.sh</code>，让本应用以 <b>shell 身份</b>执行它。<br />
+        1.0.3 起路径必须落在<b>目标包自己的</b> <code>Android/data/&lt;pkg&gt;/</code> 内，其它路径一律拒绝。</p>
+      </div>
+      <div class="card">
+        <h3>② 重装后 Shizuku 授权失效（高危）</h3>
+        <p>重装或换签名后，binder 层不再承认旧授权记录（系统里看着还是「已授予」），通道会<b>静默失效</b>、操作显得成功其实没生效。<br />
+        1.0.3 起启动时检测并主动重新请求授权，点一次「允许」即可恢复。</p>
+      </div>
+    </div>
+    <p class="hero__note" style="margin-top:16px">使用过 1.0.1 的用户请直接覆盖安装 1.0.3：<code>versionCode 2 → 4</code>，数据不丢。</p>
+  </section>
 
   <section class="sec" id="channels">
     <span class="sec__kicker">三条通道</span>
@@ -283,25 +301,25 @@
     <div class="verify">
       <div class="verify__row">
         <span>SHA-256</span>
-        <code id="sha">4955d4438d13f71cbdb734096893479dbdcd4b3fa0a86b76d794ffa70f609fe5</code>
+        <code id="sha">63e97919ba93bfcc1f0619034428d41def3993e92eeccce4aed200438735ad5f</code>
         <button class="copy" data-copy="sha">复制</button>
       </div>
       <div class="verify__row">
         <span>MD5</span>
-        <code id="md5">63d7973aec027a14d93cfefb7f4ac792</code>
+        <code id="md5">ef1315c09e93a3d843a1bcbd2164d9fa</code>
         <button class="copy" data-copy="md5">复制</button>
       </div>
     </div>
     <table style="margin-top:18px">
       <tr><th>项目</th><th>值</th></tr>
-      <tr><td>文件名</td><td><code>GuangLab-1.0.1.apk</code></td></tr>
-      <tr><td>大小</td><td>5,129,905 字节（4.89 MB）</td></tr>
-      <tr><td>版本</td><td>1.0.1（versionCode 2）</td></tr>
+      <tr><td>文件名</td><td><code>GuangLab-1.0.3.apk</code></td></tr>
+      <tr><td>大小</td><td>4,558,920 字节（4.35 MB）</td></tr>
+      <tr><td>版本</td><td>1.0.3（versionCode 4）</td></tr>
       <tr><td>系统要求</td><td>Android 8.0+（minSdk 26），targetSdk 34</td></tr>
       <tr><td>申请权限</td><td><code>CHANGE_COMPONENT_ENABLED_STATE</code>、<code>QUERY_ALL_PACKAGES</code>、<code>moe.shizuku.manager.permission.API_V23</code>、<code>INTERNET</code></td></tr>
     </table>
     <p class="hero__note" style="margin-top:16px">
-      Windows：<code>certutil -hashfile GuangLab-1.0.1.apk SHA256</code>　·　macOS / Linux：<code>shasum -a 256 GuangLab-1.0.1.apk</code>
+      Windows：<code>certutil -hashfile GuangLab-1.0.3.apk SHA256</code>　·　macOS / Linux：<code>shasum -a 256 GuangLab-1.0.3.apk</code>
     </p>
   </section>
 
