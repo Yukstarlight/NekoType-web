@@ -1285,10 +1285,6 @@ html[data-theme="light"] .blog-promo:hover { background: #EAEAF0; }
 /* 桌面端整体放大（用户实测 Edge 125% 缩放更舒服）：用 zoom 等价模拟浏览器缩放，
    只对 ≥1024px 生效，手机上不动。想撤销就删这一个块。 */
 @media (min-width: 1024px) {
-  html { zoom: 1.2; }
-  /* 放大后 100svh 会把首屏撑得比窗口还高，下载按钮被挤到折线下；改成按内容高度排 */
-  .hero__grid {
-    min-height: auto;
-    padding-block: clamp(18px, 3.2vh, 44px) clamp(26px, 4vh, 56px);
-  }
+  /* 桌面端缩放（用户指定 90%）：小于 1 时首屏本来就装得下，不需要再改 hero 高度 */
+  html { zoom: 0.9; }
 }
