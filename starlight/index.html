@@ -14,14 +14,7 @@
 <style>
   @font-face { font-family: 'Sora'; font-style: normal; font-weight: 700; font-display: swap;
     src: url('../assets/fonts/sora-700.woff2') format('woff2'); unicode-range: U+0000-00FF; }
-  /* 书法字体：只嵌入本页用到的字（子集 152 KB，OFL 可自托管；只作用于 /starlight，主站不加载） */
-  @font-face {
-    font-family: 'Ma Shan Zheng';
-    font-style: normal;
-    font-weight: 400;
-    font-display: swap;
-    src: url('fonts/shanzheng.woff2') format('woff2');
-  }  @font-face { font-family: 'JB Mono'; font-style: normal; font-weight: 400; font-display: swap;
+  @font-face { font-family: 'JB Mono'; font-style: normal; font-weight: 400; font-display: swap;
     src: url('../assets/fonts/jbmono-400.woff2') format('woff2'); unicode-range: U+0000-00FF; }
 
   :root {
@@ -61,18 +54,18 @@
     box-shadow: 0 18px 40px -18px rgba(0,0,0,.8);
   }
   .hero__name {
-    font-family: 'Ma Shan Zheng', var(--disp); font-weight: 700; font-size: clamp(30px, 4.6vw, 46px);
+    font-family: var(--disp); font-weight: 700; font-size: clamp(30px, 4.6vw, 46px);
     letter-spacing: -.02em; margin: 20px 0 6px;
   }
   .hero__tag { color: var(--fg2); font-size: 14px; font-family: var(--mono); margin: 0 0 26px; }
   .hero__tag-ver { color: var(--fg1); }
   .nowrap { white-space: nowrap; }
   .hero__slogan {
-    font-family: 'Ma Shan Zheng', var(--disp); font-weight: 700; letter-spacing: -.01em;
+    font-family: var(--disp); font-weight: 700; letter-spacing: -.01em;
     font-size: clamp(19px, 2.4vw, 26px); line-height: 1.45; margin: 0 0 12px;
   }
   .hero__slogan2 {
-    font-family: 'Ma Shan Zheng', var(--disp); font-weight: 700; letter-spacing: -.01em;
+    font-family: var(--disp); font-weight: 700; letter-spacing: -.01em;
     font-size: clamp(22px, 3.2vw, 34px); line-height: 1.35; margin: 0 0 30px;
     background: linear-gradient(92deg, var(--pri), var(--pink) 55%, #FFB870);
     -webkit-background-clip: text; background-clip: text; color: transparent;
@@ -97,7 +90,7 @@
   /* 通用区块 */
   .sec { padding: clamp(34px, 6vh, 64px) 0; border-top: 1px solid var(--line); }
   .sec__kicker { font-family: var(--mono); font-size: 12px; letter-spacing: .12em; color: var(--pri); text-transform: uppercase; }
-  h2 { font-family: 'Ma Shan Zheng', var(--disp); font-weight: 400; font-size: clamp(24px, 2.9vw, 34px); letter-spacing: .01em; margin: 10px 0 8px; }
+  h2 { font-family: var(--disp); font-weight: 700; font-size: clamp(22px, 2.6vw, 30px); letter-spacing: -.02em; margin: 10px 0 8px; }
   .sec__lead { color: var(--fg2); font-size: 15px; margin: 0 0 26px; max-width: 720px; }
 
   .grid { display: grid; gap: 14px; }
