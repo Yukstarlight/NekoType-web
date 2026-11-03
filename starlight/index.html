@@ -37,6 +37,22 @@
   a { color: var(--pri); text-decoration: none; }
   .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
 
+  /* 更新公告条 */
+  .notice {
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+    margin: 14px 0 0; padding: 10px 14px;
+    border: 1px solid rgba(200, 162, 255, .28); border-radius: 8px;
+    background: rgba(200, 162, 255, .08);
+    font-size: 13.5px; color: var(--fg1);
+  }
+  .notice__tag {
+    font-family: var(--mono); font-size: 12px; padding: 2px 8px; border-radius: 5px;
+    background: rgba(200, 162, 255, .18); color: var(--pri); white-space: nowrap;
+  }
+  .notice__text { flex: 1 1 320px; min-width: 0; }
+  .notice__link { color: var(--pri); white-space: nowrap; }
+  .notice__link:hover { text-decoration: underline; }
+
   /* 顶栏 */
   .top { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 0; }
   .top__home { display: inline-flex; align-items: center; gap: 9px; color: var(--fg1); font-size: 14px; }
@@ -143,6 +159,8 @@
 
   /* 手机：顶栏不挤、slogan 不断成孤字、按钮等宽好点 */
   @media (max-width: 560px) {
+    .notice { font-size: 12.5px; padding: 9px 12px; gap: 8px; }
+    .notice__text { flex-basis: 100%; order: 3; }
     .top { flex-direction: column; align-items: flex-start; gap: 6px; padding: 14px 0 6px; }
     .top__badge { display: none; }
     .hero { padding: 18px 0 30px; }
@@ -164,6 +182,12 @@
 </head>
 <body>
 <div class="wrap">
+
+  <div class="notice" id="notice">
+    <span class="notice__tag">v1.23</span>
+    <span class="notice__text">新版已发布：语言选择器（简体 / 繁體 / 跟随系统）、Stellar 通道、无线调试引导重写，运营商模块下线。</span>
+    <a class="notice__link" href="#whats-new">看更新 →</a>
+  </div>
 
   <div class="top">
     <a class="top__home" href="/">← 回 NekoType 官网</a>
