@@ -167,24 +167,24 @@
 
   <div class="top">
     <a class="top__home" href="/">← 回 NekoType 官网</a>
-    <span class="top__badge">v1.13 · 4.36 MB · minSdk 26</span>
+    <span class="top__badge">v1.23 · 4.36 MB · minSdk 26</span>
   </div>
 
   <header class="hero">
     <p class="hero__welcome">Welcome to Mist Unveils Infinite Tomorrows !</p>
     <img class="hero__icon" src="icon-192.png" alt="光 · 实验室 图标" width="96" height="96" />
     <h1 class="hero__name">光 · 实验室</h1>
-    <p class="hero__tag">Android 系统级权限工具箱<span class="hero__tag-ver"> · v1.13</span></p>
+    <p class="hero__tag">Android 系统级权限工具箱<span class="hero__tag-ver"> · v1.23</span></p>
 
     <p class="hero__slogan">科技不再是高高在上，而是服务于人民</p>
     <p class="hero__slogan2"><span class="nowrap">让科技触手可及，</span><span class="nowrap">终极 Android 工具箱</span></p>
 
     <!-- 主下载 = GitHub Release 直链（官方发布地址）；备用 = 官网直链（国内较快）。两个地址同一个文件 -->
     <div class="cta">
-      <a class="btn btn--pri" id="dlMain" href="https://github.com/Yukstarlight/guang-lab/releases/download/v1.13/GuangLab-1.13.apk" rel="noopener">
+      <a class="btn btn--pri" id="dlMain" href="https://github.com/Yukstarlight/guang-lab/releases/download/v1.23/GuangLab-1.23.apk" rel="noopener">
         下载 APK<span class="btn__meta">4.36 MB</span>
       </a>
-      <a class="btn btn--ghost" href="https://nekotype.bbroot.com/starlight/GuangLab-1.13.apk?v=1.13" download>
+      <a class="btn btn--ghost" href="https://nekotype.bbroot.com/starlight/GuangLab-1.23.apk?v=1.23" download>
         官网直链
       </a>
     </div>
@@ -197,12 +197,13 @@
 
 
   <section class="sec" id="whats-new">
-    <span class="sec__kicker">1.13 更新</span>
-    <h2>应用预设 · 无障碍静默授权</h2>
+    <span class="sec__kicker">1.23 更新</span>
+    <h2>语言选择器、Stellar 通道</h2>
     <ul class="ticks" style="margin-top:22px">
-      <li><b>给指定应用绑定它的无障碍服务</b>：那个应用一回到前台，就静默把服务打开——走 Shizuku 直写 <code>secure settings</code>，不弹设置页。</li>
-      <li><b>映射可增可删</b>：添加映射时从已装应用里挑，绑定关系列在「已绑定」里，随时删除。</li>
-      <li><b>本应用自己的监听服务会被自动开启</b>，不需要你再去系统设置里点一次。</li>
+      <li><b>应用内语言选择器</b>：简体中文 / 繁體中文 / 跟随系统，整套界面补了繁体文案。</li>
+      <li><b>Stellar 支持</b>：进程检测同时识别 Shizuku 与 Stellar，提示改成「没有检测到 Shizuku / Stellar 进程」。</li>
+      <li><b>无线调试引导写清楚了</b>：打开开发者选项 → 无线调试 → 用配对码配对，配对后本机直连 adbd，拿到 <code>shell(2000)</code> 权限——和 Shizuku 同级，不需要 root、不需要电脑。</li>
+      <li><b>运营商相关模块下线</b>：国家/地区那一套配置与「拿不到 carrier_config 服务」的路径整段移除。</li>
     </ul>
   </section>
 
@@ -294,25 +295,25 @@
     <div class="verify">
       <div class="verify__row">
         <span>SHA-256</span>
-        <code id="sha">926b0be4107fc59eef99270b7fa6c69fd0bcf7a317557d8953811171c33fa294</code>
+        <code id="sha">5a68c82c2939fe5a12092023db7c639f96a728a4c1e0627c54256f106fe3fd66</code>
         <button class="copy" data-copy="sha">复制</button>
       </div>
       <div class="verify__row">
         <span>MD5</span>
-        <code id="md5">449f2155c741cfaecdc436c1c99ad633</code>
+        <code id="md5">4e9047883cc2d3b3e7a73b2ed9db0770</code>
         <button class="copy" data-copy="md5">复制</button>
       </div>
     </div>
     <table style="margin-top:18px">
       <tr><th>项目</th><th>值</th></tr>
-      <tr><td>文件名</td><td><code>GuangLab-1.13.apk</code></td></tr>
+      <tr><td>文件名</td><td><code>GuangLab-1.23.apk</code></td></tr>
       <tr><td>大小</td><td>4,576,596 字节（4.36 MB）</td></tr>
-      <tr><td>版本</td><td>1.13（versionCode 15）</td></tr>
+      <tr><td>版本</td><td>1.23（versionCode 25）</td></tr>
       <tr><td>系统要求</td><td>Android 8.0+（minSdk 26），targetSdk 34</td></tr>
       <tr><td>申请权限</td><td><code>CHANGE_COMPONENT_ENABLED_STATE</code>、<code>QUERY_ALL_PACKAGES</code>、<code>moe.shizuku.manager.permission.API_V23</code>、<code>INTERNET</code></td></tr>
     </table>
     <p class="hero__note" style="margin-top:16px">
-      Windows：<code>certutil -hashfile GuangLab-1.13.apk SHA256</code>　·　macOS / Linux：<code>shasum -a 256 GuangLab-1.13.apk</code>
+      Windows：<code>certutil -hashfile GuangLab-1.23.apk SHA256</code>　·　macOS / Linux：<code>shasum -a 256 GuangLab-1.23.apk</code>
     </p>
   </section>
 
