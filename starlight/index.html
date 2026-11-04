@@ -184,69 +184,74 @@
 <div class="wrap">
 
   <div class="notice" id="notice">
-    <span class="notice__tag">v1.23</span>
-    <span class="notice__text">新版已发布：语言选择器（简体中文 / Simplified、繁體中文 / Traditional、English、跟随系统 / Follow system）、Stellar 通道、无线调试引导重写，运营商模块下线。</span>
+    <span class="notice__tag">v1.39</span>
+    <span class="notice__text">新增「电脑 ADB 守护进程」通道（没无线调试、没 root 也能用）；通道探测 15 秒 → 40 毫秒；首页加刷新按钮、应用列表加加载动画。</span>
     <a class="notice__link" href="#whats-new">看更新 →</a>
   </div>
 
   <div class="top">
     <a class="top__home" href="/">← 回 NekoType 官网</a>
-    <span class="top__badge">v1.23 · 4.36 MB · minSdk 26</span>
+    <span class="top__badge">v1.39 · 4.36 MB · minSdk 26</span>
   </div>
 
   <header class="hero">
     <p class="hero__welcome">Welcome to Mist Unveils Infinite Tomorrows !</p>
     <img class="hero__icon" src="icon-192.png" alt="光 · 实验室 图标" width="96" height="96" />
     <h1 class="hero__name">光 · 实验室</h1>
-    <p class="hero__tag">Android 系统级权限工具箱<span class="hero__tag-ver"> · v1.23</span></p>
+    <p class="hero__tag">Android 系统级权限工具箱<span class="hero__tag-ver"> · v1.39</span></p>
 
     <p class="hero__slogan">科技不再是高高在上，而是服务于人民</p>
     <p class="hero__slogan2"><span class="nowrap">让科技触手可及，</span><span class="nowrap">终极 Android 工具箱</span></p>
 
     <!-- 主下载 = GitHub Release 直链（官方发布地址）；备用 = 官网直链（国内较快）。两个地址同一个文件 -->
     <div class="cta">
-      <a class="btn btn--pri" id="dlMain" href="https://github.com/Yukstarlight/guang-lab/releases/download/v1.23/GuangLab-1.23.apk" rel="noopener">
+      <a class="btn btn--pri" id="dlMain" href="https://github.com/Yukstarlight/guang-lab/releases/download/v1.39/GuangLab-1.39.apk" rel="noopener">
         下载 APK<span class="btn__meta">4.36 MB</span>
       </a>
-      <a class="btn btn--ghost" href="https://nekotype.bbroot.com/starlight/GuangLab-1.23.apk?v=1.23" download>
-        官网直链
+      <a class="btn btn--ghost" href="https://github.com/Yukstarlight/NekoType-web/releases/download/guanglab-1.39/GuangLab-1.39.apk" rel="noopener">
+        备用直链
       </a>
     </div>
     <p class="hero__note">
-      不用电脑、不用模拟点击、不弹设置页：三条 shell 通道自动降级，
+      四条 shell 通道自动降级（Shizuku / 无线调试 / 电脑 ADB 守护进程 / Root），不弹设置页、不做模拟点击，
       <code>pm</code> / <code>appops</code> / <code>settings</code> 直写，写完回读系统真值。<br />
-      主下载走 GitHub 直链（官方发布地址）；官网直链为备用，国内访问更快。两个地址是同一个文件，SHA-256 见页底。
+      主下载走 GitHub 直链（官方发布地址）；备用直链放在网站仓库的 release 里，两个地址是同一个文件。SHA-256 见页底。
     </p>
   </header>
 
 
   <section class="sec" id="whats-new">
-    <span class="sec__kicker">1.23 更新</span>
-    <h2>语言选择器、Stellar 通道</h2>
+    <span class="sec__kicker">1.39 更新</span>
+    <h2>多了第三条免 root 通道，探测快了 300 倍</h2>
     <ul class="ticks" style="margin-top:22px">
-      <li><b>应用内语言选择器</b>：简体中文 / Simplified、繁體中文 / Traditional、English、跟随系统 / Follow system 四项——语言名称按当前界面语言双语显示，整套界面补了繁体文案。</li>
-      <li><b>Stellar 支持</b>：进程检测同时识别 Shizuku 与 Stellar，提示改成「没有检测到 Shizuku / Stellar 进程」。</li>
-      <li><b>无线调试引导写清楚了</b>：打开开发者选项 → 无线调试 → 用配对码配对，配对后本机直连 adbd，拿到 <code>shell(2000)</code> 权限——和 Shizuku 同级，不需要 root、不需要电脑。</li>
-      <li><b>运营商相关模块下线</b>：国家/地区那一套配置与「拿不到 carrier_config 服务」的路径整段移除。</li>
+      <li><b>新增「电脑 ADB 守护进程」</b>：电脑跑一行 <code>adb shell sh …/start.sh</code>，手机以 <code>uid=2000(shell)</code> 常驻并监听 <code>127.0.0.1:47901</code>；没无线调试（Android 10 及以下）、没 root 也能用。重启手机后进程消失，再跑一次脚本即可。</li>
+      <li><b>通道探测 15 秒 → 40 毫秒</b>：不再现场做 TLS 握手（只走已连上的守护进程）、线程池 1 → 4、端口探测改成先读缓存、服务端检测用 <code>pidof</code> 代替 <code>ps -A | grep</code>。每次 exec 的日志现在带耗时。</li>
+      <li><b>首页刷新按钮</b>：右上角 <code>⟳</code>，转一圈重探通道 + 重读应用列表，完成后提示「已刷新」。</li>
+      <li><b>应用列表加载动画</b>：未就绪时显示转圈 + 「正在加载应用列表…」+ 7 行骨架流光。</li>
+      <li><b>修复</b>：详情页「组件能力」重复出两张卡；同时申请 Shizuku 与 ADB 级权限时 ADB 那拨被漏补；授权从「每权限一次 shell 调用」改成一次批量补完。</li>
     </ul>
   </section>
 
   <section class="sec" id="channels">
-    <span class="sec__kicker">三条通道</span>
+    <span class="sec__kicker">四条通道</span>
     <h2>有哪个用哪个，失败自动降级</h2>
     <p class="sec__lead">所有操作都是 shell 直写，不做模拟点击、不靠无障碍去点开关。设置页可指定优先级。</p>
-    <div class="grid grid--3">
+    <div class="grid grid--2">
       <div class="card card--hero">
         <h3>Shizuku</h3>
-        <p>装好并启动 Shizuku 并授权本应用，服务端以 shell 身份 fork <code>sh -c</code> 执行脚本。</p>
+        <p>装好并启动 Shizuku（或 Stellar）并授权本应用，服务端以 shell 身份 fork <code>sh -c</code> 执行脚本。</p>
       </div>
       <div class="card card--hero">
         <h3>无线调试 ADB</h3>
         <p>Android 11+ 打开「无线调试」，用 6 位配对码与本机 adbd 配对，之后本机直连 shell——<b>不用 root、不用电脑</b>。</p>
       </div>
       <div class="card card--hero">
+        <h3>电脑 ADB 守护进程 <span style="font-family:var(--mono);font-size:12px;color:var(--pri)">1.39 新增</span></h3>
+        <p>手机 USB 连电脑、开 USB 调试，电脑跑一行 <code>adb shell sh …/files/start.sh</code>，手机就有 <b>uid=2000(shell) 常驻进程</b>在 <code>127.0.0.1:47901</code> 上等命令——<b>没有无线调试（Android 10 及以下）、也没有 root 时用这条</b>。</p>
+      </div>
+      <div class="card card--hero">
         <h3>Root</h3>
-        <p>有 <code>su</code> 就直接 <code>su -c</code>。三条通道任一失败，自动试下一条。</p>
+        <p>有 <code>su</code> 就直接 <code>su -c</code>。四条通道任一失败，自动试下一条。</p>
       </div>
     </div>
   </section>
@@ -307,7 +312,7 @@
       <div class="warn">
         <p style="margin:0 0 8px"><b>签名级 / 系统专属权限</b>：shell 也无权授予，报告里的 ✕ 属正常。</p>
         <p style="margin:0 0 8px"><b>恢复只对预装应用有效</b>：第三方应用用 <code>--user 0</code> 卸载是<b>真删</b>，恢复不了。</p>
-        <p style="margin:0 0 8px"><b>无线调试通道需要 Android 11+</b>，且要求同一个 Wi-Fi 下能连到本机 adbd。</p>
+        <p style="margin:0 0 8px"><b>无线调试通道需要 Android 11+</b>，且要求同一个 Wi-Fi 下能连到本机 adbd；Android 10 及以下请走「电脑 ADB 守护进程」或 Root。</p>
         <p style="margin:0"><b>冻结的「隐藏 / 挂起」依 ROM 而异</b>，部分深度定制系统会拦或重启后回滚。</p>
       </div>
     </div>
@@ -319,25 +324,25 @@
     <div class="verify">
       <div class="verify__row">
         <span>SHA-256</span>
-        <code id="sha">5a68c82c2939fe5a12092023db7c639f96a728a4c1e0627c54256f106fe3fd66</code>
+        <code id="sha">9fc70faca16dc953f4b44e61b1392256d687d9841205c4fccc29b5f79b944169</code>
         <button class="copy" data-copy="sha">复制</button>
       </div>
       <div class="verify__row">
         <span>MD5</span>
-        <code id="md5">4e9047883cc2d3b3e7a73b2ed9db0770</code>
+        <code id="md5">576607d35d9162f2dec72ea15a57419c</code>
         <button class="copy" data-copy="md5">复制</button>
       </div>
     </div>
     <table style="margin-top:18px">
       <tr><th>项目</th><th>值</th></tr>
-      <tr><td>文件名</td><td><code>GuangLab-1.23.apk</code></td></tr>
-      <tr><td>大小</td><td>4,576,596 字节（4.36 MB）</td></tr>
-      <tr><td>版本</td><td>1.23（versionCode 25）</td></tr>
+      <tr><td>文件名</td><td><code>GuangLab-1.39.apk</code></td></tr>
+      <tr><td>大小</td><td>4,576,724 字节（4.36 MB）</td></tr>
+      <tr><td>版本</td><td>1.39（versionCode 40）</td></tr>
       <tr><td>系统要求</td><td>Android 8.0+（minSdk 26），targetSdk 34</td></tr>
       <tr><td>申请权限</td><td><code>CHANGE_COMPONENT_ENABLED_STATE</code>、<code>QUERY_ALL_PACKAGES</code>、<code>moe.shizuku.manager.permission.API_V23</code>、<code>INTERNET</code></td></tr>
     </table>
     <p class="hero__note" style="margin-top:16px">
-      Windows：<code>certutil -hashfile GuangLab-1.23.apk SHA256</code>　·　macOS / Linux：<code>shasum -a 256 GuangLab-1.23.apk</code>
+      Windows：<code>certutil -hashfile GuangLab-1.39.apk SHA256</code>　·　macOS / Linux：<code>shasum -a 256 GuangLab-1.39.apk</code>
     </p>
   </section>
 
