@@ -184,31 +184,31 @@
 <div class="wrap">
 
   <div class="notice" id="notice">
-    <span class="notice__tag">v1.39</span>
-    <span class="notice__text">新增「电脑 ADB 守护进程」通道（没无线调试、没 root 也能用）；通道探测 15 秒 → 40 毫秒；首页加刷新按钮、应用列表加加载动画。</span>
+    <span class="notice__tag">v1.40</span>
+    <span class="notice__text">修复冻结 / 解冻模块：冻结状态现在读系统真值显示（「当前：已停用（冻结中）」/「当前：已启用」），解冻不再误判。</span>
     <a class="notice__link" href="#whats-new">看更新 →</a>
   </div>
 
   <div class="top">
     <a class="top__home" href="/">← 回 NekoType 官网</a>
-    <span class="top__badge">v1.39 · 4.36 MB · minSdk 26</span>
+    <span class="top__badge">v1.40 · 4.38 MB · minSdk 26</span>
   </div>
 
   <header class="hero">
     <p class="hero__welcome">Welcome to Mist Unveils Infinite Tomorrows !</p>
     <img class="hero__icon" src="icon-192.png" alt="光 · 实验室 图标" width="96" height="96" />
     <h1 class="hero__name">光 · 实验室</h1>
-    <p class="hero__tag">Android 系统级权限工具箱<span class="hero__tag-ver"> · v1.39</span></p>
+    <p class="hero__tag">Android 系统级权限工具箱<span class="hero__tag-ver"> · v1.40</span></p>
 
     <p class="hero__slogan">科技不再是高高在上，而是服务于人民</p>
     <p class="hero__slogan2"><span class="nowrap">让科技触手可及，</span><span class="nowrap">终极 Android 工具箱</span></p>
 
     <!-- 主下载 = GitHub Release 直链（官方发布地址）；备用 = 官网直链（国内较快）。两个地址同一个文件 -->
     <div class="cta">
-      <a class="btn btn--pri" id="dlMain" href="https://github.com/Yukstarlight/guang-lab/releases/download/v1.39/GuangLab-1.39.apk" rel="noopener">
-        下载 APK<span class="btn__meta">4.36 MB</span>
+      <a class="btn btn--pri" id="dlMain" href="https://github.com/Yukstarlight/guang-lab/releases/download/v1.40/GuangLab-1.40.apk" rel="noopener">
+        下载 APK<span class="btn__meta">4.38 MB</span>
       </a>
-      <a class="btn btn--ghost" href="https://github.com/Yukstarlight/NekoType-web/releases/download/guanglab-1.39/GuangLab-1.39.apk" rel="noopener">
+      <a class="btn btn--ghost" href="https://github.com/Yukstarlight/NekoType-web/releases/download/guanglab-1.40/GuangLab-1.40.apk" rel="noopener">
         备用直链
       </a>
     </div>
@@ -221,15 +221,14 @@
 
 
   <section class="sec" id="whats-new">
-    <span class="sec__kicker">1.39 更新</span>
-    <h2>多了第三条免 root 通道，探测快了 300 倍</h2>
+    <span class="sec__kicker">1.40 更新</span>
+    <h2>冻结 / 解冻模块修复</h2>
     <ul class="ticks" style="margin-top:22px">
-      <li><b>新增「电脑 ADB 守护进程」</b>：电脑跑一行 <code>adb shell sh …/start.sh</code>，手机以 <code>uid=2000(shell)</code> 常驻并监听 <code>127.0.0.1:47901</code>；没无线调试（Android 10 及以下）、没 root 也能用。重启手机后进程消失，再跑一次脚本即可。</li>
-      <li><b>通道探测 15 秒 → 40 毫秒</b>：不再现场做 TLS 握手（只走已连上的守护进程）、线程池 1 → 4、端口探测改成先读缓存、服务端检测用 <code>pidof</code> 代替 <code>ps -A | grep</code>。每次 exec 的日志现在带耗时。</li>
-      <li><b>首页刷新按钮</b>：右上角 <code>⟳</code>，转一圈重探通道 + 重读应用列表，完成后提示「已刷新」。</li>
-      <li><b>应用列表加载动画</b>：未就绪时显示转圈 + 「正在加载应用列表…」+ 7 行骨架流光。</li>
-      <li><b>修复</b>：详情页「组件能力」重复出两张卡；同时申请 Shizuku 与 ADB 级权限时 ADB 那拨被漏补；授权从「每权限一次 shell 调用」改成一次批量补完。</li>
+      <li><b>冻结状态改读系统真值</b>：详情页现在直接显示「当前：已停用（冻结中）」或「当前：已启用」，不再按本地记录猜。</li>
+      <li><b>解冻不再误判</b>：禁用 / 挂起 / 隐藏三种冻结方式会一起解，任一种残留都会被视为未解冻。</li>
+      <li>冻结仍走 Shizuku / Root / 系统级 priv-app 三条路，工作模式共 13 种。</li>
     </ul>
+    <p class="hero__note" style="margin-top:16px">上一版（1.39）的主要变化：新增「电脑 ADB 守护进程」通道，没无线调试、没 root 也能用；通道探测从 15 秒降到 40 毫秒；首页加了刷新按钮、应用列表加了骨架加载。</p>
   </section>
 
   <section class="sec" id="channels">
@@ -324,25 +323,25 @@
     <div class="verify">
       <div class="verify__row">
         <span>SHA-256</span>
-        <code id="sha">9fc70faca16dc953f4b44e61b1392256d687d9841205c4fccc29b5f79b944169</code>
+        <code id="sha">56add2ab77f098eb95dd20117ef6943cb26fe07415ab94842ffb66602a987809</code>
         <button class="copy" data-copy="sha">复制</button>
       </div>
       <div class="verify__row">
         <span>MD5</span>
-        <code id="md5">576607d35d9162f2dec72ea15a57419c</code>
+        <code id="md5">f695f96f318440db938909b1270f1173</code>
         <button class="copy" data-copy="md5">复制</button>
       </div>
     </div>
     <table style="margin-top:18px">
       <tr><th>项目</th><th>值</th></tr>
-      <tr><td>文件名</td><td><code>GuangLab-1.39.apk</code></td></tr>
-      <tr><td>大小</td><td>4,576,724 字节（4.36 MB）</td></tr>
-      <tr><td>版本</td><td>1.39（versionCode 40）</td></tr>
+      <tr><td>文件名</td><td><code>GuangLab-1.40.apk</code></td></tr>
+      <tr><td>大小</td><td>4,593,108 字节（4.38 MB）</td></tr>
+      <tr><td>版本</td><td>1.40（versionCode 41）</td></tr>
       <tr><td>系统要求</td><td>Android 8.0+（minSdk 26），targetSdk 34</td></tr>
       <tr><td>申请权限</td><td><code>CHANGE_COMPONENT_ENABLED_STATE</code>、<code>QUERY_ALL_PACKAGES</code>、<code>moe.shizuku.manager.permission.API_V23</code>、<code>INTERNET</code></td></tr>
     </table>
     <p class="hero__note" style="margin-top:16px">
-      Windows：<code>certutil -hashfile GuangLab-1.39.apk SHA256</code>　·　macOS / Linux：<code>shasum -a 256 GuangLab-1.39.apk</code>
+      Windows：<code>certutil -hashfile GuangLab-1.40.apk SHA256</code>　·　macOS / Linux：<code>shasum -a 256 GuangLab-1.40.apk</code>
     </p>
   </section>
 
