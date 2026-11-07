@@ -14,10 +14,10 @@
       '.hero__kicker, .hero__badge, .hero__title, .hero__sub, .hero__cta, .hero__trust',
     agents: 6,
     // 速度：再快一档，首屏约 1.6 秒
-    glideMin: 120, glideMax: 300,
-    drawMin: 200, drawMax: 360,
-    revealMin: 180, revealMax: 440,
-    startDelay: 80,
+    glideMin: 90, glideMax: 220,
+    drawMin: 150, drawMax: 280,
+    revealMin: 140, revealMax: 320,
+    startDelay: 0,
     // 二期：滚动到就重建的区块（首页 69 个 .reveal 全在这里）
     // 覆盖范围：既包括原本带 .reveal 的块，也包括没有 reveal 的结构块
     scrollSelectors: [
@@ -28,7 +28,7 @@
       '.privacy__card', '.demo__panel', '.rule-item', '.mode-card', '.preset-chip',
     ].join(','),
     scrollAgents: 12,
-    scrollGlide: 120, scrollDraw: 190, scrollReveal: 220,
+    scrollGlide: 90, scrollDraw: 150, scrollReveal: 170,
     names: ['Ada', 'Linus', 'Grace', 'Alan', 'Margaret', 'Ken',
             'Barbara', 'Dennis', 'Radia', 'Guido', 'Hedy', 'Tim'],
     colors: ['#F24E1E', '#A259FF', '#1ABCFE', '#0ACF83', '#FF7262', '#FFC700',
@@ -334,14 +334,13 @@
     });
   }
 
-  /* 字体就绪后再量尺，否则框和文字会错位 */
-  const ready = document.fonts ? document.fonts.ready : Promise.resolve();
-  const start = () => ready.then(() => run()).catch((e) => {
+  /* 不再等字体：首帧就量，框每帧跟着元素走（字体替换后也不会错位） */
+  const start = () => Promise.resolve().then(() => run()).catch((e) => {
     console.error('[swarm]', e);
     root.classList.remove('swarming');
     if (overlay) overlay.remove();
   });
 
-  if (document.readyState === 'complete') start();
-  else addEventListener('load', start, { once: true });
+  if (document.readyState === 'loading') addEventListener('DOMContentLoaded', start, { once: true });
+  else start();
 })();

@@ -1038,7 +1038,6 @@ html.is-mobile .hero__visual .phone { transform: perspective(1200px) rotateY(-4d
 html[data-theme="light"] html[data-theme="light"] @media (max-width: 720px) {
   }
 
-
 /* hero 改单栏居中（2026-10-24 用户要求：右侧手机演示去掉，左侧居中） */
 .hero__grid {
   grid-template-columns: 1fr;
@@ -1375,11 +1374,3 @@ html.swarm-scroll .swarm-revealed { clip-path: inset(0 0 0 0); transition: clip-
   html.swarm-scroll .reveal.swarm-pending { opacity: 1 !important; transform: none !important; }
 }
 
-/* 滚动重建期间：这些区块原本用 content-visibility:auto 省渲染，但离屏时量不到框 → 临时全开 */
-html.swarm-scroll #how,
-html.swarm-scroll #demo,
-html.swarm-scroll #features,
-html.swarm-scroll #more,
-html.swarm-scroll #changes,
-html.swarm-scroll #faq,
-html.swarm-scroll .footer { content-visibility: visible !important; }

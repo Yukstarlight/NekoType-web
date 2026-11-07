@@ -400,6 +400,19 @@
   }
 
   window.nekoApplyLang = function () {
+    /* 首次加载且目标语言就是简体中文：没有任何待翻译内容，直接跳过整页遍历
+       （页面有几万字符、上百个块，遍历一次要几十毫秒，纯浪费） */
+    const pristineZh = current === 'zh-Hans' && cache.size === 0 && attrCache.size === 0;
+    if (pristineZh) {
+      document.documentElement.setAttribute('lang', 'zh-CN');
+      const code0 = '简';
+      document.querySelectorAll('[data-lang-code]').forEach(function (el) { el.textContent = code0; });
+      document.querySelectorAll('#langMenu [data-lang]').forEach(function (b) {
+        b.classList.toggle('is-active', b.dataset.lang === window.nekoLangMode);
+      });
+      return;
+    }
+
     /* 文本节点 */
     const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
       acceptNode: function (n) {
