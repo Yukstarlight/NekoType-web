@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>光标重建 · NekoType</title>
+<meta name="description" content="一群光标把页面自己画出来——NekoType 官网的自制动效实验。" />
+<meta name="robots" content="noindex" />
+<link rel="icon" type="image/png" sizes="32x32" href="../assets/icon-32.png" />
+<style>
+  @font-face{font-family:'Sora';font-weight:700;font-display:swap;src:url('../assets/fonts/sora-700.woff2') format('woff2');unicode-range:U+0000-00FF}
+  @font-face{font-family:'JB Mono';font-weight:400;font-display:swap;src:url('../assets/fonts/jbmono-400.woff2') format('woff2');unicode-range:U+0000-00FF}
+  :root{
+    --bg:#0A0E1E; --fg:#E8ECFF; --fg1:#B9C0D4; --fg2:#8C93AB;
+    --pri:#C8A2FF; --blue:#4A7DFF; --pink:#FF7FBE;
+    --mono:'JB Mono',ui-monospace,Consolas,monospace;
+    --disp:'Sora',system-ui,-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;background:var(--bg);color:var(--fg);
+    font:16px/1.6 system-ui,-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
+    overflow:hidden;
+  }
+  /* 重建期间禁止滚动，保证坐标和视口一致 */
+  body.playing{overflow:hidden}
+
+  .stage{position:relative;max-width:1080px;margin:0 auto;padding:0 24px;height:100%}
+
+  /* 顶栏 */
+  .top{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 0}
+  .brand{display:flex;align-items:center;gap:10px;font-family:var(--disp);font-weight:700;font-size:19px}
+  .brand img{width:28px;height:28px;border-radius:8px}
+  .nav{display:flex;gap:20px;font-size:14px;color:var(--fg1)}
+  .nav a{color:inherit;text-decoration:none}
+  .nav a:hover{color:var(--fg)}
+
+  /* 主视觉 */
+  .hero{display:flex;flex-direction:column;align-items:center;text-align:center;padding-top:clamp(28px,7vh,76px)}
+  .kicker{
+    font-family:var(--disp);font-weight:700;letter-spacing:-.01em;
+    font-size:clamp(20px,4.4vw,46px);color:#fff;margin:0 0 16px;white-space:nowrap;
+  }
+  .kicker em{font-style:normal;color:var(--pink)}
+  .badge{
+    display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:999px;
+    border:1px solid rgba(200,162,255,.28);background:rgba(200,162,255,.07);
+    font-size:13px;color:var(--fg1);margin:0 0 26px;
+  }
+  .badge i{width:6px;height:6px;border-radius:50%;background:#35C97A;display:block}
+  .title{font-family:var(--disp);font-weight:700;font-size:clamp(34px,6.6vw,72px);line-height:1.04;letter-spacing:-.02em;margin:0 0 20px}
+  .title b{display:block;color:var(--pri)}
+  .sub{max-width:660px;color:var(--fg1);font-size:16.5px;margin:0 0 30px}
+  .sub strong{color:var(--fg)}
+  .cta{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin:0 0 22px}
+  .btn{display:inline-flex;align-items:center;gap:9px;padding:14px 24px;border-radius:8px;font-size:16px;font-weight:600;text-decoration:none;border:1px solid transparent}
+  .btn--pri{background:var(--blue);color:#fff}
+  .btn--ghost{background:#232330;color:var(--fg);border-color:rgba(255,255,255,.10)}
+  .btn__meta{font-family:var(--mono);font-size:12px;padding:2px 7px;border-radius:5px;background:rgba(255,255,255,.18)}
+  .trust{display:flex;align-items:center;gap:8px;color:var(--fg2);font-size:13.5px;margin:0}
+  .trust svg{width:14px;height:14px;opacity:.8}
+
+  /* ---- 重建动效：初始隐藏，JS 逐个放出来 ---- */
+  html.js [data-swarm]{opacity:0}
+  html.js [data-swarm].lit{opacity:1;transition:opacity .3s ease}
+
+  #overlay{position:fixed;inset:0;pointer-events:none;z-index:60}
+
+  .cursor{
+    position:fixed;left:0;top:0;width:22px;height:22px;margin:-2px 0 0 -2px;
+    will-change:transform;transition:opacity .25s ease;
+  }
+  .cursor svg{display:block;width:22px;height:22px;filter:drop-shadow(0 2px 4px rgba(0,0,0,.45))}
+  .cursor .who{
+    position:absolute;left:16px;top:16px;padding:1px 6px;border-radius:4px;
+    font:11px/1.5 var(--mono);color:#0A0E1E;white-space:nowrap;
+  }
+
+  .frame{
+    position:fixed;border:1.5px solid var(--blue);border-radius:2px;
+    box-shadow:0 0 0 1px rgba(74,125,255,.18);
+  }
+  .frame .dim{
+    position:absolute;left:0;bottom:-22px;padding:1px 6px;border-radius:4px;
+    background:var(--blue);color:#fff;font:11px/1.6 var(--mono);white-space:nowrap;
+  }
+
+  /* 工具条 */
+  .bar{
+    position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:70;
+    display:flex;align-items:center;gap:12px;padding:9px 14px;border-radius:999px;
+    background:rgba(20,22,34,.92);border:1px solid rgba(255,255,255,.10);
+    font:12.5px/1 var(--mono);color:var(--fg1);backdrop-filter:blur(8px);
+  }
+  .bar b{color:var(--fg);font-weight:400}
+  .bar .dot{width:5px;height:5px;border-radius:50%;background:var(--pri);display:block}
+  .bar button{
+    font:inherit;color:var(--fg1);background:#26262C;border:1px solid rgba(255,255,255,.10);
+    border-radius:999px;padding:5px 11px;cursor:pointer;
+  }
+  .bar button:hover{color:var(--fg);border-color:rgba(255,255,255,.22)}
+  .bar__progress{width:110px;height:3px;border-radius:2px;background:rgba(255,255,255,.12);overflow:hidden}
+  .bar__progress i{display:block;height:100%;width:0;background:var(--pri);transition:width .2s ease}
+
+  /* 文本「写出来」的效果：裁剪揭示，保留 <em>/<strong> 结构 */
+  html.js [data-swarm].revealing.lit{ clip-path: inset(0 100% 0 0); }
+  html.js [data-swarm].revealing.lit.revealed{
+    clip-path: inset(0 0 0 0);
+    transition: clip-path .9s linear;
+  }
+  .caret{display:inline-block;width:2px;height:1em;background:var(--pri);vertical-align:-2px;margin-left:2px;animation:blink 1s steps(1) infinite}
+  @keyframes blink{50%{opacity:0}}
+
+  @media (prefers-reduced-motion: reduce){
+    html.js [data-swarm]{opacity:1}
+    .cursor,.frame{display:none}
+  }
+</style>
+</head>
+<body>
+<div class="stage">
+  <header class="top">
+    <div class="brand" data-swarm>
+      <img src="../assets/icon-192.png" alt="NekoType" />
+      NekoType
+    </div>
+    <nav class="nav" data-swarm>
+      <a href="/">官网首页</a>
+      <a href="/#features">特性</a>
+      <a href="/#changes">更新</a>
+      <a href="/starlight/">实验室</a>
+    </nav>
+  </header>
+
+  <main class="hero">
+    <p class="kicker" data-swarm data-type>您的终极 <em>Android</em> 文本改写器</p>
+    <p class="badge" data-swarm><i></i>v2.9.9 · 系统级文本处理 · 完全离线</p>
+    <h1 class="title" data-swarm data-type>全平台通用的<b>文本处理工具</b></h1>
+    <p class="sub" data-swarm data-type>NekoType 是一款系统级文本处理工具：一键为输入框内容应用前缀、后缀、随机尾缀、文本替换等规则并自动发送。<strong>完全离线运行，无服务器、无广告、无追踪。</strong></p>
+    <div class="cta" data-swarm>
+      <a class="btn btn--pri" href="/">回到官网<span class="btn__meta">v2.9.9</span></a>
+      <a class="btn btn--ghost" href="https://github.com/Yukstarlight/NekoType">查看源码</a>
+    </div>
+    <p class="trust" data-swarm>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l7 4v5c0 4.4-3 8-7 9-4-1-7-4.6-7-9V7z"/><path d="M9 12l2 2 4-4"/></svg>
+      更强的体验，更多的功能，更大的可能，对所有人免费
+    </p>
+  </main>
+</div>
+
+<div id="overlay" aria-hidden="true"></div>
+<div class="bar" id="bar" hidden>
+  <span class="dot"></span>
+  <span><b id="agentsN">4</b> cursors</span>
+  <span><b id="doneN">0</b>/<b id="allN">0</b> layers</span>
+  <span class="bar__progress"><i id="prog"></i></span>
+  <button id="replay" type="button">Replay</button>
+</div>
+
+<script>
+document.documentElement.classList.add('js');
+
+(() => {
+  'use strict';
+  const overlay = document.getElementById('overlay');
+  const bar = document.getElementById('bar');
+  const agentsN = document.getElementById('agentsN');
+  const doneN = document.getElementById('doneN');
+  const allN = document.getElementById('allN');
+  const prog = document.getElementById('prog');
+
+  const NAMES = ['Ada', 'Linus', 'Grace', 'Alan', 'Ken', 'Barbara'];
+  const COLORS = ['#F24E1E', '#A259FF', '#1ABCFE', '#0ACF83', '#FF7262', '#FFC700'];
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const targets = [...document.querySelectorAll('[data-swarm]')];
+  const total = () => targets.length;
+  let litCount = 0;
+
+  const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+  const easeOut = (t) => 1 - Math.pow(1 - t, 3);
+  const easeInOut = (t) => (t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+
+  /* ---------- 光标 ---------- */
+  function makeCursor(i) {
+    const el = document.createElement('div');
+    el.className = 'cursor';
+    el.style.opacity = '0';
+    el.innerHTML =
+      '<svg viewBox="0 0 24 24"><path d="M4 2l6.5 18 2.6-7.2 7.4-2.6z" fill="' +
+      COLORS[i % COLORS.length] + '" stroke="#fff" stroke-width="1.2" stroke-linejoin="round"/></svg>' +
+      '<span class="who" style="background:' + COLORS[i % COLORS.length] + '">' + NAMES[i % NAMES.length] + '</span>';
+    overlay.appendChild(el);
+    return { el, x: innerWidth / 2, y: innerHeight / 2 };
+  }
+
+  function place(c, x, y) {
+    c.x = x; c.y = y;
+    c.el.style.transform = 'translate(' + x + 'px,' + y + 'px)';
+  }
+
+  /* 从当前位置平滑移到目标点 */
+  function glide(c, toX, toY, ms = 420) {
+    const fromX = c.x, fromY = c.y;
+    const t0 = performance.now();
+    return new Promise((res) => {
+      (function step(now) {
+        const t = Math.min(1, (now - t0) / ms);
+        const k = easeInOut(t);
+        place(c, fromX + (toX - fromX) * k, fromY + (toY - fromY) * k);
+        if (t < 1) requestAnimationFrame(step); else res();
+      })(t0);
+    });
+  }
+
+  /* ---------- 拖框 ---------- */
+  function drawFrame(rect, ms = 460) {
+    const f = document.createElement('div');
+    f.className = 'frame';
+    f.style.left = rect.x + 'px';
+    f.style.top = rect.y + 'px';
+    f.style.width = '0px';
+    f.style.height = '0px';
+    const dim = document.createElement('span');
+    dim.className = 'dim';
+    dim.textContent = '0 × 0';
+    f.appendChild(dim);
+    overlay.appendChild(f);
+    const t0 = performance.now();
+    return new Promise((res) => {
+      (function step(now) {
+        const t = Math.min(1, (now - t0) / ms);
+        const k = easeOut(t);
+        const w = Math.round(rect.w * k), h = Math.round(rect.h * k);
+        f.style.width = w + 'px';
+        f.style.height = h + 'px';
+        dim.textContent = w + ' × ' + h;
+        if (t < 1) requestAnimationFrame(step);
+        else res(f);
+      })(t0);
+    });
+  }
+
+  /* ---------- 文本「写出来」：从左往右裁剪揭示 ---------- */
+  function revealText(el) {
+    const chars = el.textContent.trim().length;
+    const ms = Math.min(1600, 380 + chars * 26);
+    el.classList.add('revealing');
+    return new Promise((res) => {
+      el.classList.add('lit');
+      requestAnimationFrame(() => {
+        el.style.setProperty('--reveal', ms + 'ms');
+        el.classList.add('revealed');
+        setTimeout(res, ms);
+      });
+    });
+  }
+
+  /* ---------- 单个任务：飞过去 → 拖框 → 显现 ---------- */
+  async function build(el, c, index) {
+    const r = el.getBoundingClientRect();
+    const rect = { x: r.left, y: r.top, w: r.width, h: r.height };
+    const goX = rect.x + Math.min(rect.w * .35, 120);
+    const goY = rect.y + rect.h * .5;
+
+    c.el.style.opacity = '1';
+    await glide(c, goX, goY, 680 + Math.min(620, Math.hypot(goX - c.x, goY - c.y) * .70));
+    const frame = await drawFrame(rect, 780 + Math.min(420, rect.w * .35));
+
+    // 文本类：裁剪揭示；标题两行结构与其余元素：淡入
+    if (el.hasAttribute('data-type') && !el.classList.contains('title')) {
+      await revealText(el);
+    } else {
+      el.classList.add('lit');
+    }
+    if (frame) setTimeout(() => frame.remove(), 260);
+
+    litCount++;
+    doneN.textContent = litCount;
+    prog.style.width = Math.round((litCount / total()) * 100) + '%';
+    await wait(180 + index * 12);
+  }
+
+  /* ---------- 调度：4 个光标轮流领任务 ---------- */
+  async function run() {
+    if (reduce) { targets.forEach((t) => t.classList.add('lit')); return; }
+
+    // 首次运行把原始 HTML 存下来，Replay 才能连 <em>/<b> 一起还原
+    targets.forEach((t) => {
+      t.classList.remove('lit', 'revealed', 'revealing');
+      if (!t.dataset.html) t.dataset.html = t.innerHTML;
+    });
+    overlay.innerHTML = '';
+    litCount = 0; doneN.textContent = '0';
+    allN.textContent = total();
+    prog.style.width = '0%';
+    bar.hidden = false;
+    document.body.classList.add('playing');
+
+    const CONCURRENCY = Math.min(3, targets.length);
+    agentsN.textContent = CONCURRENCY;
+    const cursors = Array.from({ length: CONCURRENCY }, (_, i) => makeCursor(i));
+    cursors.forEach((c, i) => place(c, innerWidth * (0.3 + 0.1 * i), innerHeight * 0.62));
+
+    let next = 0;
+    async function worker(c) {
+      while (next < targets.length) {
+        const i = next++;
+        await build(targets[i], c, i);
+      }
+      c.el.style.opacity = '0';
+    }
+    const t0 = performance.now();
+    await Promise.all(cursors.map(worker));
+    window.__swarmTook = Math.round(performance.now() - t0);
+
+    await wait(220);
+    overlay.innerHTML = '';
+    document.body.classList.remove('playing');
+    bar.hidden = true;
+    if (location.hash !== '#again') history.replaceState(null, '', location.pathname);
+  }
+
+  /* Replay 按钮 */
+  document.getElementById('replay').addEventListener('click', () => {
+    targets.forEach((t) => {
+      if (t.dataset.html) t.innerHTML = t.dataset.html;
+      t.classList.remove('revealed');
+    });
+    run();
+  });
+
+  addEventListener('load', () => {
+    // 字体就绪再量坐标，避免框和文字错位；再停半秒让「空白页」先被人看见
+    (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => setTimeout(run, 520));
+  });
+})();
+</script>
+</body>
+</html>
