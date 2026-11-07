@@ -12,18 +12,27 @@
     // 从上到下依次重建的目标（首位先建）
     selectors: (SCRIPT && SCRIPT.dataset.swarmTargets) ||
       '.hero__kicker, .hero__badge, .hero__title, .hero__sub, .hero__cta, .hero__trust',
-    agents: 3,
-    // 速度：整体偏快，整段控制在 2.6 秒左右
-    glideMin: 180, glideMax: 420,
-    drawMin: 300, drawMax: 520,
-    revealMin: 260, revealMax: 620,
-    startDelay: 120,
+    agents: 6,
+    // 速度：再快一档，首屏约 1.6 秒
+    glideMin: 120, glideMax: 300,
+    drawMin: 200, drawMax: 360,
+    revealMin: 180, revealMax: 440,
+    startDelay: 80,
     // 二期：滚动到就重建的区块（首页 69 个 .reveal 全在这里）
-    scrollSelectors: '.reveal',
-    scrollAgents: 2,
-    scrollGlide: 170, scrollDraw: 260, scrollReveal: 300,
-    names: ['Ada', 'Linus', 'Grace'],
-    colors: ['#F24E1E', '#A259FF', '#1ABCFE'],
+    // 覆盖范围：既包括原本带 .reveal 的块，也包括没有 reveal 的结构块
+    scrollSelectors: [
+      '.reveal',
+      '.section__title', '.kicker', '.section__lead',
+      '.step', '.feature', '.card', '.faq__item', '.chg__item',
+      '.stat', '.cap-chip', '.cap-row', '.blog-promo', '.footer__col',
+      '.privacy__card', '.demo__panel', '.rule-item', '.mode-card', '.preset-chip',
+    ].join(','),
+    scrollAgents: 12,
+    scrollGlide: 120, scrollDraw: 190, scrollReveal: 220,
+    names: ['Ada', 'Linus', 'Grace', 'Alan', 'Margaret', 'Ken',
+            'Barbara', 'Dennis', 'Radia', 'Guido', 'Hedy', 'Tim'],
+    colors: ['#F24E1E', '#A259FF', '#1ABCFE', '#0ACF83', '#FF7262', '#FFC700',
+             '#9747FF', '#E8467C', '#14AE5C', '#0D99FF', '#FF8A00', '#00B5CE'],
   };
 
   // CSS zoom 会把 fixed 元素的坐标整体放大/缩小，量尺后要除掉它
@@ -64,16 +73,19 @@
     el.className = 'swarm-cursor';
     el.style.opacity = '0';
     el.innerHTML =
-      '<svg viewBox="0 0 24 24"><path d="M4 2l6.5 18 2.6-7.2 7.4-2.6z" fill="' + OPTS.colors[i % 3] +
+      '<svg viewBox="0 0 24 24"><path d="M4 2l6.5 18 2.6-7.2 7.4-2.6z" fill="' + OPTS.colors[i % OPTS.colors.length] +
       '" stroke="#fff" stroke-width="1.2" stroke-linejoin="round"/></svg>' +
-      '<span class="swarm-cursor__who" style="background:' + OPTS.colors[i % 3] + '">' +
+      '<span class="swarm-cursor__who" style="background:' + OPTS.colors[i % OPTS.colors.length] + '">' +
       OPTS.names[i % OPTS.names.length] + '</span>';
     overlay.appendChild(el);
     const z = zoomOf();
+    // 沿四周散开，避免 12 个光标叠在屏幕中央
+    const ang = (i / Math.max(1, OPTS.scrollAgents)) * Math.PI * 2;
+    const rx = innerWidth * 0.32, ry = innerHeight * 0.30;
     return {
       el,
-      x: (innerWidth * (0.35 + 0.08 * i) - offX) / z,
-      y: (innerHeight * 0.58 - offY) / z,
+      x: (innerWidth / 2 + Math.cos(ang) * rx - offX) / z,
+      y: (innerHeight / 2 + Math.sin(ang) * ry - offY) / z,
     };
   }
 
@@ -225,7 +237,9 @@
 
   /* ---------- 二期：滚动触发，逐块重建 ---------- */
   function startScrollSwarm() {
-    const blocks = [...document.querySelectorAll(OPTS.scrollSelectors)].filter((el) => !targets.includes(el));
+    // 先收集所有候选，再把「包含其它候选」的容器剔掉（只画最内层，避免父子重复）
+    const cand = [...document.querySelectorAll(OPTS.scrollSelectors)].filter((el) => !targets.includes(el) && !el.closest('.hero'));
+    const blocks = cand.filter((el) => !cand.some((other) => other !== el && el.contains(other)));
     if (!blocks.length) return;
 
     const stamp = Date.now();
