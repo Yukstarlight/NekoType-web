@@ -90,12 +90,12 @@
     '更多': 'More',
     '下载': 'Download',
     '菜单': 'Menu',
-    'v2.9.1 · 系统级文本处理 · 完全离线': 'v2.9.1 · System-level text processing · Fully offline',
+    'v2.9.9 · 系统级文本处理 · 完全离线': 'v2.9.9 · System-level text processing · Fully offline',
     '全平台通用的': 'Cross-platform',
     '文本处理工具': 'text processing tool',
     'NekoType 是一款系统级文本处理工具：一键为输入框内容应用前缀、后缀、随机尾缀、文本替换等规则并自动发送。四种运行模式（悬浮球 / 篡改键盘 / 断句追加 / 摇一摇）自由切换，规则自由组合、概率可控、实时预览。': 'NekoType is a system-level text processing tool. It rewrites what you type — prefix, suffix, random tail, text replace — then sends it in one tap. Four run modes (floating ball / keyboard rewrite / punctuation trigger / shake) switch freely, rules combine freely with controllable odds and live preview.',
     '完全离线运行，无服务器、无广告、无追踪。': 'Fully offline: no server, no ads, no tracking.',
-    '下载 v2.9.1': 'Download v2.9.1',
+    '下载 v2.9.9': 'Download v2.9.9',
     '查看源码': 'View source',
     '更强的体验，更多的功能，更大的可能，对所有人免费': 'Better experience, more features, bigger possibilities — free for everyone',
     '前缀': 'Prefix',
@@ -296,6 +296,8 @@
     '终极 Android 工具箱：Shizuku / 无线调试 / Root 三通道 shell 直写，一键授权、冻结卸载、任意命令。': 'The ultimate Android toolbox: direct shell writes through Shizuku, wireless ADB or Root — one-tap grants, freeze/uninstall, arbitrary commands.',
     '密码锁定下进入规则 / 模式 / 设置 / 模块 / 应用名单 / 预设映射前需验证密码（5 分钟会话，退到后台即失效）；安全与保活新增「安全防护」，进系统「无障碍 / 设备管理」页自动拦截并返回；应用内语言选择器重做，跟随系统语义、双语显示；法务入口整合进「关于」；隐藏模式整体移除，桌面图标始终可用；清理剪贴板注入与微信实验性适配残留；若干稳定性修复。':
       'Settings-gated actions now require the password when a lock is set (5-minute session, expires on background); new "Security Guard" in Security & Keep-alive blocks and returns from the system Accessibility / Device Admin pages; in-app language picker rebuilt to follow the system and show bilingual labels; legal pages merged into About; hidden mode removed entirely so the launcher icon is always available; leftover clipboard-injection and experimental WeChat code cleaned up; assorted stability fixes.',
+    '撤销上一轮实验性的多语言改动，语言列表回到 7 种，启动时自动清理失效的语言标记；修复开启「静默修改」后重启进入规则页反复提示「已开启」的问题；模块导入提示改为「重启应用后生效」；「行为与样式」隐藏「删除优化」「语音输入优化」两个入口（删除优化默认改为关闭）；移除误加的电源菜单拦截。':
+      'The experimental multilingual change is rolled back to 7 languages, and stale language flags are cleaned on launch; fixed the repeated "silent editing is on" prompt on the rules page after a restart; module import now says "takes effect after restart"; the "delete optimisation" and "voice input optimisation" entries are hidden in Behaviour & Style (delete optimisation now defaults to off); the ineffective power-menu interception was removed.',
     '© 2026 NekoType': '© 2026 NekoType',
     '语言': 'Language',
     '跟随系统': 'Follow system',
