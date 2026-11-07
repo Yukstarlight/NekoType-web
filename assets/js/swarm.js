@@ -18,6 +18,10 @@
     drawMin: 300, drawMax: 520,
     revealMin: 260, revealMax: 620,
     startDelay: 120,
+    // 二期：滚动到就重建的区块（首页 69 个 .reveal 全在这里）
+    scrollSelectors: '.reveal',
+    scrollAgents: 2,
+    scrollGlide: 170, scrollDraw: 260, scrollReveal: 300,
     names: ['Ada', 'Linus', 'Grace'],
     colors: ['#F24E1E', '#A259FF', '#1ABCFE'],
   };
@@ -188,6 +192,104 @@
     root.style.removeProperty('--swarm-progress');
     targets.forEach((el) => el.classList.remove('swarm-lit'));
     document.dispatchEvent(new CustomEvent('swarm:done'));
+
+    // 二期：整页滚动重建（不锁滚动，滚到哪画到哪）
+    startScrollSwarm();
+  }
+
+  /* ---------- 二期：滚动触发，逐块重建 ---------- */
+  function startScrollSwarm() {
+    const blocks = [...document.querySelectorAll(OPTS.scrollSelectors)].filter((el) => !targets.includes(el));
+    if (!blocks.length) return;
+
+    const stamp = Date.now();
+    blocks.forEach((el) => { el.classList.add('swarm-pending'); el.dataset.swarmPendingAt = String(stamp); });
+    document.documentElement.classList.add('swarm-scroll');
+
+    // 二期用的两个常驻光标
+    if (!overlay || !overlay.isConnected) buildOverlay();
+    const crew = Array.from({ length: OPTS.scrollAgents }, (_, i) => makeCursor(i));
+    crew.forEach((c) => { place(c, c.x, c.y); c.el.style.opacity = '0'; });
+
+    const queue = [];
+    let busy = 0, idleTimer = null;
+
+    const pump = () => {
+      while (busy < crew.length && queue.length) {
+        const { el, resolve } = queue.shift();
+        const c = crew[busy++];
+        buildScroll(el, c).then(() => { busy--; resolve(); pump(); });
+      }
+      if (!busy && !queue.length) {
+        clearTimeout(idleTimer);
+        idleTimer = setTimeout(() => crew.forEach((c) => { c.el.style.opacity = '0'; }), 900);
+      }
+    };
+
+    const enqueue = (el) => new Promise((resolve) => { queue.push({ el, resolve }); pump(); });
+
+    async function buildScroll(el, c) {
+      if (el.dataset.swarmBuilt) return;
+      el.dataset.swarmBuilt = '1';
+      clearTimeout(idleTimer);
+
+      const r = el.getBoundingClientRect();
+      if (r.width < 8 || r.height < 8) { el.classList.remove('swarm-pending'); return; }
+      const z = zoomOf();
+      const rect = { x: (r.left - offX) / z, y: (r.top - offY) / z, w: r.width / z, h: r.height / z };
+
+      c.el.style.opacity = '1';
+      await glide(c, rect.x + Math.min(rect.w * .25, 70), rect.y + rect.h * .5, OPTS.scrollGlide);
+      const frame = await drawFrame(rect, Math.min(360, OPTS.scrollDraw + rect.w * .08), 'reveal');
+
+      // 文本标题走揭示，其余直接淡出待建态
+      const isText = el.matches('.section__title, .kicker, .step__title, h2, h3');
+      if (isText) {
+        el.classList.add('swarm-revealing', 'swarm-lit');
+        el.classList.remove('swarm-pending');
+        await new Promise((res) => requestAnimationFrame(() => {
+          el.classList.add('swarm-revealed');
+          setTimeout(() => { el.classList.remove('swarm-revealing', 'swarm-revealed'); res(); }, OPTS.scrollReveal);
+        }));
+      } else {
+        el.classList.remove('swarm-pending');
+        el.classList.add('swarm-lit');
+        await wait(90);
+      }
+      if (frame) setTimeout(() => frame.remove(), 180);
+    }
+
+    // 兜底：content-visibility / 离屏布局导致框量不到时，别把内容永远藏着
+    const sweep = setInterval(() => {
+      const now = Date.now();
+      for (const el of document.querySelectorAll('.swarm-pending')) {
+        const waited = now - Number(el.dataset.swarmPendingAt || now);
+        const r = el.getBoundingClientRect();
+        const near = r.top < innerHeight * 2 && r.bottom > -innerHeight;
+        if (waited > 1500 && near) {
+          el.classList.remove('swarm-pending');
+          el.classList.add('swarm-lit');
+          el.dataset.swarmBuilt = '1';
+        }
+      }
+      if (!document.querySelector('.swarm-pending')) clearInterval(sweep);
+    }, 500);
+
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) {
+        if (!e.isIntersecting) continue;
+        io.unobserve(e.target);
+        enqueue(e.target);
+      }
+    }, { rootMargin: '0px 0px -12% 0px', threshold: 0.05 });
+
+    blocks.forEach((el) => io.observe(el));
+
+    // 首屏附近还没建的，直接先排队（避免停在屏幕上却不画）
+    blocks.slice(0, 4).forEach((el) => {
+      const r = el.getBoundingClientRect();
+      if (r.top < innerHeight * 1.2) { io.unobserve(el); enqueue(el); }
+    });
   }
 
   /* 字体就绪后再量尺，否则框和文字会错位 */

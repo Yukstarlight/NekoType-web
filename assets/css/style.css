@@ -1365,3 +1365,12 @@ html.swarming .hero__trust.swarm-revealed {
   html.swarming .hero__sub, html.swarming .hero__cta, html.swarming .hero__trust { opacity: 1; }
   .swarm-cursor, .swarm-frame { display: none; }
 }
+
+/* 二期：滚动重建（未建的块先藏着，建完再露） */
+html.swarm-scroll .reveal.swarm-pending { opacity: 0 !important; transform: translateY(10px) !important; }
+html.swarm-scroll .swarm-lit { opacity: 1; transform: none; transition: opacity .3s ease, transform .35s cubic-bezier(.22,1,.36,1); }
+html.swarm-scroll .swarm-revealing { clip-path: inset(0 100% 0 0); opacity: 1 !important; transform: none !important; }
+html.swarm-scroll .swarm-revealed { clip-path: inset(0 0 0 0); transition: clip-path .45s linear; }
+@media (prefers-reduced-motion: reduce) {
+  html.swarm-scroll .reveal.swarm-pending { opacity: 1 !important; transform: none !important; }
+}
