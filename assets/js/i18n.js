@@ -300,8 +300,8 @@
     '夸克网盘': 'Quark Drive',
     '四个渠道的文件完全相同，按你所在地区挑最快的那个即可。': 'All four mirrors serve the same file — pick whichever is fastest for you.',
     '四个渠道是同一个文件，可自行核对 SHA-256 / MD5': 'All four mirrors serve the same file — verify the SHA-256 / MD5 yourself',
-    '主推渠道 · 手机端用夸克 App 打开，先「转存」再下载':
-      'Recommended · opens in the Quark app on mobile — save it to your drive, then download',
+    '国内速度较快 · 手机端用夸克 App 打开':
+      'Faster in mainland China · open with the Quark app on mobile',
     '© 2026 NekoType': '© 2026 NekoType',
     '语言': 'Language',
     '跟随系统': 'Follow system',
