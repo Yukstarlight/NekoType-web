@@ -298,6 +298,7 @@
       'Settings-gated actions now require the password when a lock is set (5-minute session, expires on background); new "Security Guard" in Security & Keep-alive blocks and returns from the system Accessibility / Device Admin pages; in-app language picker rebuilt to follow the system and show bilingual labels; legal pages merged into About; hidden mode removed entirely so the launcher icon is always available; leftover clipboard-injection and experimental WeChat code cleaned up; assorted stability fixes.',
     '撤销上一轮实验性的多语言改动，语言列表回到 7 种，启动时自动清理失效的语言标记；修复开启「静默修改」后重启进入规则页反复提示「已开启」的问题；模块导入提示改为「重启应用后生效」；「行为与样式」隐藏「删除优化」「语音输入优化」两个入口（删除优化默认改为关闭）；移除误加的电源菜单拦截。':
       'The experimental multilingual change is rolled back to 7 languages, and stale language flags are cleaned on launch; fixed the repeated "silent editing is on" prompt on the rules page after a restart; module import now says "takes effect after restart"; the "delete optimisation" and "voice input optimisation" entries are hidden in Behaviour & Style (delete optimisation now defaults to off); the ineffective power-menu interception was removed.',
+    '光标重建': 'Cursor Rebuild',
     '© 2026 NekoType': '© 2026 NekoType',
     '语言': 'Language',
     '跟随系统': 'Follow system',
