@@ -298,9 +298,10 @@
     '撤销上一轮实验性的多语言改动，语言列表回到 7 种，启动时自动清理失效的语言标记；修复开启「静默修改」后重启进入规则页反复提示「已开启」的问题；模块导入提示改为「重启应用后生效」；「行为与样式」隐藏「删除优化」「语音输入优化」两个入口（删除优化默认改为关闭）；移除误加的电源菜单拦截。':
       'The experimental multilingual change is rolled back to 7 languages, and stale language flags are cleaned on launch; fixed the repeated "silent editing is on" prompt on the rules page after a restart; module import now says "takes effect after restart"; the "delete optimisation" and "voice input optimisation" entries are hidden in Behaviour & Style (delete optimisation now defaults to off); the ineffective power-menu interception was removed.',
     '夸克网盘': 'Quark Drive',
-    '国内速度较快 · 手机端用夸克 App 打开': 'Fast in mainland China · open with the Quark app on mobile',
     '四个渠道的文件完全相同，按你所在地区挑最快的那个即可。': 'All four mirrors serve the same file — pick whichever is fastest where you are.',
     '四个渠道是同一个文件，可自行核对 SHA-256 / MD5': 'All four mirrors serve the same file — verify the SHA-256 / MD5 yourself',
+    '主推渠道 · 手机端用夸克 App 打开，先「转存」再下载':
+      'Recommended · open in the Quark app on mobile, save it to your drive first, then download',
     '© 2026 NekoType': '© 2026 NekoType',
     '语言': 'Language',
     '跟随系统': 'Follow system',
