@@ -109,11 +109,18 @@
     };
   }
 
+  let seq = 0;
+  const idOf = (el) => {
+    if (!el.dataset.swarmId) el.dataset.swarmId = 'sw' + (++seq);
+    return el.dataset.swarmId;
+  };
+
   function drawFrame(rect, ms, label, el) {
     const f = document.createElement('div');
     f.className = 'swarm-frame';
     f.style.cssText = 'left:' + rect.x + 'px;top:' + rect.y + 'px;width:0;height:0';
     if (label) f.dataset.swarmFor = label;
+    if (el) f.dataset.swarmEl = idOf(el);
     const dim = document.createElement('span');
     dim.className = 'swarm-frame__dim';
     dim.textContent = '0 × 0';
