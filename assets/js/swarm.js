@@ -94,7 +94,22 @@
     });
   }
 
-  function drawFrame(rect, ms, label) {
+  /** 量元素在 overlay 本地坐标系里的位置（每次现量，滚动中也不会错位） */
+  function localRect(el) {
+    const r = el.getBoundingClientRect();
+    const z = zoomOf();
+    return {
+      x: (r.left - offX) / z,
+      y: (r.top - offY) / z,
+      w: r.width / z,
+      h: r.height / z,
+      // 真实视口坐标，用来判断还在不在屏幕上
+      vTop: r.top,
+      vBottom: r.bottom,
+    };
+  }
+
+  function drawFrame(rect, ms, label, el) {
     const f = document.createElement('div');
     f.className = 'swarm-frame';
     f.style.cssText = 'left:' + rect.x + 'px;top:' + rect.y + 'px;width:0;height:0';
@@ -109,7 +124,11 @@
       (function step() {
         const t = Math.min(1, (performance.now() - t0) / ms);
         const k = easeOut(t);
-        const w = Math.round(rect.w * k), h = Math.round(rect.h * k);
+        // 关键：每帧重新量，元素被滚动 / 布局变化时框立刻跟上
+        const cur = el ? localRect(el) : rect;
+        const w = Math.round(cur.w * k), h = Math.round(cur.h * k);
+        f.style.left = cur.x + 'px';
+        f.style.top = cur.y + 'px';
         f.style.width = w + 'px';
         f.style.height = h + 'px';
         dim.textContent = w + ' × ' + h;
@@ -151,7 +170,7 @@
     const dist = Math.hypot(goX - c.x, goY - c.y);
     await glide(c, goX, goY, Math.min(OPTS.glideMax, OPTS.glideMin + dist * .35));
     const tag = (el.className || el.tagName).split(' ')[0];
-    const frame = await drawFrame(rect, Math.min(OPTS.drawMax, OPTS.drawMin + rect.w * .18), tag);
+    const frame = await drawFrame(rect, Math.min(OPTS.drawMax, OPTS.drawMin + rect.w * .18), tag, el);
 
     // 文本类走「写出来」，按钮/徽章这类走「淡入」
     if (el.matches('.hero__kicker, .hero__sub, .hero__title, .hero__trust')) {
@@ -233,14 +252,14 @@
       el.dataset.swarmBuilt = '1';
       clearTimeout(idleTimer);
 
-      const r = el.getBoundingClientRect();
-      if (r.width < 8 || r.height < 8) { el.classList.remove('swarm-pending'); return; }
-      const z = zoomOf();
-      const rect = { x: (r.left - offX) / z, y: (r.top - offY) / z, w: r.width / z, h: r.height / z };
+      const r = localRect(el);
+      if (r.w < 8 || r.h < 8) { el.classList.remove('swarm-pending'); return; }
+      // 已经滚过去的块别再画框（画出来一定错位）
+      if (r.vBottom <= 0) { el.classList.remove('swarm-pending'); el.classList.add('swarm-lit'); return; }
 
       c.el.style.opacity = '1';
-      await glide(c, rect.x + Math.min(rect.w * .25, 70), rect.y + rect.h * .5, OPTS.scrollGlide);
-      const frame = await drawFrame(rect, Math.min(360, OPTS.scrollDraw + rect.w * .08), 'reveal');
+      await glide(c, r.x + Math.min(r.w * .25, 70), r.y + r.h * .5, OPTS.scrollGlide);
+      const frame = await drawFrame(r, Math.min(360, OPTS.scrollDraw + r.w * .08), 'reveal', el);
 
       // 文本标题走揭示，其余直接淡出待建态
       const isText = el.matches('.section__title, .kicker, .step__title, h2, h3');
