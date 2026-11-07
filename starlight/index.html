@@ -37,6 +37,29 @@
   a { color: var(--pri); text-decoration: none; }
   .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
 
+  /* 光标重建（共用 ../assets/js/swarm.js） */
+  html.swarming { overflow: hidden; }
+  html.swarming .hero__welcome,
+  html.swarming .hero__icon,
+  html.swarming .hero__name,
+  html.swarming .hero__tag,
+  html.swarming .hero__slogan,
+  html.swarming .hero__slogan2,
+  html.swarming .notice { opacity: 0; }
+  html.swarming .swarm-lit { opacity: 1; }
+  html.swarming .hero__name.swarm-revealing,
+  html.swarming .hero__slogan.swarm-revealing,
+  html.swarming .hero__slogan2.swarm-revealing { clip-path: inset(0 100% 0 0); }
+  html.swarming .hero__name.swarm-revealed,
+  html.swarming .hero__slogan.swarm-revealed,
+  html.swarming .hero__slogan2.swarm-revealed { clip-path: inset(0 0 0 0); transition: clip-path .5s linear; }
+  .swarm-overlay { position: fixed; inset: 0; pointer-events: none; z-index: 90; }
+  .swarm-cursor { position: fixed; left: 0; top: 0; width: 22px; height: 22px; margin: -2px 0 0 -2px; transition: opacity .22s ease; }
+  .swarm-cursor svg { display: block; width: 22px; height: 22px; filter: drop-shadow(0 2px 4px rgba(0,0,0,.45)); }
+  .swarm-cursor__who { position: absolute; left: 16px; top: 16px; padding: 1px 6px; border-radius: 4px; font: 11px/1.5 var(--mono); color: #0A0E1E; white-space: nowrap; }
+  .swarm-frame { position: fixed; border: 1.5px solid var(--blue); border-radius: 2px; }
+  .swarm-frame__dim { position: absolute; left: 0; bottom: -21px; padding: 1px 6px; border-radius: 4px; background: var(--blue); color: #fff; font: 11px/1.6 var(--mono); white-space: nowrap; }
+
   /* 更新公告条 */
   .notice {
     display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
@@ -369,5 +392,6 @@
     });
   });
 </script>
+  <script src="../assets/js/swarm.js?v=2.9.1.5" defer data-swarm-auto data-swarm-targets=".hero__welcome, .hero__icon, .hero__name, .hero__tag, .hero__slogan, .hero__slogan2"></script>
 </body>
 </html>

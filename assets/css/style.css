@@ -1316,3 +1316,52 @@ html.is-ready .hero__copy {
   .loadbar, .nav__ink, html.is-ready .hero__copy { transition: none !important; }
   ::view-transition-old(root), ::view-transition-new(root) { animation-duration: .001s; }
 }
+
+/* ===== 光标重建（assets/js/swarm.js）：进站时首屏被「画」出来 ===== */
+html.swarming { overflow: hidden; }
+
+html.swarming .hero__kicker,
+html.swarming .hero__badge,
+html.swarming .hero__title,
+html.swarming .hero__sub,
+html.swarming .hero__cta,
+html.swarming .hero__trust { opacity: 0; }
+
+html.swarming .hero__kicker.swarm-lit,
+html.swarming .hero__badge.swarm-lit,
+html.swarming .hero__title.swarm-lit,
+html.swarming .hero__sub.swarm-lit,
+html.swarming .hero__cta.swarm-lit,
+html.swarming .hero__trust.swarm-lit { opacity: 1; }
+
+/* 文本从左往右「写出来」，保留 <br> / <span class="grad-text"> 结构 */
+html.swarming .hero__kicker.swarm-revealing,
+html.swarming .hero__sub.swarm-revealing,
+html.swarming .hero__title.swarm-revealing,
+html.swarming .hero__trust.swarm-revealing { clip-path: inset(0 100% 0 0); }
+html.swarming .hero__kicker.swarm-revealed,
+html.swarming .hero__sub.swarm-revealed,
+html.swarming .hero__title.swarm-revealed,
+html.swarming .hero__trust.swarm-revealed {
+  clip-path: inset(0 0 0 0);
+  transition: clip-path .5s linear;
+}
+
+.swarm-overlay { position: fixed; inset: 0; pointer-events: none; z-index: 90; }
+.swarm-cursor { position: fixed; left: 0; top: 0; width: 22px; height: 22px; margin: -2px 0 0 -2px; transition: opacity .22s ease; }
+.swarm-cursor svg { display: block; width: 22px; height: 22px; filter: drop-shadow(0 2px 4px rgba(0,0,0,.45)); }
+.swarm-cursor__who {
+  position: absolute; left: 16px; top: 16px; padding: 1px 6px; border-radius: 4px;
+  font: 11px/1.5 'JB Mono', ui-monospace, monospace; color: #0A0E1E; white-space: nowrap;
+}
+.swarm-frame { position: fixed; border: 1.5px solid var(--blue, #4A7DFF); border-radius: 2px; }
+.swarm-frame__dim {
+  position: absolute; left: 0; bottom: -21px; padding: 1px 6px; border-radius: 4px;
+  background: var(--blue, #4A7DFF); color: #fff; font: 11px/1.6 'JB Mono', ui-monospace, monospace; white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.swarming .hero__kicker, html.swarming .hero__badge, html.swarming .hero__title,
+  html.swarming .hero__sub, html.swarming .hero__cta, html.swarming .hero__trust { opacity: 1; }
+  .swarm-cursor, .swarm-frame { display: none; }
+}
