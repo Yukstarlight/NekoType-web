@@ -265,8 +265,10 @@
       for (const el of document.querySelectorAll('.swarm-pending')) {
         const waited = now - Number(el.dataset.swarmPendingAt || now);
         const r = el.getBoundingClientRect();
-        const near = r.top < innerHeight * 2 && r.bottom > -innerHeight;
-        if (waited > 1500 && near) {
+        // 只有在「屏幕上」且等了 2 秒还没轮到，才强制放出；否则交给光标去画
+        const onScreen = r.height > 0 && r.top < innerHeight * 1.02 && r.bottom > 0;
+        const scrolledPast = r.height > 0 && r.bottom <= 0;
+        if ((waited > 2000 && onScreen) || scrolledPast) {
           el.classList.remove('swarm-pending');
           el.classList.add('swarm-lit');
           el.dataset.swarmBuilt = '1';

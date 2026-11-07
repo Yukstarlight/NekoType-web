@@ -1374,3 +1374,12 @@ html.swarm-scroll .swarm-revealed { clip-path: inset(0 0 0 0); transition: clip-
 @media (prefers-reduced-motion: reduce) {
   html.swarm-scroll .reveal.swarm-pending { opacity: 1 !important; transform: none !important; }
 }
+
+/* 滚动重建期间：这些区块原本用 content-visibility:auto 省渲染，但离屏时量不到框 → 临时全开 */
+html.swarm-scroll #how,
+html.swarm-scroll #demo,
+html.swarm-scroll #features,
+html.swarm-scroll #more,
+html.swarm-scroll #changes,
+html.swarm-scroll #faq,
+html.swarm-scroll .footer { content-visibility: visible !important; }
