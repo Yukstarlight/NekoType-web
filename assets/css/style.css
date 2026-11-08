@@ -1374,3 +1374,9 @@ html.swarm-scroll .swarm-revealed { clip-path: inset(0 0 0 0); transition: clip-
   html.swarm-scroll .reveal.swarm-pending { opacity: 1 !important; transform: none !important; }
 }
 
+/* 拖动重建：光标抓着的元素半透明副本 */
+.swarm-ghost {
+  box-shadow: 0 20px 40px -20px rgba(0, 0, 0, .7);
+  will-change: transform, left, top, width, height;
+}
+.swarm-ghost * { pointer-events: none !important; }

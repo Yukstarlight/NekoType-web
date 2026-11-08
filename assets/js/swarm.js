@@ -127,6 +127,37 @@
     return el.dataset.swarmId;
   };
 
+  /** 拖动克隆体：光标抓着元素的半透明副本移到最终位置，然后落下 */
+  function dragGhost(el, c, rect, ms) {
+    if (!rect || rect.w < 8 || rect.h < 8) return Promise.resolve(null);
+    const ghost = el.cloneNode(true);
+    ghost.classList.add('swarm-ghost');
+    ghost.removeAttribute('data-swarm-id');
+    ghost.style.cssText =
+      'position:fixed;margin:0;pointer-events:none;opacity:.94 !important;z-index:1;' +
+      'left:' + rect.x + 'px;top:' + rect.y + 'px;' +
+      'width:' + rect.w + 'px;height:' + rect.h + 'px;';
+    const dx = 110, dy = 78;
+    ghost.style.transform = 'translate(' + dx + 'px,' + dy + 'px) scale(.96)';
+    overlay.appendChild(ghost);
+
+    const t0 = performance.now();
+    return new Promise((res) => {
+      (function step() {
+        const t = Math.min(1, (performance.now() - t0) / ms);
+        const k = easeOut(t);
+        const cur = localRect(el);
+        ghost.style.left = cur.x + 'px';
+        ghost.style.top = cur.y + 'px';
+        ghost.style.width = cur.w + 'px';
+        ghost.style.height = cur.h + 'px';
+        ghost.style.transform = 'translate(' + (dx * (1 - k)) + 'px,' + (dy * (1 - k)) + 'px) scale(' + (0.96 + 0.04 * k) + ')';
+        place(c, cur.x + cur.w * .22 + dx * (1 - k), cur.y + cur.h * .66 + dy * (1 - k));
+        if (t < 1) requestAnimationFrame(step); else res(ghost);
+      })();
+    });
+  }
+
   function drawFrame(rect, ms, label, el) {
     const f = document.createElement('div');
     f.className = 'swarm-frame';
@@ -188,16 +219,23 @@
     c.el.style.opacity = '1';
     const dist = Math.hypot(goX - c.x, goY - c.y);
     await glide(c, goX, goY, Math.min(OPTS.glideMax, OPTS.glideMin + dist * .35));
-    const tag = (el.className || el.tagName).split(' ')[0];
-    const frame = await drawFrame(rect, Math.min(OPTS.drawMax, OPTS.drawMin + rect.w * .18), tag, el);
+    // 按钮 / 徽章这类小块：光标直接把它拖到位；标题、段落这种大块：仍然拖框
+    const small = rect.w * rect.h < 90000;
+    let frame = null, ghost = null;
+    if (small) ghost = await dragGhost(el, c, rect, 240);
+    if (!ghost) {
+      const tag = (el.className || el.tagName).split(' ')[0];
+      frame = await drawFrame(rect, Math.min(OPTS.drawMax, OPTS.drawMin + rect.w * .18), tag, el);
+    }
 
     // 文本类走「写出来」，按钮/徽章这类走「淡入」
     if (el.matches('.hero__kicker, .hero__sub, .hero__title, .hero__trust')) {
       await revealText(el);
     } else {
       el.classList.add('swarm-lit');
-      await wait(110);
+      await wait(90);
     }
+    if (ghost) { ghost.style.transition = 'opacity .16s ease'; ghost.style.opacity = '0'; setTimeout(() => ghost.remove(), 200); }
     if (frame) setTimeout(() => frame.remove(), 200);
 
     lit++;
@@ -279,8 +317,13 @@
       if (r.vBottom <= 0) { el.classList.remove('swarm-pending'); el.classList.add('swarm-lit'); return; }
 
       c.el.style.opacity = '1';
-      await glide(c, r.x + Math.min(r.w * .25, 70), r.y + r.h * .5, OPTS.scrollGlide);
-      const frame = await drawFrame(r, Math.min(360, OPTS.scrollDraw + r.w * .08), 'reveal', el);
+      const small = r.w * r.h < 90000;
+      let frame = null, ghost = null;
+      if (small) ghost = await dragGhost(el, c, r, 210);
+      if (!ghost) {
+        await glide(c, r.x + Math.min(r.w * .25, 70), r.y + r.h * .5, OPTS.scrollGlide);
+        frame = await drawFrame(r, Math.min(320, OPTS.scrollDraw + r.w * .06), 'reveal', el);
+      }
 
       // 文本标题走揭示，其余直接淡出待建态
       const isText = el.matches('.section__title, .kicker, .step__title, h2, h3');
@@ -296,6 +339,7 @@
         el.classList.add('swarm-lit');
         await wait(90);
       }
+      if (ghost) { ghost.style.transition = 'opacity .16s ease'; ghost.style.opacity = '0'; setTimeout(() => ghost.remove(), 200); }
       if (frame) setTimeout(() => frame.remove(), 180);
     }
 
@@ -341,6 +385,11 @@
     if (overlay) overlay.remove();
   });
 
-  if (document.readyState === 'loading') addEventListener('DOMContentLoaded', start, { once: true });
-  else start();
+  // 等首帧画出来再开始（否则动画在第一帧之前就结束了，用户什么都看不到）
+  const afterPaint = (fn) => requestAnimationFrame(() => requestAnimationFrame(fn));
+  if (document.readyState === 'loading') {
+    addEventListener('DOMContentLoaded', () => afterPaint(start), { once: true });
+  } else {
+    afterPaint(start);
+  }
 })();
