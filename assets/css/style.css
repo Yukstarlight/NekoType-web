@@ -1316,67 +1316,78 @@ html.is-ready .hero__copy {
   ::view-transition-old(root), ::view-transition-new(root) { animation-duration: .001s; }
 }
 
-/* ===== 光标重建（assets/js/swarm.js）：进站时首屏被「画」出来 ===== */
-html.swarming { overflow: hidden; }
+/* 待建：内容先藏着，光标画到它时才露出来 */
+.sw-pending { opacity: 0 !important; }
 
-html.swarming .hero__kicker,
-html.swarming .hero__badge,
-html.swarming .hero__title,
-html.swarming .hero__sub,
-html.swarming .hero__cta,
-html.swarming .hero__trust { opacity: 0; }
+.sw-overlay { position: fixed; inset: 0; pointer-events: none; z-index: 9998; }
 
-html.swarming .hero__kicker.swarm-lit,
-html.swarming .hero__badge.swarm-lit,
-html.swarming .hero__title.swarm-lit,
-html.swarming .hero__sub.swarm-lit,
-html.swarming .hero__cta.swarm-lit,
-html.swarming .hero__trust.swarm-lit { opacity: 1; }
+/* ---- 光标 ---- */
+.sw-cursor {
+  position: absolute; left: 0; top: 0; display: flex; align-items: flex-start; gap: 2px;
+  transition: opacity .2s ease; will-change: left, top;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, .45));
+}
+.sw-cursor__ico { display: block; line-height: 0; }
+.sw-cursor__who {
+  margin-top: 15px; margin-left: -3px; padding: 2px 6px; border-radius: 5px;
+  font: 600 11px/1.25 var(--font-mono, ui-monospace, monospace);
+  color: #fff; background: var(--c, #6366f1); white-space: nowrap;
+  transform: translateX(-2px); box-shadow: 0 1px 4px rgba(0, 0, 0, .3);
+}
+.sw-cursor[data-kind="crosshair"] .sw-cursor__who,
+.sw-cursor[data-kind="pen"] .sw-cursor__who { margin-top: 12px; }
 
-/* 文本从左往右「写出来」，保留 <br> / <span class="grad-text"> 结构 */
-html.swarming .hero__kicker.swarm-revealing,
-html.swarming .hero__sub.swarm-revealing,
-html.swarming .hero__title.swarm-revealing,
-html.swarming .hero__trust.swarm-revealing { clip-path: inset(0 100% 0 0); }
-html.swarming .hero__kicker.swarm-revealed,
-html.swarming .hero__sub.swarm-revealed,
-html.swarming .hero__title.swarm-revealed,
-html.swarming .hero__trust.swarm-revealed {
-  clip-path: inset(0 0 0 0);
-  transition: clip-path .5s linear;
+/* ---- 拖框 + 实时尺寸 ---- */
+.sw-frame {
+  position: absolute; box-sizing: border-box; border: 1.5px dashed currentColor;
+  color: #8b93a7; background: rgba(140, 148, 170, .10);
+  transition: opacity .18s ease, border-color .18s ease;
+}
+.sw-frame__dim {
+  position: absolute; left: 50%; top: 100%; transform: translate(-50%, 4px);
+  padding: 2px 5px; border-radius: 4px; background: #6b7280; color: #fff;
+  font: 600 10px/1.4 var(--font-mono, ui-monospace, monospace); white-space: nowrap;
+}
+.sw-frame--gone { opacity: 0; }
+
+/* ---- 打字光标 ---- */
+.sw-caret {
+  position: absolute; width: 2px; background: currentColor; color: #C8A2FF;
+  animation: sw-blink .62s steps(2, start) infinite; transition: opacity .18s ease;
+}
+@keyframes sw-blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+
+/* ---- 钢笔线 ---- */
+.sw-line { position: absolute; height: 2px; background: currentColor; color: #C8A2FF; border-radius: 2px; }
+
+/* ---- 蓝色选区（选中母版） ---- */
+.sw-select {
+  position: absolute; box-sizing: border-box; border: 1.5px solid #4A7DFF;
+  background: rgba(74, 125, 255, .07); border-radius: 4px;
 }
 
-.swarm-overlay { position: fixed; inset: 0; pointer-events: none; z-index: 90; }
-.swarm-cursor { position: fixed; left: 0; top: 0; width: 22px; height: 22px; margin: -2px 0 0 -2px; transition: opacity .22s ease; }
-.swarm-cursor svg { display: block; width: 22px; height: 22px; filter: drop-shadow(0 2px 4px rgba(0,0,0,.45)); }
-.swarm-cursor__who {
-  position: absolute; left: 16px; top: 16px; padding: 1px 6px; border-radius: 4px;
-  font: 11px/1.5 'JB Mono', ui-monospace, monospace; color: #0A0E1E; white-space: nowrap;
+/* ---- ⌥ 拖出的副本 ---- */
+.sw-copy {
+  position: absolute; box-sizing: border-box; overflow: hidden; margin: 0;
+  opacity: .95; border-radius: 6px; box-shadow: 0 18px 36px -20px rgba(0, 0, 0, .7);
 }
-.swarm-frame { position: fixed; border: 1.5px solid var(--blue, #4A7DFF); border-radius: 2px; }
-.swarm-frame__dim {
-  position: absolute; left: 0; bottom: -21px; padding: 1px 6px; border-radius: 4px;
-  background: var(--blue, #4A7DFF); color: #fff; font: 11px/1.6 'JB Mono', ui-monospace, monospace; white-space: nowrap;
+.sw-copy * { pointer-events: none !important; }
+
+/* ---- 红色间距标注 ---- */
+.sw-measure {
+  position: absolute; transform: translateY(-50%);
+  padding: 2px 6px; border-radius: 4px; background: #F24E1E; color: #fff;
+  font: 600 10px/1.4 var(--font-mono, ui-monospace, monospace); white-space: nowrap;
 }
+
+/* 图片：自上而下扫出 */
+.sw-media-in { animation: sw-sweep .28s ease-out both; }
+@keyframes sw-sweep { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0 0 0 0); } }
+
+/* 打字中的元素：保留占位、只露出一部分 */
+.sw-typing { will-change: clip-path; }
 
 @media (prefers-reduced-motion: reduce) {
-  html.swarming .hero__kicker, html.swarming .hero__badge, html.swarming .hero__title,
-  html.swarming .hero__sub, html.swarming .hero__cta, html.swarming .hero__trust { opacity: 1; }
-  .swarm-cursor, .swarm-frame { display: none; }
+  .sw-pending { opacity: 1 !important; }
 }
 
-/* 二期：滚动重建（未建的块先藏着，建完再露） */
-html.swarm-scroll .reveal.swarm-pending { opacity: 0 !important; transform: translateY(10px) !important; }
-html.swarm-scroll .swarm-lit { opacity: 1; transform: none; transition: opacity .3s ease, transform .35s cubic-bezier(.22,1,.36,1); }
-html.swarm-scroll .swarm-revealing { clip-path: inset(0 100% 0 0); opacity: 1 !important; transform: none !important; }
-html.swarm-scroll .swarm-revealed { clip-path: inset(0 0 0 0); transition: clip-path .45s linear; }
-@media (prefers-reduced-motion: reduce) {
-  html.swarm-scroll .reveal.swarm-pending { opacity: 1 !important; transform: none !important; }
-}
-
-/* 拖动重建：光标抓着的元素半透明副本 */
-.swarm-ghost {
-  box-shadow: 0 20px 40px -20px rgba(0, 0, 0, .7);
-  will-change: transform, left, top, width, height;
-}
-.swarm-ghost * { pointer-events: none !important; }

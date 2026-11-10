@@ -1,421 +1,431 @@
 /*!
  * NekoType · 光标重建（自研，零依赖）
- * 进站时把首屏的关键元素「量尺 → 拖框 → 写出」一次。
- * 用法：<script src="assets/js/swarm.js?v=…" defer data-swarm-auto></script>
- * 关闭：URL 加 ?noswarm，或系统开启「减少动态效果」，或元素上有 data-no-swarm。
+ *
+ * 多光标按角色把页面重画一遍：
+ *   crosshair → 拖出矩形（实时 W×H），真内容随后淡入
+ *   ibeam     → 拖出文本框，再逐字「打字」，字尾带闪烁光标
+ *   pen       → 钢笔工具画分隔线
+ *   arrow     → 选中母版（蓝框）后 ⌥ 拖出副本，带红色间距标注
+ *
+ * 元素位置每帧现量，滚动时光标与框都不会错位。
+ * 关闭：URL 加 ?noswarm、系统开启「减少动态效果」、或 <html class="no-swarm">。
  */
 (() => {
   'use strict';
 
   const SCRIPT = document.currentScript;
   const OPTS = {
-    // 从上到下依次重建的目标（首位先建）
-    selectors: (SCRIPT && SCRIPT.dataset.swarmTargets) ||
-      '.hero__kicker, .hero__badge, .hero__title, .hero__sub, .hero__cta, .hero__trust',
-    agents: 6,
-    // 速度：再快一档，首屏约 1.6 秒
-    glideMin: 90, glideMax: 220,
-    drawMin: 150, drawMax: 280,
-    revealMin: 140, revealMax: 320,
-    startDelay: 0,
-    // 二期：滚动到就重建的区块（首页 69 个 .reveal 全在这里）
-    // 覆盖范围：既包括原本带 .reveal 的块，也包括没有 reveal 的结构块
-    scrollSelectors: [
-      '.reveal',
-      '.section__title', '.kicker', '.section__lead',
-      '.step', '.feature', '.card', '.faq__item', '.chg__item',
-      '.stat', '.cap-chip', '.cap-row', '.blog-promo', '.footer__col',
-      '.privacy__card', '.demo__panel', '.rule-item', '.mode-card', '.preset-chip',
+    // data-swarm-targets 的页面（/starlight）只画这些，不接管整页
+    only: (SCRIPT && SCRIPT.dataset.swarmTargets) || '',
+    selectors: [
+      '.reveal', '.section__title', '.kicker', '.section__lead', '.step', '.feature', '.card',
+      '.faq__item', '.chg__item', '.stat', '.cap-chip', '.cap-row', '.blog-promo', '.footer__col',
+      '.privacy__card', '.demo__panel', '.rule-item', '.mode-card', '.preset-chip'
     ].join(','),
-    scrollAgents: 12,
-    scrollGlide: 90, scrollDraw: 150, scrollReveal: 170,
+    heroSelectors: '.hero__kicker, .hero__badge, .hero__title, .hero__sub, .hero__cta, .hero__trust',
+    maxCursors: 12,
+    rectMs: 260, textStepMin: 9, textStepMax: 16, textMsMax: 900, lineMs: 220, dupMs: 240,
+    reach: 1.35,
     names: ['Ada', 'Linus', 'Grace', 'Alan', 'Margaret', 'Ken',
-            'Barbara', 'Dennis', 'Radia', 'Guido', 'Hedy', 'Tim'],
+      'Barbara', 'Dennis', 'Radia', 'Guido', 'Hedy', 'Tim'],
     colors: ['#F24E1E', '#A259FF', '#1ABCFE', '#0ACF83', '#FF7262', '#FFC700',
-             '#9747FF', '#E8467C', '#14AE5C', '#0D99FF', '#FF8A00', '#00B5CE'],
+      '#9747FF', '#E8467C', '#14AE5C', '#0D99FF', '#FF8A00', '#00B5CE']
   };
 
-  // CSS zoom 会把 fixed 元素的坐标整体放大/缩小，量尺后要除掉它
-  const zoomOf = () => parseFloat(getComputedStyle(document.documentElement).zoom) || 1;
+  if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (/[?&]noswarm\b/.test(location.search)) return;
+  if (document.documentElement.classList.contains('no-swarm')) return;
 
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const off = /(?:\?|&)noswarm\b/.test(location.search) ||
-    document.documentElement.classList.contains('no-swarm') ||
-    (SCRIPT && SCRIPT.hasAttribute('data-swarm-off'));
-  if (reduce || off) return;
-
+  /* ---------------- 工具 ---------------- */
   const wait = (ms) => new Promise((r) => setTimeout(r, ms));
   const easeOut = (t) => 1 - Math.pow(1 - t, 3);
-  const easeInOut = (t) => (t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
-  const lerp = (a, b, t) => a + (b - a) * t;
+  const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+  const raf = () => new Promise((r) => requestAnimationFrame(r));
 
-  const targets = [...document.querySelectorAll(OPTS.selectors)].filter((el) => el && !el.hasAttribute('data-no-swarm'));
-  if (!targets.length) return;
+  let overlay = null, offX = 0, offY = 0;
 
-  const root = document.documentElement;
-  root.classList.add('swarming');
+  const zoomOf = () => {
+    const z = parseFloat(getComputedStyle(document.documentElement).zoom);
+    return z > 0 ? z : 1;
+  };
 
-  let overlay, cursorEls = [], lit = 0;
-
-  let offX = 0, offY = 0;   // overlay 自身的原点（zoom / 滚动条槽会把它挤偏几个像素）
-
-  function buildOverlay() {
-    overlay = document.createElement('div');
-    overlay.className = 'swarm-overlay';
-    document.body.appendChild(overlay);
-    const r = overlay.getBoundingClientRect();
-    offX = r.left;
-    offY = r.top;
-  }
-
-  function makeCursor(i) {
-    const el = document.createElement('div');
-    el.className = 'swarm-cursor';
-    el.style.opacity = '0';
-    el.innerHTML =
-      '<svg viewBox="0 0 24 24"><path d="M4 2l6.5 18 2.6-7.2 7.4-2.6z" fill="' + OPTS.colors[i % OPTS.colors.length] +
-      '" stroke="#fff" stroke-width="1.2" stroke-linejoin="round"/></svg>' +
-      '<span class="swarm-cursor__who" style="background:' + OPTS.colors[i % OPTS.colors.length] + '">' +
-      OPTS.names[i % OPTS.names.length] + '</span>';
-    overlay.appendChild(el);
-    const z = zoomOf();
-    // 沿四周散开，避免 12 个光标叠在屏幕中央
-    const ang = (i / Math.max(1, OPTS.scrollAgents)) * Math.PI * 2;
-    const rx = innerWidth * 0.32, ry = innerHeight * 0.30;
+  /** 元素在 overlay 坐标系里的矩形（每次现量） */
+  function box(el) {
+    const r = el.getBoundingClientRect(), z = zoomOf();
     return {
-      el,
-      x: (innerWidth / 2 + Math.cos(ang) * rx - offX) / z,
-      y: (innerHeight / 2 + Math.sin(ang) * ry - offY) / z,
+      x: (r.left - offX) / z, y: (r.top - offY) / z,
+      w: r.width / z, h: r.height / z,
+      vTop: r.top, vBottom: r.bottom
     };
   }
 
-  function place(c, x, y) {
-    c.x = x; c.y = y;
-    c.el.style.transform = 'translate(' + x + 'px,' + y + 'px)';
+  const place = (el, x, y) => { el.style.left = x + 'px'; el.style.top = y + 'px'; };
+
+  function buildOverlay() {
+    overlay = document.createElement('div');
+    overlay.className = 'sw-overlay';
+    document.body.appendChild(overlay);
+    const r = overlay.getBoundingClientRect();
+    offX = r.left; offY = r.top;
   }
 
-  function glide(c, toX, toY, ms) {
-    const fx = c.x, fy = c.y, t0 = performance.now();
+  /* ---------------- 光标 ---------------- */
+  const ICONS = {
+    arrow: '<svg viewBox="0 0 24 24" width="22" height="22"><path d="M4 2l6.2 17 2.5-6.9 7-2.5z" fill="currentColor" stroke="#fff" stroke-width="1.1" stroke-linejoin="round"/></svg>',
+    crosshair: '<svg viewBox="0 0 24 24" width="22" height="22"><g stroke="#fff" stroke-width="3.2" stroke-linecap="round"><path d="M12 3v18M3 12h18"/></g><g stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 4.5v15M4.5 12h15"/></g></svg>',
+    ibeam: '<svg viewBox="0 0 24 24" width="20" height="20"><g stroke="#fff" stroke-width="3.2" stroke-linecap="round"><path d="M8 4h8M12 4v16M8 20h8"/></g><g stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M8.6 4.4h6.8M12 4.4v15.2M8.6 19.6h6.8"/></g></svg>',
+    pen: '<svg viewBox="0 0 24 24" width="21" height="21"><path d="M5 19l1.4-4.2L16.6 4.6a1.8 1.8 0 012.6 0l.2.2a1.8 1.8 0 010 2.6L9.2 17.6z" fill="currentColor" stroke="#fff" stroke-width="1.1" stroke-linejoin="round"/></svg>'
+  };
+
+  function makeCursor(i) {
+    const el = document.createElement('div');
+    el.className = 'sw-cursor';
+    el.style.color = OPTS.colors[i % OPTS.colors.length];
+    el.style.setProperty('--c', OPTS.colors[i % OPTS.colors.length]);
+    el.innerHTML = '<span class="sw-cursor__ico">' + ICONS.arrow + '</span><b class="sw-cursor__who"></b>';
+    el.querySelector('.sw-cursor__who').textContent = OPTS.names[i % OPTS.names.length];
+    el.style.opacity = '0';
+    overlay.appendChild(el);
+    const c = {
+      el, ico: el.querySelector('.sw-cursor__ico'), x: 0, y: 0, busy: false,
+      kind(k) { this.ico.innerHTML = ICONS[k] || ICONS.arrow; this.el.dataset.kind = k; },
+      show() { this.el.style.opacity = '1'; }
+    };
+    c.x = (innerWidth * 0.5 - offX) / zoomOf();
+    c.y = (innerHeight * 0.5 - offY) / zoomOf();
+    place(el, c.x, c.y);
+    return c;
+  }
+
+  /** 移向「每帧现算」的目标点 */
+  function moveTo(c, getX, getY, ms) {
+    const t0 = performance.now(), sx = c.x, sy = c.y;
     return new Promise((res) => {
       (function step() {
-        const t = Math.min(1, (performance.now() - t0) / ms);
-        const k = easeInOut(t);
-        place(c, lerp(fx, toX, k), lerp(fy, toY, k));
+        const t = Math.min(1, (performance.now() - t0) / ms), k = easeOut(t);
+        c.x = sx + (getX() - sx) * k;
+        c.y = sy + (getY() - sy) * k;
+        place(c.el, c.x, c.y);
         t < 1 ? requestAnimationFrame(step) : res();
       })();
     });
   }
 
-  /** 量元素在 overlay 本地坐标系里的位置（每次现量，滚动中也不会错位） */
-  function localRect(el) {
-    const r = el.getBoundingClientRect();
-    const z = zoomOf();
-    return {
-      x: (r.left - offX) / z,
-      y: (r.top - offY) / z,
-      w: r.width / z,
-      h: r.height / z,
-      // 真实视口坐标，用来判断还在不在屏幕上
-      vTop: r.top,
-      vBottom: r.bottom,
-    };
-  }
-
-  let seq = 0;
-  const idOf = (el) => {
-    if (!el.dataset.swarmId) el.dataset.swarmId = 'sw' + (++seq);
-    return el.dataset.swarmId;
-  };
-
-  /** 拖动克隆体：光标抓着元素的半透明副本移到最终位置，然后落下 */
-  function dragGhost(el, c, rect, ms) {
-    if (!rect || rect.w < 8 || rect.h < 8) return Promise.resolve(null);
-    const ghost = el.cloneNode(true);
-    ghost.classList.add('swarm-ghost');
-    ghost.removeAttribute('data-swarm-id');
-    ghost.style.cssText =
-      'position:fixed;margin:0;pointer-events:none;opacity:.94 !important;z-index:1;' +
-      'left:' + rect.x + 'px;top:' + rect.y + 'px;' +
-      'width:' + rect.w + 'px;height:' + rect.h + 'px;';
-    const dx = 110, dy = 78;
-    ghost.style.transform = 'translate(' + dx + 'px,' + dy + 'px) scale(.96)';
-    overlay.appendChild(ghost);
-
-    const t0 = performance.now();
-    return new Promise((res) => {
-      (function step() {
-        const t = Math.min(1, (performance.now() - t0) / ms);
-        const k = easeOut(t);
-        const cur = localRect(el);
-        ghost.style.left = cur.x + 'px';
-        ghost.style.top = cur.y + 'px';
-        ghost.style.width = cur.w + 'px';
-        ghost.style.height = cur.h + 'px';
-        ghost.style.transform = 'translate(' + (dx * (1 - k)) + 'px,' + (dy * (1 - k)) + 'px) scale(' + (0.96 + 0.04 * k) + ')';
-        place(c, cur.x + cur.w * .22 + dx * (1 - k), cur.y + cur.h * .66 + dy * (1 - k));
-        if (t < 1) requestAnimationFrame(step); else res(ghost);
-      })();
-    });
-  }
-
-  /** 追随式移动：每帧重新读元素位置，手指到哪光标跟到哪（滚动也不掉队） */
-  function chase(el, c, ms, fx, fy) {
-    const t0 = performance.now();
-    return new Promise((res) => {
-      (function step() {
-        const t = Math.min(1, (performance.now() - t0) / ms);
-        const k = easeInOut(t);
-        const cur = localRect(el);
-        const tx = cur.x + cur.w * fx, ty = cur.y + cur.h * fy;
-        if (t < 0.35) {
-          place(c, c.x + (tx - c.x) * (0.3 + 0.9 * k), c.y + (ty - c.y) * (0.3 + 0.9 * k));
-        } else {
-          place(c, tx, ty);   // 贴合：元素被滚动带走，光标立刻跟上
-        }
-        if (t < 1) requestAnimationFrame(step); else res();
-      })();
-    });
-  }
-
-  function drawFrame(rect, ms, label, el, c) {
-    const f = document.createElement('div');
-    f.className = 'swarm-frame';
-    f.style.cssText = 'left:' + rect.x + 'px;top:' + rect.y + 'px;width:0;height:0';
-    if (label) f.dataset.swarmFor = label;
-    if (el) f.dataset.swarmEl = idOf(el);
+  /* ---------------- 画面元素 ---------------- */
+  function makeFrame() {
+    const el = document.createElement('div');
+    el.className = 'sw-frame';
     const dim = document.createElement('span');
-    dim.className = 'swarm-frame__dim';
-    dim.textContent = '0 × 0';
-    f.appendChild(dim);
-    overlay.appendChild(f);
+    dim.className = 'sw-frame__dim';
+    el.appendChild(dim);
+    overlay.appendChild(el);
+    return { el, dim };
+  }
+
+  /** 十字准星拖框：从 0 拉到目标大小，每帧跟元素对齐 */
+  function dragRect(c, fr, el, ms) {
     const t0 = performance.now();
     return new Promise((res) => {
       (function step() {
-        const t = Math.min(1, (performance.now() - t0) / ms);
-        const k = easeOut(t);
-        // 关键：每帧重新量，元素被滚动 / 布局变化时框立刻跟上
-        const cur = el ? localRect(el) : rect;
-        const w = Math.round(cur.w * k), h = Math.round(cur.h * k);
-        f.style.left = cur.x + 'px';
-        f.style.top = cur.y + 'px';
-        f.style.width = w + 'px';
-        f.style.height = h + 'px';
-        dim.textContent = w + ' × ' + h;
-        if (c) place(c, cur.x + Math.min(cur.w * 0.3, 70), cur.y + cur.h * 0.55);
-        t < 1 ? requestAnimationFrame(step) : res(f);
+        const t = Math.min(1, (performance.now() - t0) / ms), k = easeOut(t);
+        const b = box(el);
+        fr.el.style.left = b.x + 'px';
+        fr.el.style.top = b.y + 'px';
+        fr.el.style.width = Math.max(2, b.w * k) + 'px';
+        fr.el.style.height = Math.max(2, b.h * k) + 'px';
+        fr.dim.textContent = Math.round(b.w * k) + ' × ' + Math.round(b.h * k);
+        c.x = b.x + b.w * k; c.y = b.y + b.h * k;      // 光标牵着右下角
+        place(c.el, c.x, c.y);
+        t < 1 ? requestAnimationFrame(step) : res();
       })();
     });
   }
 
-  /* 文本：裁剪揭示，保留 <br>/<span class="grad-text">/<strong> 结构 */
-  function revealText(el) {
+  async function taskRect(el, c) {
+    c.kind('crosshair'); c.show();
+    const b0 = box(el);
+    c.x = b0.x + b0.w + 26; c.y = b0.y + b0.h + 22;
+    place(c.el, c.x, c.y);
+    await moveTo(c, () => box(el).x + box(el).w - 6, () => box(el).y + box(el).h - 6, 170);
+    const fr = makeFrame();
+    await dragRect(c, fr, el, OPTS.rectMs);
+    await wait(50);
+    el.classList.remove('sw-pending');
+    el.classList.add('sw-done');
+    fr.el.classList.add('sw-frame--gone');
+    setTimeout(() => fr.el.remove(), 220);
+  }
+
+  async function taskMedia(el, c) {
+    c.kind('crosshair'); c.show();
+    await moveTo(c, () => box(el).x + box(el).w + 24, () => box(el).y + box(el).h + 20, 150);
+    const fr = makeFrame();
+    await dragRect(c, fr, el, OPTS.rectMs);
+    el.classList.remove('sw-pending');
+    el.classList.add('sw-media-in');
+    setTimeout(() => el.classList.remove('sw-media-in'), 280);
+    fr.el.classList.add('sw-frame--gone');
+    setTimeout(() => fr.el.remove(), 220);
+  }
+
+  /** 打字：先出文本框，再逐字 clip 出来，光标贴在字尾 */
+  async function taskText(el, c) {
+    c.kind('ibeam'); c.show();
+    el.classList.remove('sw-pending');
+    el.classList.add('sw-typing');
+    await moveTo(c, () => box(el).x + 8, () => box(el).y + box(el).h * 0.75, 150);
+
     const chars = (el.textContent || '').trim().length;
-    const ms = Math.min(OPTS.revealMax, Math.max(OPTS.revealMin, 180 + chars * 4));
-    el.classList.add('swarm-revealing', 'swarm-lit');
-    return new Promise((res) => {
-      requestAnimationFrame(() => {
-        el.classList.add('swarm-revealed');
-        setTimeout(() => {
-          el.classList.remove('swarm-revealing', 'swarm-revealed');
-          res();
-        }, ms);
-      });
+    const steps = clamp(chars, 3, 46);
+    const stepMs = clamp(OPTS.textMsMax / steps, OPTS.textStepMin, OPTS.textStepMax);
+
+    const caret = document.createElement('i');
+    caret.className = 'sw-caret';
+    overlay.appendChild(caret);
+
+    for (let i = 1; i <= steps; i++) {
+      const k = i / steps;
+      el.style.clipPath = 'inset(-10% ' + (100 - k * 100).toFixed(2) + '% -10% 0)';
+      const b = box(el);
+      caret.style.left = (b.x + b.w * k) + 'px';
+      caret.style.top = b.y + 'px';
+      caret.style.height = b.h + 'px';
+      c.x = b.x + b.w * k; c.y = b.y + b.h * 0.75;
+      place(c.el, c.x, c.y);
+      await wait(stepMs);
+    }
+    caret.style.opacity = '0';
+    el.style.clipPath = '';
+    el.classList.remove('sw-typing');
+    el.classList.add('sw-done');
+    setTimeout(() => caret.remove(), 220);
+  }
+
+  async function taskLine(el, c) {
+    c.kind('pen'); c.show();
+    const b0 = box(el);
+    c.x = b0.x - 18; c.y = b0.y + b0.h * 0.5;
+    place(c.el, c.x, c.y);
+    const line = document.createElement('div');
+    line.className = 'sw-line';
+    overlay.appendChild(line);
+    const t0 = performance.now();
+    await new Promise((res) => {
+      (function step() {
+        const t = Math.min(1, (performance.now() - t0) / OPTS.lineMs), k = easeOut(t);
+        const bb = box(el);
+        line.style.left = bb.x + 'px';
+        line.style.top = (bb.y + bb.h * 0.5) + 'px';
+        line.style.width = (bb.w * k) + 'px';
+        c.x = bb.x + bb.w * k; c.y = bb.y + bb.h * 0.5;
+        place(c.el, c.x, c.y);
+        t < 1 ? requestAnimationFrame(step) : res();
+      })();
+    });
+    el.classList.remove('sw-pending');
+    el.classList.add('sw-done');
+    setTimeout(() => line.remove(), 260);
+  }
+
+  /** ⌥ 拖副本：蓝框选中母版 → 拖出副本 → 红色间距标注 */
+  async function taskDup(el, master, c) {
+    c.kind('arrow'); c.show();
+    const sel = document.createElement('div');
+    sel.className = 'sw-select';
+    overlay.appendChild(sel);
+    const t0 = performance.now();
+    for (;;) {
+      const t = Math.min(1, (performance.now() - t0) / 170);
+      const mb = box(master);
+      sel.style.left = mb.x + 'px'; sel.style.top = mb.y + 'px';
+      sel.style.width = mb.w + 'px'; sel.style.height = mb.h + 'px';
+      sel.style.opacity = t;
+      c.x = mb.x + mb.w * 0.5; c.y = mb.y + mb.h * 0.5;
+      place(c.el, c.x, c.y);
+      if (t >= 1) break;
+      await raf();
+    }
+
+    const copy = master.cloneNode(true);
+    copy.classList.add('sw-copy');
+    copy.classList.remove('sw-pending', 'sw-done');
+    overlay.appendChild(copy);
+
+    const msr = document.createElement('div');
+    msr.className = 'sw-measure';
+    overlay.appendChild(msr);
+
+    const t1 = performance.now();
+    for (;;) {
+      const t = Math.min(1, (performance.now() - t1) / OPTS.dupMs), k = easeOut(t);
+      const mb = box(master), tb = box(el);
+      const x = mb.x + (tb.x - mb.x) * k, y = mb.y + (tb.y - mb.y) * k;
+      copy.style.left = x + 'px'; copy.style.top = y + 'px';
+      copy.style.width = tb.w + 'px'; copy.style.height = tb.h + 'px';
+      msr.textContent = Math.round(Math.abs(tb.x - mb.x)) + ' px';
+      msr.style.left = (Math.max(mb.x, tb.x) + tb.w + 8) + 'px';
+      msr.style.top = (y + tb.h * 0.5) + 'px';
+      c.x = x + tb.w * 0.85; c.y = y + tb.h * 0.75;
+      place(c.el, c.x, c.y);
+      if (t >= 1) break;
+      await raf();
+    }
+
+    el.classList.remove('sw-pending');
+    el.classList.add('sw-done');
+    [copy, sel, msr].forEach((n) => {
+      n.style.transition = 'opacity .16s ease';
+      n.style.opacity = '0';
+      setTimeout(() => n.remove(), 220);
     });
   }
 
-  async function build(el, c, i) {
-    const r = el.getBoundingClientRect();
-    if (r.width < 4 || r.height < 4) { el.classList.add('swarm-lit'); return; }
-    const z = zoomOf();
-    const rect = {
-      x: (r.left - offX) / z,
-      y: (r.top - offY) / z,
-      w: r.width / z,
-      h: r.height / z,
-    };
-    const goX = rect.x + Math.min(rect.w * .3, 90);
-    const goY = rect.y + rect.h * .5;
-
-    c.el.style.opacity = '1';
-    await chase(el, c, Math.min(OPTS.glideMax, OPTS.glideMin + 80), 0.3, 0.5);
-    // 按钮 / 徽章这类小块：光标直接把它拖到位；标题、段落这种大块：仍然拖框
-    const small = rect.w * rect.h < 90000;
-    let frame = null, ghost = null;
-    if (small) ghost = await dragGhost(el, c, rect, 240);
-    if (!ghost) {
-      const tag = (el.className || el.tagName).split(' ')[0];
-      frame = await drawFrame(rect, Math.min(OPTS.drawMax, OPTS.drawMin + rect.w * .18), tag, el, c);
-    }
-
-    // 文本类走「写出来」，按钮/徽章这类走「淡入」
-    if (el.matches('.hero__kicker, .hero__sub, .hero__title, .hero__trust')) {
-      await revealText(el);
-    } else {
-      el.classList.add('swarm-lit');
-      await wait(90);
-    }
-    if (ghost) { ghost.style.transition = 'opacity .16s ease'; ghost.style.opacity = '0'; setTimeout(() => ghost.remove(), 200); }
-    if (frame) setTimeout(() => frame.remove(), 200);
-
-    lit++;
-    root.style.setProperty('--swarm-progress', (lit / targets.length).toFixed(3));
-    await wait(60 + i * 6);
+  /* ---------------- 分类 ---------------- */
+  function classify(el) {
+    if (el.tagName === 'HR') return 'line';
+    const imgs = el.querySelectorAll('img, svg, video, canvas').length;
+    const txt = (el.textContent || '').trim();
+    const textish = /^(H1|H2|H3|H4|H5|P|LI|SPAN|STRONG|EM|B|I|A|BLOCKQUOTE)$/.test(el.tagName);
+    if (textish && txt && !imgs) return 'text';
+    if (imgs && !txt) return 'media';
+    if (txt && el.children.length <= 1 && txt.length <= 90) return 'text';
+    return 'rect';
   }
 
+  function masterOf(el) {
+    const p = el.parentElement;
+    if (!p) return null;
+    const cls = Array.prototype.slice.call(el.classList).sort().join('.');
+    if (!cls) return null;
+    const sibs = Array.prototype.filter.call(p.children, (s) =>
+      s.tagName === el.tagName && Array.prototype.slice.call(s.classList).sort().join('.') === cls);
+    if (sibs.length < 3) return null;
+    return sibs[0] === el ? null : sibs[0];
+  }
+
+  /* ---------------- 主流程 ---------------- */
   async function run() {
+    let targets;
+    if (OPTS.only) {
+      targets = Array.prototype.slice.call(document.querySelectorAll(OPTS.only));
+    } else {
+      const hero = Array.prototype.slice.call(document.querySelectorAll(OPTS.heroSelectors));
+      const cand = Array.prototype.slice.call(document.querySelectorAll(OPTS.selectors))
+        .filter((el) => !el.closest('.hero'));
+      const blocks = cand.filter((el) => !cand.some((o) => o !== el && el.contains(o)));
+      targets = hero.concat(blocks);
+    }
+    if (!targets.length) return;
+
     buildOverlay();
-    const agents = Math.min(OPTS.agents, targets.length);
-    const cursors = Array.from({ length: agents }, (_, i) => makeCursor(i));
-    cursors.forEach((c) => place(c, c.x, c.y));
+    document.documentElement.classList.add('swarming');
+    targets.forEach((el) => el.classList.add('sw-pending'));
 
-    await wait(OPTS.startDelay);
+    const cursors = [];
+    for (let i = 0; i < OPTS.maxCursors; i++) cursors.push(makeCursor(i));
 
-    let next = 0;
-    await Promise.all(cursors.map(async (c) => {
-      while (next < targets.length) {
-        const i = next++;
-        await build(targets[i], c, i);
+    const queue = targets.slice();
+    let busy = 0, done = 0, finished = false;
+
+    // 由 IntersectionObserver 标记「已进入视口附近」，只从这里取任务：
+    // 元素离屏时 getBoundingClientRect 会给出 0 或错误值，直接看 top 会把光标拉到页面最下方
+    function takeNext() {
+      for (let i = 0; i < queue.length; i++) {
+        const el = queue[i];
+        if (el.dataset.swReady !== '1') continue;
+        const b = el.getBoundingClientRect();
+        if (b.height === 0) { queue.splice(i, 1); el.classList.remove('sw-pending'); i--; continue; }
+        queue.splice(i, 1);
+        return el;
       }
-      c.el.style.opacity = '0';
-    }));
-
-    await wait(140);
-    // 收尾：撤掉遮罩与标记，让页面回到正常交互
-    cursors.forEach((c) => c.el.remove());
-    overlay.remove();
-    root.classList.remove('swarming');
-    root.style.removeProperty('--swarm-progress');
-    targets.forEach((el) => el.classList.remove('swarm-lit'));
-    document.dispatchEvent(new CustomEvent('swarm:done'));
-
-    // 二期：整页滚动重建（不锁滚动，滚到哪画到哪）
-    startScrollSwarm();
-  }
-
-  /* ---------- 二期：滚动触发，逐块重建 ---------- */
-  function startScrollSwarm() {
-    // 先收集所有候选，再把「包含其它候选」的容器剔掉（只画最内层，避免父子重复）
-    const cand = [...document.querySelectorAll(OPTS.scrollSelectors)].filter((el) => !targets.includes(el) && !el.closest('.hero'));
-    const blocks = cand.filter((el) => !cand.some((other) => other !== el && el.contains(other)));
-    if (!blocks.length) return;
-
-    const stamp = Date.now();
-    blocks.forEach((el) => { el.classList.add('swarm-pending'); el.dataset.swarmPendingAt = String(stamp); });
-    document.documentElement.classList.add('swarm-scroll');
-
-    // 二期用的两个常驻光标
-    if (!overlay || !overlay.isConnected) buildOverlay();
-    const crew = Array.from({ length: OPTS.scrollAgents }, (_, i) => makeCursor(i));
-    crew.forEach((c) => { place(c, c.x, c.y); c.el.style.opacity = '0'; });
-
-    const queue = [];
-    let busy = 0, idleTimer = null;
-
-    const pump = () => {
-      while (busy < crew.length && queue.length) {
-        const { el, resolve } = queue.shift();
-        const c = crew[busy++];
-        buildScroll(el, c).then(() => { busy--; resolve(); pump(); });
-      }
-      if (!busy && !queue.length) {
-        clearTimeout(idleTimer);
-        idleTimer = setTimeout(() => crew.forEach((c) => { c.el.style.opacity = '0'; }), 500);
-      }
-    };
-
-    const enqueue = (el) => new Promise((resolve) => { queue.push({ el, resolve }); pump(); });
-
-    async function buildScroll(el, c) {
-      if (el.dataset.swarmBuilt) return;
-      el.dataset.swarmBuilt = '1';
-      clearTimeout(idleTimer);
-
-      const r = localRect(el);
-      if (r.w < 8 || r.h < 8) { el.classList.remove('swarm-pending'); return; }
-      // 已经滚过去的块别再画框（画出来一定错位）
-      if (r.vBottom <= 0) { el.classList.remove('swarm-pending'); el.classList.add('swarm-lit'); return; }
-
-      c.el.style.opacity = '1';
-      const small = r.w * r.h < 90000;
-      let frame = null, ghost = null;
-      if (small) ghost = await dragGhost(el, c, r, 210);
-      if (!ghost) {
-        await chase(el, c, OPTS.scrollGlide, 0.25, 0.5);
-        frame = await drawFrame(r, Math.min(320, OPTS.scrollDraw + r.w * .06), 'reveal', el, c);
-      }
-
-      // 文本标题走揭示，其余直接淡出待建态
-      const isText = el.matches('.section__title, .kicker, .step__title, h2, h3');
-      if (isText) {
-        el.classList.add('swarm-revealing', 'swarm-lit');
-        el.classList.remove('swarm-pending');
-        await new Promise((res) => requestAnimationFrame(() => {
-          el.classList.add('swarm-revealed');
-          setTimeout(() => { el.classList.remove('swarm-revealing', 'swarm-revealed'); res(); }, OPTS.scrollReveal);
-        }));
-      } else {
-        el.classList.remove('swarm-pending');
-        el.classList.add('swarm-lit');
-        await wait(90);
-      }
-      if (ghost) { ghost.style.transition = 'opacity .16s ease'; ghost.style.opacity = '0'; setTimeout(() => ghost.remove(), 200); }
-      if (frame) setTimeout(() => frame.remove(), 180);
+      return null;
     }
 
-    // 兜底：content-visibility / 离屏布局导致框量不到时，别把内容永远藏着
-    const sweep = setInterval(() => {
-      const now = Date.now();
-      for (const el of document.querySelectorAll('.swarm-pending')) {
-        const waited = now - Number(el.dataset.swarmPendingAt || now);
-        const r = el.getBoundingClientRect();
-        // 只有在「屏幕上」且等了 2 秒还没轮到，才强制放出；否则交给光标去画
-        const onScreen = r.height > 0 && r.top < innerHeight * 1.02 && r.bottom > 0;
-        const scrolledPast = r.height > 0 && r.bottom <= 0;
-        if ((waited > 2000 && onScreen) || scrolledPast) {
-          el.classList.remove('swarm-pending');
-          el.classList.add('swarm-lit');
-          el.dataset.swarmBuilt = '1';
-        }
+    function pump() {
+      while (busy < cursors.length) {
+        const free = cursors.find((c) => !c.busy);
+        if (!free) break;
+        const el = takeNext();
+        if (!el) break;
+        free.busy = true; busy++;
+        settle(el, free)
+          .then(() => {
+            busy--; done++; free.busy = false;
+            if (done >= targets.length) finale();
+            else pump();
+          })
+          .catch((e) => { console.warn('[swarm]', e); busy--; free.busy = false; });
       }
-      if (!document.querySelector('.swarm-pending')) clearInterval(sweep);
-    }, 500);
+    }
 
-    // 滚动时把已经跑到屏幕外的闲置光标藏掉，否则看着像"光标卡在错误位置"
-    addEventListener('scroll', () => {
-      for (const c of document.querySelectorAll('.swarm-cursor')) {
-        if (c.dataset.busy === '1') continue;
-        const r = c.getBoundingClientRect();
-        const outside = r.top < -40 || r.top > innerHeight + 40 || r.left < -40 || r.left > innerWidth + 40;
-        if (outside) c.style.opacity = '0';
-      }
-    }, { passive: true });
+    function settle(el, c) {
+      const master = masterOf(el);
+      if (master && !master.classList.contains('sw-pending')) return taskDup(el, master, c);
+      const kind = classify(el);
+      if (kind === 'text') return taskText(el, c);
+      if (kind === 'media') return taskMedia(el, c);
+      if (kind === 'line') return taskLine(el, c);
+      return taskRect(el, c);
+    }
 
+    // 视口附近才放行（含 400px 提前量，滚到之前就开始画）
     const io = new IntersectionObserver((entries) => {
+      let any = false;
       for (const e of entries) {
         if (!e.isIntersecting) continue;
+        e.target.dataset.swReady = '1';
         io.unobserve(e.target);
-        enqueue(e.target);
+        any = true;
       }
-    }, { rootMargin: '0px 0px -12% 0px', threshold: 0.05 });
+      if (any) pump();
+    }, { rootMargin: '0px 0px 420px 0px', threshold: 0.01 });
+    targets.forEach((el) => io.observe(el));
 
-    blocks.forEach((el) => io.observe(el));
+    pump();
 
-    // 首屏附近还没建的，直接先排队（避免停在屏幕上却不画）
-    blocks.slice(0, 4).forEach((el) => {
-      const r = el.getBoundingClientRect();
-      if (r.top < innerHeight * 1.2) { io.unobserve(el); enqueue(el); }
-    });
+    let ticking = false;
+    addEventListener('scroll', () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => { ticking = false; pump(); });
+    }, { passive: true });
+
+    // 兜底：屏幕上等了 2.6 秒还没被画的，直接放出来（绝不留下看不见的内容）
+    const sweep = setInterval(() => {
+      const left = document.querySelectorAll('.sw-pending');
+      if (!left.length) { clearInterval(sweep); return; }
+      for (const el of left) {
+        const b = el.getBoundingClientRect();
+        if (b.height > 0 && b.top < innerHeight && b.bottom > 0) {
+          const w = Number(el.dataset.swWaited || 0) + 500;
+          el.dataset.swWaited = String(w);
+          if (w > 2600) { el.classList.remove('sw-pending'); el.classList.add('sw-done'); }
+        }
+      }
+      pump();
+    }, 500);
+
+    function finale() {
+      if (finished) return;
+      finished = true;
+      clearInterval(sweep);
+      try { io.disconnect(); } catch (e) {}
+      cursors.forEach((c) => {
+        c.el.style.transition = 'opacity .55s ease';
+        c.el.style.opacity = '0';
+      });
+      setTimeout(() => {
+        document.documentElement.classList.remove('swarming');
+        if (overlay) overlay.remove();
+        document.dispatchEvent(new CustomEvent('swarm:done'));
+      }, 640);
+    }
   }
 
-  /* 不再等字体：首帧就量，框每帧跟着元素走（字体替换后也不会错位） */
-  const start = () => Promise.resolve().then(() => run()).catch((e) => {
-    console.error('[swarm]', e);
-    root.classList.remove('swarming');
-    if (overlay) overlay.remove();
-  });
-
-  // 等首帧画出来再开始（否则动画在第一帧之前就结束了，用户什么都看不到）
+  let started = false;
+  const start = () => { if (!started) { started = true; run().catch((e) => console.warn('[swarm]', e)); } };
   const afterPaint = (fn) => requestAnimationFrame(() => requestAnimationFrame(fn));
+
   if (document.readyState === 'loading') {
     addEventListener('DOMContentLoaded', () => afterPaint(start), { once: true });
   } else {
