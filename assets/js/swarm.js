@@ -158,7 +158,26 @@
     });
   }
 
-  function drawFrame(rect, ms, label, el) {
+  /** 追随式移动：每帧重新读元素位置，手指到哪光标跟到哪（滚动也不掉队） */
+  function chase(el, c, ms, fx, fy) {
+    const t0 = performance.now();
+    return new Promise((res) => {
+      (function step() {
+        const t = Math.min(1, (performance.now() - t0) / ms);
+        const k = easeInOut(t);
+        const cur = localRect(el);
+        const tx = cur.x + cur.w * fx, ty = cur.y + cur.h * fy;
+        if (t < 0.35) {
+          place(c, c.x + (tx - c.x) * (0.3 + 0.9 * k), c.y + (ty - c.y) * (0.3 + 0.9 * k));
+        } else {
+          place(c, tx, ty);   // 贴合：元素被滚动带走，光标立刻跟上
+        }
+        if (t < 1) requestAnimationFrame(step); else res();
+      })();
+    });
+  }
+
+  function drawFrame(rect, ms, label, el, c) {
     const f = document.createElement('div');
     f.className = 'swarm-frame';
     f.style.cssText = 'left:' + rect.x + 'px;top:' + rect.y + 'px;width:0;height:0';
@@ -182,6 +201,7 @@
         f.style.width = w + 'px';
         f.style.height = h + 'px';
         dim.textContent = w + ' × ' + h;
+        if (c) place(c, cur.x + Math.min(cur.w * 0.3, 70), cur.y + cur.h * 0.55);
         t < 1 ? requestAnimationFrame(step) : res(f);
       })();
     });
@@ -217,15 +237,14 @@
     const goY = rect.y + rect.h * .5;
 
     c.el.style.opacity = '1';
-    const dist = Math.hypot(goX - c.x, goY - c.y);
-    await glide(c, goX, goY, Math.min(OPTS.glideMax, OPTS.glideMin + dist * .35));
+    await chase(el, c, Math.min(OPTS.glideMax, OPTS.glideMin + 80), 0.3, 0.5);
     // 按钮 / 徽章这类小块：光标直接把它拖到位；标题、段落这种大块：仍然拖框
     const small = rect.w * rect.h < 90000;
     let frame = null, ghost = null;
     if (small) ghost = await dragGhost(el, c, rect, 240);
     if (!ghost) {
       const tag = (el.className || el.tagName).split(' ')[0];
-      frame = await drawFrame(rect, Math.min(OPTS.drawMax, OPTS.drawMin + rect.w * .18), tag, el);
+      frame = await drawFrame(rect, Math.min(OPTS.drawMax, OPTS.drawMin + rect.w * .18), tag, el, c);
     }
 
     // 文本类走「写出来」，按钮/徽章这类走「淡入」
@@ -300,7 +319,7 @@
       }
       if (!busy && !queue.length) {
         clearTimeout(idleTimer);
-        idleTimer = setTimeout(() => crew.forEach((c) => { c.el.style.opacity = '0'; }), 900);
+        idleTimer = setTimeout(() => crew.forEach((c) => { c.el.style.opacity = '0'; }), 500);
       }
     };
 
@@ -321,8 +340,8 @@
       let frame = null, ghost = null;
       if (small) ghost = await dragGhost(el, c, r, 210);
       if (!ghost) {
-        await glide(c, r.x + Math.min(r.w * .25, 70), r.y + r.h * .5, OPTS.scrollGlide);
-        frame = await drawFrame(r, Math.min(320, OPTS.scrollDraw + r.w * .06), 'reveal', el);
+        await chase(el, c, OPTS.scrollGlide, 0.25, 0.5);
+        frame = await drawFrame(r, Math.min(320, OPTS.scrollDraw + r.w * .06), 'reveal', el, c);
       }
 
       // 文本标题走揭示，其余直接淡出待建态
@@ -360,6 +379,16 @@
       }
       if (!document.querySelector('.swarm-pending')) clearInterval(sweep);
     }, 500);
+
+    // 滚动时把已经跑到屏幕外的闲置光标藏掉，否则看着像"光标卡在错误位置"
+    addEventListener('scroll', () => {
+      for (const c of document.querySelectorAll('.swarm-cursor')) {
+        if (c.dataset.busy === '1') continue;
+        const r = c.getBoundingClientRect();
+        const outside = r.top < -40 || r.top > innerHeight + 40 || r.left < -40 || r.left > innerWidth + 40;
+        if (outside) c.style.opacity = '0';
+      }
+    }, { passive: true });
 
     const io = new IntersectionObserver((entries) => {
       for (const e of entries) {
