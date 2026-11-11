@@ -1321,34 +1321,42 @@ html.is-ready .hero__copy {
 
 .sw-overlay { position: fixed; inset: 0; pointer-events: none; z-index: 9998; }
 
-/* ---- 光标 ---- */
+/* ---- 光标：白色指针（与参考实现一致） ---- */
 .sw-cursor {
-  position: absolute; left: 0; top: 0; display: flex; align-items: flex-start; gap: 2px;
-  transition: opacity .2s ease; will-change: left, top;
-  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, .45));
+  position: absolute; left: 0; top: 0; display: block;
+  transition: opacity .18s ease; will-change: left, top;
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, .5));
 }
 .sw-cursor__ico { display: block; line-height: 0; }
-.sw-cursor__who {
-  margin-top: 15px; margin-left: -3px; padding: 2px 6px; border-radius: 5px;
-  font: 600 11px/1.25 var(--font-mono, ui-monospace, monospace);
-  color: #fff; background: var(--c, #6366f1); white-space: nowrap;
-  transform: translateX(-2px); box-shadow: 0 1px 4px rgba(0, 0, 0, .3);
-}
 .sw-cursor[data-kind="crosshair"] .sw-cursor__who,
 .sw-cursor[data-kind="pen"] .sw-cursor__who { margin-top: 12px; }
 
-/* ---- 拖框 + 实时尺寸 ---- */
+/* ---- 选区框：蓝色实线 + 四角白色控制点（Figma 风格） ---- */
 .sw-frame {
-  position: absolute; box-sizing: border-box; border: 1.5px dashed currentColor;
-  color: #8b93a7; background: rgba(140, 148, 170, .10);
-  transition: opacity .18s ease, border-color .18s ease;
+  position: absolute; box-sizing: border-box; border: 1.5px solid #4A7DFF;
+  background: rgba(74, 125, 255, .06);
+  transition: opacity .18s ease;
 }
+.sw-frame__h {
+  position: absolute; width: 6px; height: 6px; background: #fff;
+  border: 1px solid #4A7DFF; border-radius: 1px;
+}
+.sw-frame__h--tl { left: -4px; top: -4px; }
+.sw-frame__h--tr { right: -4px; top: -4px; }
+.sw-frame__h--bl { left: -4px; bottom: -4px; }
+.sw-frame__h--br { right: -4px; bottom: -4px; }
 .sw-frame__dim {
-  position: absolute; left: 50%; top: 100%; transform: translate(-50%, 4px);
-  padding: 2px 5px; border-radius: 4px; background: #6b7280; color: #fff;
+  position: absolute; left: 50%; top: 100%; transform: translate(-50%, 5px);
+  padding: 2px 6px; border-radius: 3px; background: #4A7DFF; color: #fff;
   font: 600 10px/1.4 var(--font-mono, ui-monospace, monospace); white-space: nowrap;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, .3);
 }
 .sw-frame--gone { opacity: 0; }
+
+/* ---- 细参考线 ---- */
+.sw-guide { position: absolute; background: rgba(74, 125, 255, .55); pointer-events: none; }
+.sw-guide--v { width: 1px; }
+.sw-guide--h { height: 1px; }
 
 /* ---- 打字光标 ---- */
 .sw-caret {

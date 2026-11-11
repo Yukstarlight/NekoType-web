@@ -70,11 +70,12 @@
   }
 
   /* ---------------- 光标 ---------------- */
+  // 参考实现里光标就是普通白色指针（带一点描边保证在浅色背景上也能看清），没有名字牌
   const ICONS = {
-    arrow: '<svg viewBox="0 0 24 24" width="22" height="22"><path d="M4 2l6.2 17 2.5-6.9 7-2.5z" fill="currentColor" stroke="#fff" stroke-width="1.1" stroke-linejoin="round"/></svg>',
-    crosshair: '<svg viewBox="0 0 24 24" width="22" height="22"><g stroke="#fff" stroke-width="3.2" stroke-linecap="round"><path d="M12 3v18M3 12h18"/></g><g stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 4.5v15M4.5 12h15"/></g></svg>',
-    ibeam: '<svg viewBox="0 0 24 24" width="20" height="20"><g stroke="#fff" stroke-width="3.2" stroke-linecap="round"><path d="M8 4h8M12 4v16M8 20h8"/></g><g stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M8.6 4.4h6.8M12 4.4v15.2M8.6 19.6h6.8"/></g></svg>',
-    pen: '<svg viewBox="0 0 24 24" width="21" height="21"><path d="M5 19l1.4-4.2L16.6 4.6a1.8 1.8 0 012.6 0l.2.2a1.8 1.8 0 010 2.6L9.2 17.6z" fill="currentColor" stroke="#fff" stroke-width="1.1" stroke-linejoin="round"/></svg>'
+    arrow: '<svg viewBox="0 0 24 24" width="20" height="20"><path d="M5 3l6.7 16.4 2.2-6.5 6.6-2.2z" fill="#fff" stroke="#0b0f1a" stroke-width="1.15" stroke-linejoin="round"/></svg>',
+    crosshair: '<svg viewBox="0 0 24 24" width="20" height="20"><g stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M12 3v18M3 12h18"/></g><g stroke="#0b0f1a" stroke-width="1.2" stroke-linecap="round"><path d="M12 4.4v15.2M4.4 12h15.2"/></g></svg>',
+    ibeam: '<svg viewBox="0 0 24 24" width="18" height="18"><g stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M8 4h8M12 4v16M8 20h8"/></g><g stroke="#0b0f1a" stroke-width="1.2" stroke-linecap="round"><path d="M8.6 4.4h6.8M12 4.4v15.2M8.6 19.6h6.8"/></g></svg>',
+    pen: '<svg viewBox="0 0 24 24" width="19" height="19"><path d="M5 19l1.4-4.2L16.6 4.6a1.8 1.8 0 012.6 0l.2.2a1.8 1.8 0 010 2.6L9.2 17.6z" fill="#fff" stroke="#0b0f1a" stroke-width="1.15" stroke-linejoin="round"/></svg>'
   };
 
   function makeCursor(i) {
@@ -82,8 +83,7 @@
     el.className = 'sw-cursor';
     el.style.color = OPTS.colors[i % OPTS.colors.length];
     el.style.setProperty('--c', OPTS.colors[i % OPTS.colors.length]);
-    el.innerHTML = '<span class="sw-cursor__ico">' + ICONS.arrow + '</span><b class="sw-cursor__who"></b>';
-    el.querySelector('.sw-cursor__who').textContent = OPTS.names[i % OPTS.names.length];
+    el.innerHTML = '<span class="sw-cursor__ico">' + ICONS.arrow + '</span>';
     el.style.opacity = '0';
     overlay.appendChild(el);
     const c = {
@@ -93,6 +93,9 @@
     };
     c.x = (innerWidth * 0.5 - offX) / zoomOf();
     c.y = (innerHeight * 0.5 - offY) / zoomOf();
+    c.wx = c.x + (Math.random() - 0.5) * innerWidth * 0.5;
+    c.wy = c.y + (Math.random() - 0.5) * innerHeight * 0.5;
+    c.nextWander = 0;
     place(el, c.x, c.y);
     return c;
   }
@@ -115,6 +118,11 @@
   function makeFrame() {
     const el = document.createElement('div');
     el.className = 'sw-frame';
+    ['tl', 'tr', 'bl', 'br'].forEach((pos) => {
+      const h = document.createElement('i');
+      h.className = 'sw-frame__h sw-frame__h--' + pos;
+      el.appendChild(h);
+    });
     const dim = document.createElement('span');
     dim.className = 'sw-frame__dim';
     el.appendChild(dim);
@@ -123,12 +131,39 @@
   }
 
   /** 十字准星拖框：从 0 拉到目标大小，每帧跟元素对齐 */
-  function dragRect(c, fr, el, ms) {
+  function makeGuides() {
+    const g = {
+      v: document.createElement('i'), h: document.createElement('i')
+    };
+    g.v.className = 'sw-guide sw-guide--v';
+    g.h.className = 'sw-guide sw-guide--h';
+    overlay.appendChild(g.v); overlay.appendChild(g.h);
+    return g;
+  }
+
+  function fadeOut(g) {
+    if (!g) return;
+    [g.v, g.h].forEach((n) => {
+      n.style.transition = 'opacity .3s ease';
+      n.style.opacity = '0';
+      setTimeout(() => n.remove(), 340);
+    });
+  }
+
+  function dragRect(c, fr, el, ms, guides) {
     const t0 = performance.now();
     return new Promise((res) => {
       (function step() {
         const t = Math.min(1, (performance.now() - t0) / ms), k = easeOut(t);
         const b = box(el);
+        if (guides) {
+          guides.v.style.left = b.x + 'px';
+          guides.v.style.top = Math.max(0, b.y) + 'px';
+          guides.v.style.height = Math.min(innerHeight, b.h * k) + 'px';
+          guides.h.style.top = b.y + 'px';
+          guides.h.style.left = Math.max(0, b.x) + 'px';
+          guides.h.style.width = Math.min(innerWidth, b.w * k) + 'px';
+        }
         fr.el.style.left = b.x + 'px';
         fr.el.style.top = b.y + 'px';
         fr.el.style.width = Math.max(2, b.w * k) + 'px';
@@ -148,11 +183,13 @@
     place(c.el, c.x, c.y);
     await moveTo(c, () => box(el).x + box(el).w - 6, () => box(el).y + box(el).h - 6, 170);
     const fr = makeFrame();
-    await dragRect(c, fr, el, OPTS.rectMs);
+    const guides = makeGuides();
+    await dragRect(c, fr, el, OPTS.rectMs, guides);
     await wait(50);
     el.classList.remove('sw-pending');
     el.classList.add('sw-done');
     fr.el.classList.add('sw-frame--gone');
+    fadeOut(guides);
     setTimeout(() => fr.el.remove(), 220);
   }
 
@@ -381,6 +418,26 @@
     }, { rootMargin: '0px 0px 420px 0px', threshold: 0.01 });
     targets.forEach((el) => io.observe(el));
 
+    // 空闲光标缓慢漂移：参考实现里光标一直在动，屏幕才有"很多人在一起干活"的感觉
+    let wanderRaf = 0;
+    function wander(now) {
+      if (finished) return;
+      const z = zoomOf();
+      for (const c of cursors) {
+        if (c.busy) continue;
+        if (now > c.nextWander) {
+          c.nextWander = now + 1200 + Math.random() * 1800;
+          c.wx = (innerWidth * (0.08 + Math.random() * 0.84) - offX) / z;
+          c.wy = (innerHeight * (0.12 + Math.random() * 0.72) - offY) / z;
+        }
+        c.x += (c.wx - c.x) * 0.012;
+        c.y += (c.wy - c.y) * 0.012;
+        place(c.el, c.x, c.y);
+      }
+      wanderRaf = requestAnimationFrame(wander);
+    }
+    wanderRaf = requestAnimationFrame(wander);
+
     pump();
 
     let ticking = false;
@@ -410,6 +467,7 @@
       finished = true;
       clearInterval(sweep);
       try { io.disconnect(); } catch (e) {}
+      try { cancelAnimationFrame(wanderRaf); } catch (e) {}
       cursors.forEach((c) => {
         c.el.style.transition = 'opacity .55s ease';
         c.el.style.opacity = '0';
