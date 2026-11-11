@@ -379,17 +379,20 @@
     }
 
     function pump() {
+      if (queue.some((e) => e.dataset.swReady === '1')) startWander();
       while (busy < cursors.length) {
         const free = cursors.find((c) => !c.busy);
         if (!free) break;
         const el = takeNext();
         if (!el) break;
         free.busy = true; busy++;
+        free.el.style.opacity = '1';
+        startWander();
         settle(el, free)
           .then(() => {
             busy--; done++; free.busy = false;
             if (done >= targets.length) finale();
-            else pump();
+            else { pump(); settleIdle(); }
           })
           .catch((e) => { console.warn('[swarm]', e); busy--; free.busy = false; });
       }
@@ -419,9 +422,28 @@
     targets.forEach((el) => io.observe(el));
 
     // 空闲光标缓慢漂移：参考实现里光标一直在动，屏幕才有"很多人在一起干活"的感觉
-    let wanderRaf = 0;
+    let wanderRaf = 0, wanderOn = false, idleTimer = 0;
+
+    function startWander() {
+      clearTimeout(idleTimer);
+      if (finished || wanderOn) return;
+      wanderOn = true;
+      wanderRaf = requestAnimationFrame(wander);
+    }
+
+    // 没活干了：光标淡出并停住（滚到新内容时会再出来）
+    function settleIdle() {
+      clearTimeout(idleTimer);
+      idleTimer = setTimeout(() => {
+        if (finished || busy > 0) return;
+        wanderOn = false;
+        cancelAnimationFrame(wanderRaf);
+        for (const c of cursors) if (!c.busy) c.el.style.opacity = '0';
+      }, 700);
+    }
+
     function wander(now) {
-      if (finished) return;
+      if (finished || !wanderOn) return;
       const z = zoomOf();
       for (const c of cursors) {
         if (c.busy) continue;
@@ -436,7 +458,6 @@
       }
       wanderRaf = requestAnimationFrame(wander);
     }
-    wanderRaf = requestAnimationFrame(wander);
 
     pump();
 
@@ -444,7 +465,7 @@
     addEventListener('scroll', () => {
       if (ticking) return;
       ticking = true;
-      requestAnimationFrame(() => { ticking = false; pump(); });
+      requestAnimationFrame(() => { ticking = false; startWander(); pump(); settleIdle(); });
     }, { passive: true });
 
     // 兜底：屏幕上等了 2.6 秒还没被画的，直接放出来（绝不留下看不见的内容）
