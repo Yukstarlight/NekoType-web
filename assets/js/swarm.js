@@ -61,6 +61,12 @@
 
   const place = (el, x, y) => { el.style.left = x + 'px'; el.style.top = y + 'px'; };
 
+  let seq = 0;
+  const idOf = (el) => {
+    if (!el.dataset.swId) el.dataset.swId = 's' + (++seq);
+    return el.dataset.swId;
+  };
+
   function buildOverlay() {
     overlay = document.createElement('div');
     overlay.className = 'sw-overlay';
@@ -115,9 +121,10 @@
   }
 
   /* ---------------- 画面元素 ---------------- */
-  function makeFrame() {
+  function makeFrame(target) {
     const el = document.createElement('div');
     el.className = 'sw-frame';
+    if (target) el.dataset.swEl = idOf(target);
     ['tl', 'tr', 'bl', 'br'].forEach((pos) => {
       const h = document.createElement('i');
       h.className = 'sw-frame__h sw-frame__h--' + pos;
@@ -280,14 +287,14 @@
     c.x = b0.x + b0.w + 24; c.y = b0.y + b0.h + 20;
     place(c.el, c.x, c.y);
     await moveTo(c, () => box(el).x + box(el).w - 6, () => box(el).y + box(el).h - 6, 200);
-    const fr = makeFrame();
+    const fr = makeFrame(el);
     const guides = makeGuides();
     guides.lines = snapLines(el);
     if (!rulerTop) makeRulers();
     await dragRect(c, fr, el, Math.min(360, OPTS.rectMs + 90), guides);
     el.classList.remove('sw-pending');
     el.classList.add('sw-done');
-    await wait(140);
+    await wait(90);
     fr.el.classList.add('sw-frame--gone');
     fadeOut(guides);
     setTimeout(() => fr.el.remove(), 220);
@@ -299,7 +306,7 @@
     c.x = b0.x + b0.w + 26; c.y = b0.y + b0.h + 22;
     place(c.el, c.x, c.y);
     await moveTo(c, () => box(el).x + box(el).w - 6, () => box(el).y + box(el).h - 6, 170);
-    const fr = makeFrame();
+    const fr = makeFrame(el);
     const guides = makeGuides();
     guides.lines = snapLines(el);
     if (!rulerTop) makeRulers();
@@ -315,7 +322,7 @@
   async function taskMedia(el, c) {
     c.kind('crosshair'); c.show();
     await moveTo(c, () => box(el).x + box(el).w + 24, () => box(el).y + box(el).h + 20, 150);
-    const fr = makeFrame();
+    const fr = makeFrame(el);
     await dragRect(c, fr, el, OPTS.rectMs);
     el.classList.remove('sw-pending');
     el.classList.add('sw-media-in');
@@ -329,6 +336,7 @@
     c.kind('ibeam'); c.show();
     el.classList.remove('sw-pending');
     el.classList.add('sw-typing');
+    el.style.clipPath = 'inset(-10% 100% -10% 0)';     // 从空白开始打
     await moveTo(c, () => box(el).x + 8, () => box(el).y + box(el).h * 0.75, 150);
 
     const chars = (el.textContent || '').trim().length;
@@ -520,8 +528,6 @@
       };
       // 首屏
       Array.prototype.forEach.call(document.querySelectorAll(OPTS.heroSelectors), push);
-      // 整节（大框，先画）
-      Array.prototype.forEach.call(document.querySelectorAll('section, footer, .footer'), push);
       // 显式块（卡片 / 步骤 / 特性 / FAQ / 变更条目 / 标签 / 统计 …）
       Array.prototype.forEach.call(document.querySelectorAll(OPTS.selectors), (el) => {
         if (!el.closest('.hero')) push(el);
@@ -540,7 +546,7 @@
 
     buildOverlay();
     document.documentElement.classList.add('swarming');
-    targets.forEach((el) => el.classList.add('sw-pending'));
+    // 不隐藏内容：框画在真实内容上，避免出现"空蓝框跟可见内容对不上"
 
     const cursors = [];
     for (let i = 0; i < OPTS.maxCursors; i++) cursors.push(makeCursor(i));
@@ -603,9 +609,6 @@
     }
 
     function settle(el, c) {
-      if (el.tagName === 'SECTION' || el.tagName === 'FOOTER' || el.classList.contains('footer')) {
-        return taskGroup(el, c);
-      }
       const master = masterOf(el);
       if (master && !master.classList.contains('sw-pending')) return taskDup(el, master, c);
       const kind = classify(el);
