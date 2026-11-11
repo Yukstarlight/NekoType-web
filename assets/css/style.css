@@ -1399,3 +1399,49 @@ html.is-ready .hero__copy {
   .sw-pending { opacity: 1 !important; }
 }
 
+/* ---- 标尺（顶部 + 左侧，Figma 风格） ---- */
+.sw-ruler {
+  position: absolute; background: rgba(18, 20, 26, .82); z-index: 3;
+  backdrop-filter: blur(4px);
+}
+.sw-ruler--top {
+  left: 0; top: 0; width: 100%; height: 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, .12);
+  transform: translateY(-100%);
+  transition: transform .28s cubic-bezier(.22, 1, .36, 1);
+}
+.sw-ruler--left {
+  left: 0; top: 0; width: 18px; height: 100%;
+  border-right: 1px solid rgba(255, 255, 255, .12);
+  transform: translateX(-100%);
+  transition: transform .28s cubic-bezier(.22, 1, .36, 1);
+}
+.sw-tick { position: absolute; background: rgba(255, 255, 255, .22); }
+.sw-tick--v { top: 0; width: 1px; height: 4px; }
+.sw-tick--h { left: 0; height: 1px; width: 4px; }
+.sw-tick--n::after {
+  content: attr(data-n); position: absolute; color: rgba(255, 255, 255, .5);
+  font: 500 8px/1 var(--font-mono, ui-monospace, monospace);
+}
+.sw-tick--v.sw-tick--n::after { left: 2px; top: 5px; }
+.sw-tick--h.sw-tick--n::after { top: 2px; left: 5px; writing-mode: vertical-rl; }
+
+/* ---- 参考线：普通蓝、吸附时变红加粗 ---- */
+.sw-guide { position: absolute; background: rgba(74, 125, 255, .55); pointer-events: none; }
+.sw-guide--v { width: 1px; }
+.sw-guide--h { height: 1px; }
+.sw-guide.is-snap { background: #F24E1E; }
+.sw-guide--v.is-snap { width: 2px; }
+.sw-guide--h.is-snap { height: 2px; }
+.sw-guide__badge {
+  position: absolute; padding: 1px 5px; border-radius: 3px; background: #F24E1E; color: #fff;
+  font: 600 9px/1.5 var(--font-mono, ui-monospace, monospace); white-space: nowrap;
+  opacity: 0; transition: opacity .12s ease; transform: translate(-50%, -50%); pointer-events: none;
+}
+
+/* ---- ⌥ 换内容的角标 ---- */
+.sw-swap {
+  position: absolute; padding: 2px 6px; border-radius: 3px; background: #0ACF83; color: #06281a;
+  font: 700 10px/1.4 var(--font-mono, ui-monospace, monospace); white-space: nowrap;
+  transition: opacity .2s ease; pointer-events: none;
+}

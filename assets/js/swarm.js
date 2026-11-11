@@ -131,19 +131,100 @@
   }
 
   /** 十字准星拖框：从 0 拉到目标大小，每帧跟元素对齐 */
+  /* ---------- 标尺 ---------- */
+  let rulerTop = null, rulerLeft = null;
+
+  function makeRulers() {
+    rulerTop = document.createElement('div');
+    rulerTop.className = 'sw-ruler sw-ruler--top';
+    rulerLeft = document.createElement('div');
+    rulerLeft.className = 'sw-ruler sw-ruler--left';
+
+    const z = zoomOf();
+    const nCol = Math.ceil(innerWidth / z / 100);
+    const nRow = Math.ceil(innerHeight / z / 100);
+    for (let i = 0; i <= nCol; i++) {
+      const tk = document.createElement('i');
+      tk.className = 'sw-tick sw-tick--v';
+      tk.style.left = i * 100 + 'px';
+      if (i % 2 === 0) { tk.dataset.n = String(i * 100); tk.classList.add('sw-tick--n'); }
+      rulerTop.appendChild(tk);
+    }
+    for (let i = 0; i <= nRow; i++) {
+      const tk = document.createElement('i');
+      tk.className = 'sw-tick sw-tick--h';
+      tk.style.top = i * 100 + 'px';
+      if (i % 2 === 0) { tk.dataset.n = String(i * 100); tk.classList.add('sw-tick--n'); }
+      rulerLeft.appendChild(tk);
+    }
+    overlay.appendChild(rulerTop);
+    overlay.appendChild(rulerLeft);
+    requestAnimationFrame(() => {
+      rulerTop.style.transform = 'translateY(0)';
+      rulerLeft.style.transform = 'translateX(0)';
+    });
+  }
+
+  function hideRulers() {
+    [rulerTop, rulerLeft].forEach((r) => {
+      if (!r) return;
+      r.style.transition = 'opacity .3s ease, transform .3s ease';
+      r.style.opacity = '0';
+      if (r === rulerTop) r.style.transform = 'translateY(-100%)';
+      else r.style.transform = 'translateX(-100%)';
+      setTimeout(() => r.remove(), 340);
+    });
+    rulerTop = rulerLeft = null;
+  }
+
+  /** 收集可吸附的线：同父兄弟的四边 + 父容器四边 */
+  function snapLines(el) {
+    const xs = [], ys = [];
+    const p = el.parentElement;
+    if (p) {
+      for (const sib of p.children) {
+        if (sib === el) continue;
+        const b = box(sib);
+        if (b.w < 4 || b.h < 4) continue;
+        xs.push(b.x, b.x + b.w);
+        ys.push(b.y, b.y + b.h);
+      }
+      const pb = box(p);
+      xs.push(pb.x, pb.x + pb.w);
+      ys.push(pb.y, pb.y + pb.h);
+    }
+    return { xs, ys };
+  }
+
+  /** 就近吸附：8px 之内就贴上去 */
+  function snapTo(v, arr, tol) {
+    let best = null;
+    for (const a of arr) {
+      const d = Math.abs(a - v);
+      if (d <= tol && (best === null || d < Math.abs(best - v))) best = a;
+    }
+    return best;
+  }
+
   function makeGuides() {
     const g = {
       v: document.createElement('i'), h: document.createElement('i')
     };
     g.v.className = 'sw-guide sw-guide--v';
     g.h.className = 'sw-guide sw-guide--h';
+    g.badgeV = document.createElement('b');
+    g.badgeV.className = 'sw-guide__badge sw-guide__badge--v';
+    g.badgeH = document.createElement('b');
+    g.badgeH.className = 'sw-guide__badge sw-guide__badge--h';
     overlay.appendChild(g.v); overlay.appendChild(g.h);
+    overlay.appendChild(g.badgeV); overlay.appendChild(g.badgeH);
     return g;
   }
 
   function fadeOut(g) {
     if (!g) return;
-    [g.v, g.h].forEach((n) => {
+    [g.v, g.h, g.badgeV, g.badgeH].forEach((n) => {
+      if (!n) return;
       n.style.transition = 'opacity .3s ease';
       n.style.opacity = '0';
       setTimeout(() => n.remove(), 340);
@@ -157,12 +238,28 @@
         const t = Math.min(1, (performance.now() - t0) / ms), k = easeOut(t);
         const b = box(el);
         if (guides) {
-          guides.v.style.left = b.x + 'px';
+          const gx = b.x + b.w * k, gy = b.y + b.h * k;
+          const sx = snapTo(gx, guides.lines.xs, 8);
+          const sy = snapTo(gy, guides.lines.ys, 8);
+          const vx = sx === null ? gx : sx;
+          const hy = sy === null ? gy : sy;
+          guides.v.style.left = vx + 'px';
           guides.v.style.top = Math.max(0, b.y) + 'px';
           guides.v.style.height = Math.min(innerHeight, b.h * k) + 'px';
-          guides.h.style.top = b.y + 'px';
+          guides.h.style.top = hy + 'px';
           guides.h.style.left = Math.max(0, b.x) + 'px';
           guides.h.style.width = Math.min(innerWidth, b.w * k) + 'px';
+          guides.v.classList.toggle('is-snap', sx !== null);
+          guides.h.classList.toggle('is-snap', sy !== null);
+          // 吸附时在标尺上闪一下坐标
+          if (rulerTop && rulerLeft) {
+            if (sx !== null) guides.badgeV.textContent = Math.round(sx) + ' px';
+            if (sy !== null) guides.badgeH.textContent = Math.round(sy) + ' px';
+            guides.badgeV.style.opacity = sx !== null ? '1' : '0';
+            guides.badgeH.style.opacity = sy !== null ? '1' : '0';
+            guides.badgeV.style.left = vx + 'px';
+            guides.badgeH.style.top = hy + 'px';
+          }
         }
         fr.el.style.left = b.x + 'px';
         fr.el.style.top = b.y + 'px';
@@ -184,6 +281,8 @@
     await moveTo(c, () => box(el).x + box(el).w - 6, () => box(el).y + box(el).h - 6, 170);
     const fr = makeFrame();
     const guides = makeGuides();
+    guides.lines = snapLines(el);
+    if (!rulerTop) makeRulers();
     await dragRect(c, fr, el, OPTS.rectMs, guides);
     await wait(50);
     el.classList.remove('sw-pending');
@@ -308,6 +407,9 @@
       await raf();
     }
 
+    // 换内容：图片换 src、文字换文本（参考实现的「拖出副本再改内容」）
+    await swapContent(copy, el, c);
+
     el.classList.remove('sw-pending');
     el.classList.add('sw-done');
     [copy, sel, msr].forEach((n) => {
@@ -315,6 +417,43 @@
       n.style.opacity = '0';
       setTimeout(() => n.remove(), 220);
     });
+  }
+
+  /** 把副本的内容改成目标元素的内容（图片淡换 / 文字逐字改） */
+  async function swapContent(copy, el, c) {
+    const imgA = copy.querySelector('img'), imgB = el.querySelector('img');
+    if (imgA && imgB && imgA.getAttribute('src') !== imgB.getAttribute('src')) {
+      imgA.style.transition = 'opacity .18s ease';
+      imgA.style.opacity = '0';
+      await wait(90);
+      imgA.src = imgB.src;
+      imgA.style.opacity = '1';
+      flashSwap(copy, '图');
+      await wait(120);
+      return;
+    }
+    const tA = copy.querySelector('p, h1, h2, h3, h4, span, strong'), tB = el.querySelector('p, h1, h2, h3, h4, span, strong');
+    if (tA && tB && tA.textContent.trim() !== tB.textContent.trim()) {
+      const target = tB.textContent;
+      const steps = Math.min(target.length, 24);
+      for (let i = 1; i <= steps; i++) {
+        tA.textContent = target.slice(0, Math.round(target.length * i / steps));
+        await wait(12);
+      }
+      flashSwap(copy, '字');
+      await wait(80);
+    }
+  }
+
+  function flashSwap(node, label) {
+    const b = document.createElement('b');
+    b.className = 'sw-swap';
+    b.textContent = '⌥ ' + label;
+    const r = node.getBoundingClientRect();
+    b.style.left = (r.right - 34) + 'px';
+    b.style.top = (r.top - 10) + 'px';
+    overlay.appendChild(b);
+    setTimeout(() => { b.style.opacity = '0'; setTimeout(() => b.remove(), 220); }, 320);
   }
 
   /* ---------------- 分类 ---------------- */
@@ -329,13 +468,19 @@
     return 'rect';
   }
 
+  /** 只比较作者写的类名，忽略我们自己加的状态类（sw-pending / sw-done …），
+      否则母版一画完它就和兄弟"不同类"了，⌥ 副本永远触发不了 */
+  function ownCls(el) {
+    return Array.prototype.filter.call(el.classList, (c) => c.indexOf('sw-') !== 0).sort().join('.');
+  }
+
   function masterOf(el) {
     const p = el.parentElement;
     if (!p) return null;
-    const cls = Array.prototype.slice.call(el.classList).sort().join('.');
+    const cls = ownCls(el);
     if (!cls) return null;
     const sibs = Array.prototype.filter.call(p.children, (s) =>
-      s.tagName === el.tagName && Array.prototype.slice.call(s.classList).sort().join('.') === cls);
+      s.tagName === el.tagName && ownCls(s) === cls);
     if (sibs.length < 3) return null;
     return sibs[0] === el ? null : sibs[0];
   }
@@ -356,6 +501,7 @@
 
     buildOverlay();
     document.documentElement.classList.add('swarming');
+    makeRulers();
     targets.forEach((el) => el.classList.add('sw-pending'));
 
     const cursors = [];
@@ -370,6 +516,12 @@
       for (let i = 0; i < queue.length; i++) {
         const el = queue[i];
         if (el.dataset.swReady !== '1') continue;
+        // 重复块：母版还没画完就先跳过，等母版好了再拿它做 ⌥ 拖副本
+        const mo = masterOf(el);
+        if (mo && mo.classList.contains('sw-pending') && !el.dataset.swDupForced) {
+          if (queue.length > 1) continue;
+          el.dataset.swDupForced = '1';
+        }
         const b = el.getBoundingClientRect();
         if (b.height === 0) { queue.splice(i, 1); el.classList.remove('sw-pending'); i--; continue; }
         queue.splice(i, 1);
@@ -379,7 +531,6 @@
     }
 
     function pump() {
-      if (queue.some((e) => e.dataset.swReady === '1')) startWander();
       while (busy < cursors.length) {
         const free = cursors.find((c) => !c.busy);
         if (!free) break;
@@ -391,6 +542,12 @@
         settle(el, free)
           .then(() => {
             busy--; done++; free.busy = false;
+            const p = el.parentElement;
+            if (p) {
+              for (const sib of p.children) {
+                if (sib !== el && sib.tagName === el.tagName) sib.dataset.swDupMasterBuilt = '1';
+              }
+            }
             if (done >= targets.length) finale();
             else { pump(); settleIdle(); }
           })
@@ -439,11 +596,17 @@
         wanderOn = false;
         cancelAnimationFrame(wanderRaf);
         for (const c of cursors) if (!c.busy) c.el.style.opacity = '0';
-      }, 700);
+      }, 220);
     }
 
     function wander(now) {
       if (finished || !wanderOn) return;
+      if (busy === 0) {                       // 没人在干活就立刻停，别让光标继续飘
+        wanderOn = false;
+        cancelAnimationFrame(wanderRaf);
+        for (const cc of cursors) if (!cc.busy) cc.el.style.opacity = '0';
+        return;
+      }
       const z = zoomOf();
       for (const c of cursors) {
         if (c.busy) continue;
@@ -489,6 +652,7 @@
       clearInterval(sweep);
       try { io.disconnect(); } catch (e) {}
       try { cancelAnimationFrame(wanderRaf); } catch (e) {}
+      hideRulers();
       cursors.forEach((c) => {
         c.el.style.transition = 'opacity .55s ease';
         c.el.style.opacity = '0';
