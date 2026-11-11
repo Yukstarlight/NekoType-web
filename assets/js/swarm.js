@@ -484,6 +484,15 @@
     setTimeout(() => { b.style.opacity = '0'; setTimeout(() => b.remove(), 220); }, 320);
   }
 
+  /** 元素如果还没显形（站点自己的 .reveal 淡入 / opacity:0），先让它出现，否则框会画在空气上 */
+  function revealNow(el) {
+    if (parseFloat(getComputedStyle(el).opacity) < 0.5) {
+      if (el.classList.contains('reveal')) el.classList.add('in');
+      el.style.opacity = '1';
+      el.style.transform = 'none';
+    }
+  }
+
   /* ---------------- 分类 ---------------- */
   function classify(el) {
     if (el.tagName === 'HR') return 'line';
@@ -609,6 +618,7 @@
     }
 
     function settle(el, c) {
+      revealNow(el);
       const master = masterOf(el);
       if (master && !master.classList.contains('sw-pending')) return taskDup(el, master, c);
       const kind = classify(el);
