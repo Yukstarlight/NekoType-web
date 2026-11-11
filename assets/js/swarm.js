@@ -273,6 +273,26 @@
     });
   }
 
+  /** 整节 / 整块容器：画一个大数据框，children 随后自己画自己 */
+  async function taskGroup(el, c) {
+    c.kind('crosshair'); c.show();
+    const b0 = box(el);
+    c.x = b0.x + b0.w + 24; c.y = b0.y + b0.h + 20;
+    place(c.el, c.x, c.y);
+    await moveTo(c, () => box(el).x + box(el).w - 6, () => box(el).y + box(el).h - 6, 200);
+    const fr = makeFrame();
+    const guides = makeGuides();
+    guides.lines = snapLines(el);
+    if (!rulerTop) makeRulers();
+    await dragRect(c, fr, el, Math.min(360, OPTS.rectMs + 90), guides);
+    el.classList.remove('sw-pending');
+    el.classList.add('sw-done');
+    await wait(140);
+    fr.el.classList.add('sw-frame--gone');
+    fadeOut(guides);
+    setTimeout(() => fr.el.remove(), 220);
+  }
+
   async function taskRect(el, c) {
     c.kind('crosshair'); c.show();
     const b0 = box(el);
@@ -491,11 +511,30 @@
     if (OPTS.only) {
       targets = Array.prototype.slice.call(document.querySelectorAll(OPTS.only));
     } else {
-      const hero = Array.prototype.slice.call(document.querySelectorAll(OPTS.heroSelectors));
-      const cand = Array.prototype.slice.call(document.querySelectorAll(OPTS.selectors))
-        .filter((el) => !el.closest('.hero'));
-      const blocks = cand.filter((el) => !cand.some((o) => o !== el && el.contains(o)));
-      targets = hero.concat(blocks);
+      const out = [];
+      const push = (el) => {
+        if (!el || out.indexOf(el) >= 0) return;
+        const r = el.getBoundingClientRect();
+        if (r.width < 24 || r.height < 14) return;     // 太小不值得画
+        out.push(el);
+      };
+      // 首屏
+      Array.prototype.forEach.call(document.querySelectorAll(OPTS.heroSelectors), push);
+      // 整节（大框，先画）
+      Array.prototype.forEach.call(document.querySelectorAll('section, footer, .footer'), push);
+      // 显式块（卡片 / 步骤 / 特性 / FAQ / 变更条目 / 标签 / 统计 …）
+      Array.prototype.forEach.call(document.querySelectorAll(OPTS.selectors), (el) => {
+        if (!el.closest('.hero')) push(el);
+      });
+      // 列表项、标签行、图片、页脚列
+      Array.prototype.forEach.call(document.querySelectorAll(
+        '#features li, #more li, #faq li, #changes li, .cap-row > *, .stats .stat, .footer__col, .footer__col > a, img, .term, .demo__panel'
+      ), push);
+
+      // 文档顺序 === 父在前、子在后（compareDocumentPosition）
+      out.sort((a, b) => (a === b ? 0 :
+        (a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1)));
+      targets = out.slice(0, 240);
     }
     if (!targets.length) return;
 
@@ -564,6 +603,9 @@
     }
 
     function settle(el, c) {
+      if (el.tagName === 'SECTION' || el.tagName === 'FOOTER' || el.classList.contains('footer')) {
+        return taskGroup(el, c);
+      }
       const master = masterOf(el);
       if (master && !master.classList.contains('sw-pending')) return taskDup(el, master, c);
       const kind = classify(el);
