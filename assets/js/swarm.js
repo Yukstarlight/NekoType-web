@@ -524,33 +524,15 @@
 
   /* ---------------- 主流程 ---------------- */
   async function run() {
-    let targets;
-    if (OPTS.only) {
-      targets = Array.prototype.slice.call(document.querySelectorAll(OPTS.only));
-    } else {
-      const out = [];
-      const push = (el) => {
-        if (!el || out.indexOf(el) >= 0) return;
-        const r = el.getBoundingClientRect();
-        if (r.width < 24 || r.height < 14) return;     // 太小不值得画
-        out.push(el);
-      };
-      // 首屏
-      Array.prototype.forEach.call(document.querySelectorAll(OPTS.heroSelectors), push);
-      // 显式块（卡片 / 步骤 / 特性 / FAQ / 变更条目 / 标签 / 统计 …）
-      Array.prototype.forEach.call(document.querySelectorAll(OPTS.selectors), (el) => {
-        if (!el.closest('.hero')) push(el);
-      });
-      // 列表项、标签行、图片、页脚列
-      Array.prototype.forEach.call(document.querySelectorAll(
-        '#features li, #more li, #faq li, #changes li, .cap-row > *, .stats .stat, .footer__col, .footer__col > a, img, .term, .demo__panel'
-      ), push);
+    // 只做首屏这一轮；页面下方不再参与
+    let targets = OPTS.only
+      ? Array.prototype.slice.call(document.querySelectorAll(OPTS.only))
+      : Array.prototype.slice.call(document.querySelectorAll(OPTS.heroSelectors));
+    targets = targets.filter((el) => {
+      const r = el.getBoundingClientRect();
+      return r.width >= 24 && r.height >= 14;
+    });
 
-      // 文档顺序 === 父在前、子在后（compareDocumentPosition）
-      out.sort((a, b) => (a === b ? 0 :
-        (a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1)));
-      targets = out.slice(0, 240);
-    }
     if (!targets.length) return;
 
     buildOverlay();
@@ -584,6 +566,7 @@
     }
 
     function pump() {
+      window.__swarmState = { done, total: targets.length, busy, queue: queue.length };
       while (busy < cursors.length) {
         const free = cursors.find((c) => !c.busy);
         if (!free) break;
@@ -609,6 +592,7 @@
             else { pump(); settleIdle(); }
           })
           .catch((e) => {
+            (window.__swarmErrors = window.__swarmErrors || []).push(String(e));
             console.warn('[swarm]', e);
             busy--; free.busy = false;
             free.el.dataset.busy = '0';
@@ -628,20 +612,7 @@
       return taskRect(el, c);
     }
 
-    // 视口附近才放行（含 400px 提前量，滚到之前就开始画）
-    const io = new IntersectionObserver((entries) => {
-      let any = false;
-      for (const e of entries) {
-        if (!e.isIntersecting) continue;
-        e.target.dataset.swReady = '1';
-        io.unobserve(e.target);
-        any = true;
-      }
-      if (any) pump();
-    }, { rootMargin: '0px 0px 420px 0px', threshold: 0.01 });
-    targets.forEach((el) => io.observe(el));
-
-    // 空闲光标缓慢漂移：参考实现里光标一直在动，屏幕才有"很多人在一起干活"的感觉
+    // 空闲光标缓慢漂移，让画面有"有人在干活"的感觉；没活时立刻停
     let wanderRaf = 0, wanderOn = false, idleTimer = 0;
 
     function startWander() {
@@ -651,7 +622,6 @@
       wanderRaf = requestAnimationFrame(wander);
     }
 
-    // 没活干了：光标淡出并停住（滚到新内容时会再出来）
     function settleIdle() {
       clearTimeout(idleTimer);
       idleTimer = setTimeout(() => {
@@ -659,13 +629,13 @@
         wanderOn = false;
         cancelAnimationFrame(wanderRaf);
         for (const c of cursors) if (!c.busy) c.el.style.opacity = '0';
-        hideRulers();                          // 没活了，标尺一起收起
+        hideRulers();
       }, 220);
     }
 
     function wander(now) {
       if (finished || !wanderOn) return;
-      if (busy === 0) {                       // 没人在干活就立刻停，别让光标继续飘
+      if (busy === 0) {
         wanderOn = false;
         cancelAnimationFrame(wanderRaf);
         for (const cc of cursors) if (!cc.busy) cc.el.style.opacity = '0';
@@ -686,35 +656,14 @@
       wanderRaf = requestAnimationFrame(wander);
     }
 
+    // 首屏任务一次性全部放行（不再有滚动派活）
+    targets.forEach((el) => { el.dataset.swReady = '1'; });
+
     pump();
-
-    let ticking = false;
-    addEventListener('scroll', () => {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(() => { ticking = false; startWander(); pump(); settleIdle(); });
-    }, { passive: true });
-
-    // 兜底：屏幕上等了 2.6 秒还没被画的，直接放出来（绝不留下看不见的内容）
-    const sweep = setInterval(() => {
-      const left = document.querySelectorAll('.sw-pending');
-      if (!left.length) { clearInterval(sweep); return; }
-      for (const el of left) {
-        const b = el.getBoundingClientRect();
-        if (b.height > 0 && b.top < innerHeight && b.bottom > 0) {
-          const w = Number(el.dataset.swWaited || 0) + 500;
-          el.dataset.swWaited = String(w);
-          if (w > 2600) { el.classList.remove('sw-pending'); el.classList.add('sw-done'); }
-        }
-      }
-      pump();
-    }, 500);
 
     function finale() {
       if (finished) return;
       finished = true;
-      clearInterval(sweep);
-      try { io.disconnect(); } catch (e) {}
       try { cancelAnimationFrame(wanderRaf); } catch (e) {}
       hideRulers();
       cursors.forEach((c) => {
