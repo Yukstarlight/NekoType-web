@@ -1324,7 +1324,7 @@ html.is-ready .hero__copy {
 /* ---- 光标：白色指针（与参考实现一致） ---- */
 .sw-cursor {
   position: absolute; left: 0; top: 0; display: block;
-  transition: opacity .18s ease; will-change: left, top;
+  transition: none; will-change: left, top;
   filter: drop-shadow(0 1px 3px rgba(0, 0, 0, .5));
 }
 .sw-cursor__ico { display: block; line-height: 0; }
@@ -1399,32 +1399,29 @@ html.is-ready .hero__copy {
   .sw-pending { opacity: 1 !important; }
 }
 
-/* ---- 标尺（顶部 + 左侧，Figma 风格） ---- */
+/* ---- 标尺：细、淡，只在画的时候露出来 ---- */
 .sw-ruler {
-  position: absolute; background: rgba(18, 20, 26, .82); z-index: 3;
-  backdrop-filter: blur(4px);
+  position: absolute; background: rgba(16, 18, 24, .55); z-index: 3;
 }
 .sw-ruler--top {
-  left: 0; top: 0; width: 100%; height: 18px;
-  border-bottom: 1px solid rgba(255, 255, 255, .12);
+  left: 0; top: 0; width: 100%; height: 9px;
   transform: translateY(-100%);
-  transition: transform .28s cubic-bezier(.22, 1, .36, 1);
+  transition: transform .22s ease, opacity .22s ease;
 }
 .sw-ruler--left {
-  left: 0; top: 0; width: 18px; height: 100%;
-  border-right: 1px solid rgba(255, 255, 255, .12);
+  left: 0; top: 0; width: 9px; height: 100%;
   transform: translateX(-100%);
-  transition: transform .28s cubic-bezier(.22, 1, .36, 1);
+  transition: transform .22s ease, opacity .22s ease;
 }
-.sw-tick { position: absolute; background: rgba(255, 255, 255, .22); }
-.sw-tick--v { top: 0; width: 1px; height: 4px; }
-.sw-tick--h { left: 0; height: 1px; width: 4px; }
+.sw-tick { position: absolute; background: rgba(255, 255, 255, .16); }
+.sw-tick--v { top: 0; width: 1px; height: 2px; }
+.sw-tick--h { left: 0; height: 1px; width: 2px; }
 .sw-tick--n::after {
-  content: attr(data-n); position: absolute; color: rgba(255, 255, 255, .5);
-  font: 500 8px/1 var(--font-mono, ui-monospace, monospace);
+  content: attr(data-n); position: absolute; color: rgba(255, 255, 255, .3);
+  font: 500 7px/1 var(--font-mono, ui-monospace, monospace);
 }
-.sw-tick--v.sw-tick--n::after { left: 2px; top: 5px; }
-.sw-tick--h.sw-tick--n::after { top: 2px; left: 5px; writing-mode: vertical-rl; }
+.sw-tick--v.sw-tick--n::after { left: 2px; top: 2px; }
+.sw-tick--h.sw-tick--n::after { left: 2px; top: 2px; }
 
 /* ---- 参考线：普通蓝、吸附时变红加粗 ---- */
 .sw-guide { position: absolute; background: rgba(74, 125, 255, .55); pointer-events: none; }

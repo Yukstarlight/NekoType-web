@@ -501,7 +501,6 @@
 
     buildOverlay();
     document.documentElement.classList.add('swarming');
-    makeRulers();
     targets.forEach((el) => el.classList.add('sw-pending'));
 
     const cursors = [];
@@ -538,10 +537,14 @@
         if (!el) break;
         free.busy = true; busy++;
         free.el.style.opacity = '1';
+        free.el.dataset.busy = '1';
+        if (!rulerTop) makeRulers();          // 有活干才把标尺拉出来
         startWander();
         settle(el, free)
           .then(() => {
             busy--; done++; free.busy = false;
+            free.el.dataset.busy = '0';
+            free.el.style.opacity = '0';        // 干完立刻消失，不等整批结束
             const p = el.parentElement;
             if (p) {
               for (const sib of p.children) {
@@ -551,7 +554,12 @@
             if (done >= targets.length) finale();
             else { pump(); settleIdle(); }
           })
-          .catch((e) => { console.warn('[swarm]', e); busy--; free.busy = false; });
+          .catch((e) => {
+            console.warn('[swarm]', e);
+            busy--; free.busy = false;
+            free.el.dataset.busy = '0';
+            free.el.style.opacity = '0';
+          });
       }
     }
 
@@ -596,6 +604,7 @@
         wanderOn = false;
         cancelAnimationFrame(wanderRaf);
         for (const c of cursors) if (!c.busy) c.el.style.opacity = '0';
+        hideRulers();                          // 没活了，标尺一起收起
       }, 220);
     }
 
@@ -654,14 +663,14 @@
       try { cancelAnimationFrame(wanderRaf); } catch (e) {}
       hideRulers();
       cursors.forEach((c) => {
-        c.el.style.transition = 'opacity .55s ease';
+        c.el.style.transition = 'opacity .15s ease';
         c.el.style.opacity = '0';
       });
       setTimeout(() => {
         document.documentElement.classList.remove('swarming');
         if (overlay) overlay.remove();
         document.dispatchEvent(new CustomEvent('swarm:done'));
-      }, 640);
+      }, 240);
     }
   }
 
