@@ -4,3 +4,12 @@ NekoType/
 keystore.properties
 .DS_Store
 Thumbs.db
+
+# 备份 / 临时文件永不进仓库（对外会直接被 Pages 服务）
+*.bak
+*.bak-*
+*.orig
+*.rej
+*.tmp
+*.log
+*.zip
