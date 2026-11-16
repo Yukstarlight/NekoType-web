@@ -16,8 +16,8 @@
   <link rel="alternate" hreflang="zh-CN" href="https://nekotype.top/wiki/" />
   <link rel="alternate" hreflang="x-default" href="https://nekotype.top/wiki/" />
   <link rel="canonical" href="https://nekotype.top/wiki/" />
-  <link rel="icon" type="image/png" sizes="32x32" href="../assets/icon-32.png?v=2.9.1.52" />
-  <link rel="stylesheet" href="../assets/css/style.css?v=2.9.1.52" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/icon-32.png?v=2.9.1.53" />
+  <link rel="stylesheet" href="../assets/css/style.css?v=2.9.1.53" />
   <style>
     /* ---- Wiki 专用排版：复用站点令牌，只补侧栏与正文样式 ---- */
     body { background: var(--bg0); color: var(--fg0); }
@@ -98,6 +98,9 @@
     .wk-table th, .wk-table td { padding: 9px 12px; text-align: left; border: 1px solid var(--border); vertical-align: top; }
     .wk-table th { color: var(--fg0); font-weight: 600; background: var(--bg1); white-space: nowrap; }
     .wk-table td { color: var(--fg1); line-height: 1.7; }
+    .wk-table a { color: var(--blue); text-decoration: none; }
+    .wk-table a:hover code { border-color: var(--blue); color: var(--fg0); }
+    .wk-table td code { word-break: break-all; }
     .wk-note {
       margin-top: 14px; padding: 11px 14px; border-radius: 10px; font-size: 13.5px; line-height: 1.75;
       color: var(--fg0); background: rgba(74, 125, 255, .10); border-left: 3px solid var(--blue);
@@ -119,7 +122,7 @@
 <body>
   <header class="wk-top">
     <a class="wk-top__brand" href="/">
-      <img src="../assets/icon-32.png?v=2.9.1.52" alt="NekoType" />
+      <img src="../assets/icon-32.png?v=2.9.1.53" alt="NekoType" />
       NekoType
       <span class="wk-top__tag">WIKI</span>
     </a>
@@ -171,10 +174,26 @@
         <p>同一个安装包，四个渠道任选其一。国内推荐夸克或蓝奏云，海外走 GitHub。</p>
         <table class="wk-table">
           <tr><th>渠道</th><th>地址</th><th>备注</th></tr>
-          <tr><td>夸克网盘</td><td><code>pan.quark.cn/s/2e123c8371f4</code></td><td>手机端用夸克 App 打开</td></tr>
-          <tr><td>蓝奏云</td><td><code>wwasm.lanzouq.com/iGiNH4g6hb5a</code></td><td>提取码 <code>ctgw</code>，点击自动复制</td></tr>
-          <tr><td>小飞机网盘</td><td><code>share.feijipan.com/s/abzcBiq1</code></td><td>网页内直接下载</td></tr>
-          <tr><td>GitHub 直链</td><td><code>NekoType-v3.0.0.apk</code></td><td>原始发布地址，海外更快</td></tr>
+          <tr>
+            <td>夸克网盘</td>
+            <td><a href="https://pan.quark.cn/s/2e123c8371f4" target="_blank" rel="noopener"><code>https://pan.quark.cn/s/2e123c8371f4</code></a></td>
+            <td>手机端用夸克 App 打开</td>
+          </tr>
+          <tr>
+            <td>蓝奏云</td>
+            <td><a href="https://wwasm.lanzouq.com/iGiNH4g6hb5a" target="_blank" rel="noopener"><code>https://wwasm.lanzouq.com/iGiNH4g6hb5a</code></a></td>
+            <td>提取码 <code>ctgw</code>，点击自动复制</td>
+          </tr>
+          <tr>
+            <td>小飞机网盘</td>
+            <td><a href="https://share.feijipan.com/s/abzcBiq1" target="_blank" rel="noopener"><code>https://share.feijipan.com/s/abzcBiq1</code></a></td>
+            <td>网页内直接下载</td>
+          </tr>
+          <tr>
+            <td>GitHub 直链</td>
+            <td><a href="https://github.com/Yukstarlight/NekoType/releases/download/NekoType-latestversion/NekoType-v3.0.0.apk" target="_blank" rel="noopener"><code>https://github.com/Yukstarlight/NekoType/releases/download/NekoType-latestversion/NekoType-v3.0.0.apk</code></a></td>
+            <td>原始发布地址，海外更快</td>
+          </tr>
         </table>
 
         <h3>安装</h3>
