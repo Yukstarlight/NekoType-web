@@ -4,20 +4,20 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="color-scheme" content="dark light" />
-  <title>NekoType 新手使用手册 · Wiki</title>
-  <meta name="description" content="NekoType 官方新手文档：先把名词讲明白（无障碍、Shizuku、悬浮窗、规则、优先级），再手把手教你装好、开权限、选模式、配规则、让微信也能用，最后是出问题怎么查。" />
+  <title>NekoType Wiki · 使用文档</title>
+  <meta name="description" content="NekoType Wiki：安装与权限配置、四种运行模式、规则与执行优先级、人设语气包、Shizuku 系统级注入、应用名单、集成终端、隐私说明、模块扩展与故障排查。" />
   <meta http-equiv="content-language" content="zh-CN" />
   <meta name="language" content="zh-CN" />
-  <meta property="og:title" content="NekoType 新手使用手册" />
-  <meta property="og:description" content="从「无障碍是什么」讲起的新手文档：装好、开权限、配规则、让微信也能用。" />
+  <meta property="og:title" content="NekoType Wiki" />
+  <meta property="og:description" content="安装、权限、运行模式、规则配置、系统级注入与故障排查。" />
   <meta property="og:image" content="https://nekotype.top/assets/index.jpg" />
   <meta property="og:type" content="article" />
   <meta property="og:locale" content="zh_CN" />
   <link rel="alternate" hreflang="zh-CN" href="https://nekotype.top/wiki/" />
   <link rel="alternate" hreflang="x-default" href="https://nekotype.top/wiki/" />
   <link rel="canonical" href="https://nekotype.top/wiki/" />
-  <link rel="icon" type="image/png" sizes="32x32" href="../assets/icon-32.png?v=2.9.1.60" />
-  <link rel="stylesheet" href="../assets/css/style.css?v=2.9.1.60" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/icon-32.png?v=2.9.1.62" />
+  <link rel="stylesheet" href="../assets/css/style.css?v=2.9.1.62" />
   <style>
     /* 站点全局给锚点留了 84px，这里改成 0，交给每个 section 的 scroll-margin-top 精确控制 */
     html { scroll-padding-top: 0; scroll-behavior: auto; }
@@ -120,9 +120,9 @@
 <body>
   <header class="wk-top">
     <a class="wk-top__brand" href="/">
-      <img src="../assets/icon-32.png?v=2.9.1.60" alt="NekoType" />
+      <img src="../assets/icon-32.png?v=2.9.1.62" alt="NekoType" />
       NekoType
-      <span class="wk-top__tag">新手文档</span>
+      <span class="wk-top__tag">WIKI</span>
     </a>
     <nav class="wk-top__nav">
       <a href="/">官网首页</a>
@@ -164,7 +164,7 @@
 
     <main class="wk-main">
       <div class="wk-hero">
-        <h1>NekoType 新手使用手册</h1>
+        <h1>NekoType Wiki</h1>
         <p>NekoType 是一款运行于 Android 的文本处理工具。悬浮球常驻屏幕边缘，点按后按已配置的规则改写当前输入框内的文本，并触发发送。</p>
         <p>本文档覆盖安装、权限配置、运行模式、规则设置、系统级注入与故障排查。无需 root，无需连接电脑。</p>
         <div class="wk-meta">
@@ -181,13 +181,13 @@
         <h2>如何开始</h2>
 
         <table class="wk-table">
-          <tr><th>你的情况</th><th>读哪几节</th><th>用时</th></tr>
-          <tr><td>刚下载，什么都还没配</td><td><a href="#words">名词先听懂</a> → <a href="#install">安装</a> → <a href="#perms">开权限</a> → <a href="#firstrun">首次使用</a></td><td>约 10 分钟</td></tr>
-          <tr><td>装好了，但点了没反应</td><td><a href="#perms">开权限</a> → <a href="#trouble">故障排查</a></td><td>约 3 分钟</td></tr>
-          <tr><td>能用了，想配自己的话术</td><td><a href="#rules">规则配置</a> → <a href="#order">优先级</a></td><td>约 8 分钟</td></tr>
-          <tr><td>微信里不生效</td><td><a href="#wechat">微信适配</a></td><td>约 6 分钟</td></tr>
-          <tr><td>只想让它在某几个应用里生效</td><td><a href="#whitelist">应用名单</a></td><td>约 3 分钟</td></tr>
-          <tr><td>担心隐私</td><td><a href="#privacy">隐私说明</a></td><td>约 4 分钟</td></tr>
+          <tr><th>当前情况</th><th>对应章节</th><th>预计用时</th></tr>
+          <tr><td>已下载，尚未配置</td><td><a href="#words">术语说明</a> → <a href="#install">安装</a> → <a href="#perms">权限配置</a> → <a href="#firstrun">首次使用</a></td><td>约 10 分钟</td></tr>
+          <tr><td>安装完成，但点按无响应</td><td><a href="#perms">权限配置</a> → <a href="#trouble">故障排查</a></td><td>约 3 分钟</td></tr>
+          <tr><td>已可使用，需要自定义规则</td><td><a href="#rules">规则配置</a> → <a href="#order">执行优先级</a></td><td>约 8 分钟</td></tr>
+          <tr><td>微信内不生效</td><td><a href="#wechat">微信适配</a></td><td>约 6 分钟</td></tr>
+          <tr><td>仅在指定应用内生效</td><td><a href="#whitelist">应用名单</a></td><td>约 3 分钟</td></tr>
+          <tr><td>了解数据处理方式</td><td><a href="#privacy">隐私说明</a></td><td>约 4 分钟</td></tr>
         </table>
 
         <div class="wk-tip"><b>建议：</b>初次使用只启用一种运行模式、保留一条规则。确认改写与发送正常后，再逐步增加规则。多项功能同时启用时，异常原因难以定位。</div>
@@ -398,7 +398,7 @@
             在输入框里打几个字，比如 <code>好的</code>。<em>先别按发送</em>，让光标停在输入框里。
           </li>
           <li>
-            点屏幕上那个悬浮球。点了以后会出现三种正常反应之一：输入框里的字变了、字变了并且发出去了、或者弹一个提示说「无障碍未授权」。如果是第三种，回 <a href="#perms">开权限</a>。
+            点屏幕上那个悬浮球。点了以后会出现三种正常反应之一：输入框里的字变了、字变了并且发出去了、或者弹一个提示说「无障碍未授权」。如果是第三种，回 <a href="#perms">权限配置</a>。
           </li>
           <li>
             看到字变了，就说明你已经会用 80% 了。剩下的只是决定改成什么样，也就是规则。
@@ -430,7 +430,7 @@
             <td>悬浮球</td>
             <td>打完字，点一下球</td>
             <td>手动、可控，改完你能立刻看到结果再发</td>
-            <td>所有人；新手强烈建议从这个开始</td>
+            <td>所有用户；建议首次使用时选此项</td>
           </tr>
           <tr>
             <td>篡改键盘</td>
@@ -571,7 +571,7 @@
         <table class="wk-table">
           <tr><th>症状</th><th>结论</th></tr>
           <tr><td>备忘录可改写，微信点按无响应</td><td>属正常现象，按下列步骤配置 Shizuku</td></tr>
-          <tr><td>所有应用都没反应</td><td>不是微信的问题，回去看 <a href="#perms">开权限</a></td></tr>
+          <tr><td>所有应用都没反应</td><td>不是微信的问题，回去看 <a href="#perms">权限配置</a></td></tr>
           <tr><td>微信里能改，但发送失败</td><td>检查是否被拦了「剪贴板 / 无障碍」提示；升级到 v3.0.0（已修复「写回失败仍提示已变换」）</td></tr>
         </table>
 
@@ -782,7 +782,7 @@ neko feed / play / pet  # 喂食 / 陪玩 / 撸猫</code></pre>
           <tr>
             <td>两条规则互相打架</td>
             <td>优先级没拉开</td>
-            <td>看 <a href="#order">优先级</a>；或打开「按等级全局执行」</td>
+            <td>看 <a href="#order">执行优先级</a>；或打开「按等级全局执行」</td>
           </tr>
           <tr>
             <td>Shizuku 显示已断开</td>
@@ -853,7 +853,7 @@ certutil -hashfile NekoType-v3.0.0.apk MD5</code></pre>
   </div>
 
   <footer class="wk-footer">
-    <p>NekoType 新手文档 · 适用 v3.0.0 · GPL-3.0 · 完全离线 · 不申请网络权限</p>
+    <p>NekoType Wiki · 适用 v3.0.0 · GPL-3.0 · 完全离线 · 不申请网络权限</p>
     <p style="margin-top:6px"><a href="/" style="color:var(--primary)">返回官网</a> · <a href="https://github.com/Yukstarlight/NekoType" target="_blank" rel="noopener" style="color:var(--primary)">GitHub 源码</a> · <a href="https://github.com/Yukstarlight/NekoType/issues" target="_blank" rel="noopener" style="color:var(--primary)">反馈问题</a></p>
   </footer>
 
