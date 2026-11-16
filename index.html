@@ -6,6 +6,12 @@
   <meta name="color-scheme" content="dark light" />
   <title>NekoType · 全平台通用文本处理工具</title>
   <meta name="description" content="NekoType 是一款全平台通用的文本处理工具：屏幕边缘常驻悬浮球，一键为输入框文本应用前缀/后缀/随机尾缀/文本替换并自动发送。完全离线、无广告、无追踪。" />
+  <meta http-equiv="content-language" content="zh-CN" />
+  <meta name="language" content="zh-CN" />
+  <meta property="og:locale" content="zh_CN" />
+  <meta property="og:site_name" content="NekoType" />
+  <link rel="alternate" hreflang="zh-CN" href="https://nekotype.top/" />
+  <link rel="alternate" hreflang="x-default" href="https://nekotype.top/" />
   <meta name="theme-color" content="#0A0E1E" media="(prefers-color-scheme: dark)" />
   <meta name="theme-color" content="#F5F5F7" media="(prefers-color-scheme: light)" />
 
@@ -16,16 +22,16 @@
   <meta property="og:type" content="website" />
 
   <!-- 标签页图标 = NekoType 自己的图标（assets/index.jpg 缩小版，原图 247KB 不能直接当 favicon） -->
-  <link rel="icon" type="image/png" sizes="32x32" href="assets/icon-32.png?v=2.9.1.48" />
-  <link rel="icon" type="image/png" sizes="48x48" href="assets/icon-48.png?v=2.9.1.48" />
-  <link rel="icon" type="image/png" sizes="192x192" href="assets/icon-192.png?v=2.9.1.48" />
-  <link rel="apple-touch-icon" sizes="180x180" href="assets/icon-180.png?v=2.9.1.48" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/icon-32.png?v=2.9.1.50" />
+  <link rel="icon" type="image/png" sizes="48x48" href="assets/icon-48.png?v=2.9.1.50" />
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/icon-192.png?v=2.9.1.50" />
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/icon-180.png?v=2.9.1.50" />
 
   <!-- 字体全部自托管在 assets/fonts/，不再依赖 fonts.googleapis.com（国内打不开） -->
 
   <!-- 首屏用到的两个字重：提前拉，别等布局后才发现要字体 -->
   <link rel="preload" as="font" type="font/woff2" crossorigin href="assets/fonts/sora-700.woff2" />
-  <link rel="stylesheet" href="assets/css/style.css?v=2.9.1.48" />
+  <link rel="stylesheet" href="assets/css/style.css?v=2.9.1.50" />
 </head>
 <body>
   <div class="loadbar" id="loadBar" aria-hidden="true"></div>
@@ -135,7 +141,7 @@
         <div class="hero__copy reveal">
           <p class="hero__kicker">您的终极 <span class="kicker-os">Android</span> 文本改写器</p>
           <span class="pill pill--badge hero__badge">
-            <span class="dot"></span> v2.9.9 · 系统级文本处理 · 完全离线
+            <span class="dot"></span> v3.0.0 · 系统级文本处理 · 完全离线
           </span>
           <h1 class="hero__title">
             全平台通用的<br><span class="grad-text">文本处理工具</span>
@@ -144,10 +150,10 @@
             NekoType 是一款系统级文本处理工具：一键为输入框内容应用前缀、后缀、随机尾缀、文本替换等规则并自动发送。四种运行模式（悬浮球 / 篡改键盘 / 断句追加 / 摇一摇）自由切换，规则自由组合、概率可控、实时预览。<strong>完全离线运行，无服务器、无广告、无追踪。</strong>
           </p>
           <div class="hero__cta">
-            <a class="btn btn--primary btn--lg" id="heroDownload" href="https://github.com/Yukstarlight/NekoType/releases/download/NekoType-latestversion/NekoType-v2.9.9.apk" target="_blank" rel="noopener">
+            <a class="btn btn--primary btn--lg" id="heroDownload" href="https://github.com/Yukstarlight/NekoType/releases/download/NekoType-latestversion/NekoType-v3.0.0.apk" target="_blank" rel="noopener">
               <svg width="20" height="20"><use href="#i-download"/></svg>
-              <span>下载 v2.9.9</span>
-              <span class="btn__meta">8.1 MB</span>
+              <span>下载 v3.0.0</span>
+              <span class="btn__meta">8.2 MB</span>
             </a>
             <a class="btn btn--ghost btn--lg" href="https://github.com/Yukstarlight/NekoType" target="_blank" rel="noopener">
               <svg width="20" height="20"><use href="#i-github"/></svg><span>查看源码</span>
@@ -515,6 +521,10 @@
           <h2 class="section__title">从 2.5.5 到现在<span class="section__note">（仅记录大更新，小更新不写）</span></h2>
         </header>
         <ol class="chg">
+        <li class="chg__item">
+          <span class="chg__ver">v3.0.0</span>
+          <p class="chg__text">检测到「喵喵助手」「NyaNote」时用猫娘语气提示卸载（可跳转系统应用信息页，同版本只提示一次）；启动页新增标语「迷雾散尽，未来已来」，启动／页面切换／悬浮球改为弹性与位移组合动效；修复强制篡改键盘删字后要等一会才恢复、连点触发无限连发、每敲一个字发一条消息；修复关闭服务后悬浮球自己复活、心跳取消无效、规则编辑遮罩残留导致整屏点不动；修复换自定义背景或图标不生效、部分页面背景变空白；修复写回失败仍提示「已变换」并按原文发送；修复后缀以标点结尾或颜文字时越叠越多；Shizuku ContentProvider 补上必要权限声明。</p>
+        </li>
           <li class="chg__item chg__item--now reveal" data-reveal-delay="0">
             <span class="chg__ver">v2.9.9</span>
             <p class="chg__text">撤销上一轮实验性的多语言改动，语言列表回到 7 种，启动时自动清理失效的语言标记；修复开启「静默修改」后重启进入规则页反复提示「已开启」的问题；模块导入提示改为「重启应用后生效」；「行为与样式」隐藏「删除优化」「语音输入优化」两个入口（删除优化默认改为关闭）；移除误加的电源菜单拦截。</p>
@@ -672,8 +682,8 @@
           <h2 class="cta__title">现在，让悬浮球接管你的输入与发送</h2>
           <p class="cta__sub">免费 · 开源 · 完全离线。装上它，让文本处理变得自动、可控、安静。</p>
           <div class="cta__btns">
-            <a class="btn btn--primary btn--lg" id="ctaDownload" href="https://github.com/Yukstarlight/NekoType/releases/download/NekoType-latestversion/NekoType-v2.9.9.apk" target="_blank" rel="noopener">
-              <svg width="20" height="20"><use href="#i-download"/></svg><span>下载 v2.9.9</span><span class="btn__meta">8.1 MB</span>
+            <a class="btn btn--primary btn--lg" id="ctaDownload" href="https://github.com/Yukstarlight/NekoType/releases/download/NekoType-latestversion/NekoType-v3.0.0.apk" target="_blank" rel="noopener">
+              <svg width="20" height="20"><use href="#i-download"/></svg><span>下载 v3.0.0</span><span class="btn__meta">8.2 MB</span>
             </a>
             <a class="btn btn--ghost btn--lg" href="#download" data-dl-open>
               <svg width="20" height="20"><use href="#i-cloud"/></svg><span>备用下载</span>
@@ -745,26 +755,26 @@
       <h3 class="dlm__title" id="dlmTitle">选择下载渠道</h3>
       <p class="dlm__lead">四个渠道的文件完全相同，按你所在地区挑最快的那个即可。</p>
       <div class="dlm__list">
-        <a class="dlm__item" id="dlQuark" href="https://pan.quark.cn/s/504070ece0b6" target="_blank" rel="noopener">
+        <a class="dlm__item" id="dlQuark" href="https://pan.quark.cn/s/2e123c8371f4" target="_blank" rel="noopener">
           <span class="dlm__ico"><svg width="20" height="20"><use href="#i-cloud"/></svg></span>
           <span class="dlm__body"><strong>夸克网盘</strong><em>国内速度较快 · 手机端用夸克 App 打开</em></span>
           <span class="dlm__arrow"><svg width="18" height="18"><use href="#i-arrow"/></svg></span>
         </a>
-        <a class="dlm__item" id="dlLanzou" href="https://wwasm.lanzouq.com/iakMh4ezselc" target="_blank" rel="noopener">
+        <a class="dlm__item" id="dlLanzou" href="https://wwasm.lanzouq.com/iGiNH4g6hb5a" target="_blank" rel="noopener">
           <span class="dlm__ico"><svg width="20" height="20"><use href="#i-bolt"/></svg></span>
           <span class="dlm__body"><strong>蓝奏云</strong><em>国内速度较快 · 点击自动复制提取码</em></span>
           <span class="dlm__arrow"><svg width="18" height="18"><use href="#i-arrow"/></svg></span>
         </a>
         <div class="dlm__pwd">
-          <span>提取码</span><code id="dlmPwd">fnp2</code>
+          <span>提取码</span><code id="dlmPwd">ctgw</code>
           <button type="button" class="dlm__copy" id="dlmCopyPwd">复制</button>
         </div>
-        <a class="dlm__item" id="dlFeiji" href="https://share.feijipan.com/s/F7yhTsIY" target="_blank" rel="noopener">
+        <a class="dlm__item" id="dlFeiji" href="https://share.feijipan.com/s/abzcBiq1" target="_blank" rel="noopener">
           <span class="dlm__ico"><svg width="20" height="20"><use href="#i-cloud"/></svg></span>
           <span class="dlm__body"><strong>小飞机网盘</strong><em>国内速度较快 · 网页内下载</em></span>
           <span class="dlm__arrow"><svg width="18" height="18"><use href="#i-arrow"/></svg></span>
         </a>
-        <a class="dlm__item" id="dlGithub" href="https://github.com/Yukstarlight/NekoType/releases/download/NekoType-latestversion/NekoType-v2.9.9.apk" target="_blank" rel="noopener">
+        <a class="dlm__item" id="dlGithub" href="https://github.com/Yukstarlight/NekoType/releases/download/NekoType-latestversion/NekoType-v3.0.0.apk" target="_blank" rel="noopener">
           <span class="dlm__ico"><svg width="20" height="20"><use href="#i-github"/></svg></span>
           <span class="dlm__body"><strong>GitHub 直链</strong><em>原始发布地址 · 海外访问较快</em></span>
           <span class="dlm__arrow"><svg width="18" height="18"><use href="#i-arrow"/></svg></span>
@@ -777,27 +787,19 @@
         </div>
         <div class="dlm__hash">
           <span class="dlm__hash-label">SHA-256</span>
-          <code id="dlmSha">6617fcdfddd07503ee62b9fe48656ef63fa782e57c8bea8e2ca8960282f138f1</code>
+          <code id="dlmSha">118ab64626272327d7d499cfa83999497f3e1b05ec1e367945164bc7260c9ef8</code>
           <button type="button" class="dlm__copy" id="dlmCopySha">复制</button>
         </div>
         <div class="dlm__hash">
           <span class="dlm__hash-label">MD5</span>
-          <code id="dlmMd5">9a80dc7f7344d734ab2a8d85fde9a9d9</code>
+          <code id="dlmMd5">e589bb4e1457bd14e2a49f1155b19473</code>
           <button type="button" class="dlm__copy" id="dlmCopyMd5">复制</button>
         </div>
         <div class="dlm__verify-cmd">
           <span class="dlm__cmd-os">Windows（CMD / PowerShell 通用）</span>
           <pre class="dlm__cmd" data-no-i18n>cd C:\Users\HI\Downloads
-certutil -hashfile NekoType-v2.9.9.apk SHA256
-certutil -hashfile NekoType-v2.9.9.apk MD5</pre>
-          <span class="dlm__cmd-os">macOS</span>
-          <pre class="dlm__cmd" data-no-i18n>cd ~/Downloads
-shasum -a 256 NekoType-v2.9.9.apk
-md5 NekoType-v2.9.9.apk</pre>
-          <span class="dlm__cmd-os">Linux</span>
-          <pre class="dlm__cmd" data-no-i18n>cd ~/Downloads 2>/dev/null || cd ~/下载 2>/dev/null || cd ~/下載
-sha256sum NekoType-v2.9.9.apk
-md5sum NekoType-v2.9.9.apk</pre>
+certutil -hashfile NekoType-v3.0.0.apk SHA256
+certutil -hashfile NekoType-v3.0.0.apk MD5</pre>
         </div>
       </div>
     </div>
@@ -809,7 +811,7 @@ md5sum NekoType-v2.9.9.apk</pre>
   <!-- i18n 词典 50KB：只给真的要用繁体/英文的访客加载，中文访客不必付这个成本 -->
   <script>
   (function () {
-    var KEY = 'neko-lang', src = 'assets/js/i18n.js?v=2.9.1.48';
+    var KEY = 'neko-lang', src = 'assets/js/i18n.js?v=2.9.1.50';
     function detect() {
       var l = (navigator.language || 'zh-Hans').toLowerCase();
       if (l.indexOf('zh') === 0) return /hant|tw|hk|mo/.test(l) ? 'zh-Hant' : 'zh-Hans';
@@ -851,7 +853,7 @@ md5sum NekoType-v2.9.9.apk</pre>
     }, true);
   })();
   </script>
-  <script src="assets/js/swarm.js?v=2.9.1.48" defer data-swarm-auto></script>
-  <script src="assets/js/main.js?v=2.9.1.48" defer></script>
+  <script src="assets/js/swarm.js?v=2.9.1.50" defer data-swarm-auto></script>
+  <script src="assets/js/main.js?v=2.9.1.50" defer></script>
 </body>
 </html>

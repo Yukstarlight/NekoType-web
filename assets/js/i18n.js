@@ -90,12 +90,12 @@
     '更多': 'More',
     '下载': 'Download',
     '菜单': 'Menu',
-    'v2.9.9 · 系统级文本处理 · 完全离线': 'v2.9.9 · System-level text processing · Fully offline',
+    'v3.0.0 · 系统级文本处理 · 完全离线': 'v3.0.0 · System-level text processing · Fully offline',
     '全平台通用的': 'Cross-platform',
     '文本处理工具': 'text processing tool',
     'NekoType 是一款系统级文本处理工具：一键为输入框内容应用前缀、后缀、随机尾缀、文本替换等规则并自动发送。四种运行模式（悬浮球 / 篡改键盘 / 断句追加 / 摇一摇）自由切换，规则自由组合、概率可控、实时预览。': 'NekoType is a system-level text processing tool. It rewrites what you type — prefix, suffix, random tail, text replace — then sends it in one tap. Four run modes (floating ball / keyboard rewrite / punctuation trigger / shake) switch freely, rules combine freely with controllable odds and live preview.',
     '完全离线运行，无服务器、无广告、无追踪。': 'Fully offline: no server, no ads, no tracking.',
-    '下载 v2.9.9': 'Download v2.9.9',
+    '下载 v3.0.0': 'Download v3.0.0',
     '查看源码': 'View source',
     '更强的体验，更多的功能，更大的可能，对所有人免费': 'Better experience, more features, bigger possibilities — free for everyone',
     '前缀': 'Prefix',
@@ -462,7 +462,13 @@
     });
   };
 
+  // 爬虫用英文 UA 渲染本页时 navigator.language 是 en-US，会把整站切成英文，
+  // 结果 Bing/Edge 把 nekotype.top 索引成英文标题（中文用户搜到英文卡）。爬虫一律固定简体中文。
+  const IS_BOT = /bot|crawler|spider|crawling|slurp|bingpreview|google-inspectiontool|yandex|baidu|sogou|petalbot|applebot/i
+    .test(navigator.userAgent || '');
+
   function detectSystem() {
+    if (IS_BOT) return 'zh-Hans';
     const list = (navigator.languages && navigator.languages.length) ? navigator.languages : [navigator.language || 'zh-CN'];
     for (let i = 0; i < list.length; i++) {
       const l = String(list[i]).toLowerCase();
