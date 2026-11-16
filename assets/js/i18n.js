@@ -494,25 +494,7 @@
 
   /* 切换器接线 + 动态内容自动跟随语言 */
   document.addEventListener('DOMContentLoaded', function () {
-    const picker = document.getElementById('langPicker');
-    const btn = document.getElementById('langBtn');
-    const menu = document.getElementById('langMenu');
-    if (picker && btn && menu) {
-      btn.addEventListener('click', function (e) {
-        e.stopPropagation();
-        picker.classList.toggle('open');
-        btn.setAttribute('aria-expanded', picker.classList.contains('open') ? 'true' : 'false');
-      });
-      menu.querySelectorAll('[data-lang]').forEach(function (b) {
-        b.addEventListener('click', function (e) {
-          e.stopPropagation();
-          window.setNekoLang(b.dataset.lang);
-          picker.classList.remove('open');
-        });
-      });
-      document.addEventListener('click', function () { picker.classList.remove('open'); });
-      document.addEventListener('keydown', function (e) { if (e.key === 'Escape') picker.classList.remove('open'); });
-    }
+    // 切换器接线已挪到 main.js（i18n.js 现在是按需加载的，不能承载 UI 交互）
     window.nekoApplyLang();
 
     const mo = new MutationObserver(function () {

@@ -514,3 +514,43 @@ if (dlmLanzou) dlmLanzou.addEventListener('click', copyDlPwd);
 });
 
 /* ---------------- 启动 ---------------- */
+
+/* ================= 语言切换器（必须在首屏就可用） =================
+   i18n.js 是按需加载的（中文访客不下载 50KB 词典），所以菜单的开关、选项点击、
+   点击外部关闭、Esc 关闭全部放这里；真正应用语言时再确保词典已加载。
+*/
+(function langPickerWire() {
+  const picker = document.getElementById('langPicker');
+  const btn = document.getElementById('langBtn');
+  const menu = document.getElementById('langMenu');
+  if (!picker || !btn || !menu) return;
+
+  function close() {
+    picker.classList.remove('open');
+    btn.setAttribute('aria-expanded', 'false');
+  }
+
+  btn.addEventListener('click', function (e) {
+    e.stopPropagation();
+    const open = picker.classList.toggle('open');
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+
+  menu.querySelectorAll('[data-lang]').forEach(function (b) {
+    b.addEventListener('click', function (e) {
+      e.stopPropagation();
+      const mode = b.dataset.lang;
+      const apply = function () { if (window.setNekoLang) window.setNekoLang(mode); };
+      if (window.nekoEnsureI18n) window.nekoEnsureI18n().then(apply).catch(apply);
+      else apply();
+      close();
+    });
+  });
+
+  document.addEventListener('click', function (e) {
+    if (!picker.contains(e.target)) close();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') close();
+  });
+})();

@@ -16,8 +16,8 @@
   <link rel="alternate" hreflang="zh-CN" href="https://nekotype.top/wiki/" />
   <link rel="alternate" hreflang="x-default" href="https://nekotype.top/wiki/" />
   <link rel="canonical" href="https://nekotype.top/wiki/" />
-  <link rel="icon" type="image/png" sizes="32x32" href="../assets/icon-32.png?v=2.9.1.54" />
-  <link rel="stylesheet" href="../assets/css/style.css?v=2.9.1.54" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/icon-32.png?v=2.9.1.56" />
+  <link rel="stylesheet" href="../assets/css/style.css?v=2.9.1.56" />
   <style>
     /* 站点全局给锚点留了 84px，这里改成 0，交给每个 section 的 scroll-margin-top 精确控制 */
     html { scroll-padding-top: 0; scroll-behavior: auto; }
@@ -49,13 +49,15 @@
     .wk-main { min-width: 0; }
     .wk-hero { padding-bottom: 26px; border-bottom: 1px solid var(--border); }
     .wk-hero h1 { font-size: clamp(28px, 5vw, 42px); line-height: 1.15; letter-spacing: -.02em; }
-    .wk-hero p { margin-top: 14px; color: var(--fg1); font-size: 15.5px; line-height: 1.9; max-width: 64ch; }
+    .wk-hero p { margin-top: 13px; color: var(--fg1); font-size: 15.5px; line-height: 1.9; max-width: 62ch; }
+    .wk-hero p:first-of-type { font-size: 17px; line-height: 1.8; color: var(--fg0); }
     .wk-hero .wk-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; font: 500 11.5px/1.4 var(--font-mono); color: var(--fg2); }
     .wk-hero .wk-meta span { padding: 4px 9px; border-radius: 7px; border: 1px solid var(--border); }
 
     .wk-main section { padding: 30px 0; border-bottom: 1px solid var(--border); scroll-margin-top: 78px; }
     .wk-main section:last-child { border-bottom: 0; }
-    .wk-main h2 { font-size: 24px; letter-spacing: -.01em; }
+    .wk-main h2 { font-size: 25px; letter-spacing: -.015em; line-height: 1.3; }
+    .wk-main section > h2 { padding-bottom: 2px; }
     .wk-main .wk-sub { color: var(--fg2); font-size: 13.5px; margin-top: 4px; }
     .wk-main h3 { font-size: 16.5px; margin: 26px 0 8px; color: var(--fg0); }
     .wk-main p, .wk-main li { font-size: 15px; line-height: 1.95; color: var(--fg1); }
@@ -73,6 +75,7 @@
     .wk-table th, .wk-table td { padding: 10px 13px; text-align: left; border: 1px solid var(--border); vertical-align: top; }
     .wk-table th { color: var(--fg0); font-weight: 600; background: var(--bg1); white-space: nowrap; }
     .wk-table td { color: var(--fg1); line-height: 1.8; }
+    .wk-table tbody tr:hover td, .wk-table tr:hover td { background: rgba(255, 255, 255, .02); }
     .wk-table td code { word-break: break-all; }
 
     .wk-note { margin-top: 15px; padding: 12px 15px; border-radius: 10px; font-size: 14px; line-height: 1.85; color: var(--fg0); background: rgba(74,125,255,.10); border-left: 3px solid var(--blue); }
@@ -82,7 +85,10 @@
     .wk-tip { margin-top: 15px; padding: 12px 15px; border-radius: 10px; font-size: 14px; line-height: 1.85; color: var(--fg0); background: rgba(53,201,122,.10); border-left: 3px solid var(--green); }
     .wk-tip b { color: var(--green); }
 
-    .wk-term { margin-top: 14px; padding: 16px 18px; border-radius: 12px; background: var(--bg1); border: 1px solid var(--border); }
+    .wk-term { position: relative; margin-top: 14px; padding: 17px 19px 17px 22px; border-radius: 12px;
+      background: linear-gradient(180deg, var(--bg1), var(--bg1)); border: 1px solid var(--border); overflow: hidden; }
+    .wk-term::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+      background: linear-gradient(180deg, var(--primary), var(--blue)); opacity: .85; }
     .wk-term h4 { margin: 0 0 7px; font-size: 16px; color: var(--fg0); }
     .wk-term .say { font-size: 14.8px; line-height: 1.9; color: var(--fg0); }
     .wk-term dl { margin-top: 10px; display: grid; grid-template-columns: 66px 1fr; gap: 5px 12px; font-size: 14px; }
@@ -114,7 +120,7 @@
 <body>
   <header class="wk-top">
     <a class="wk-top__brand" href="/">
-      <img src="../assets/icon-32.png?v=2.9.1.54" alt="NekoType" />
+      <img src="../assets/icon-32.png?v=2.9.1.56" alt="NekoType" />
       NekoType
       <span class="wk-top__tag">新手文档</span>
     </a>
@@ -129,8 +135,8 @@
   <div class="wk">
     <aside class="wk-side">
       <h4>开始之前</h4>
-      <a href="#intro">这份文档怎么读</a>
-      <a href="#words">名词先听懂</a>
+      <a href="#intro">从哪一页开始</a>
+      <a href="#words">这些词是什么意思</a>
       <h4>装好它</h4>
       <a href="#download">下载</a>
       <a href="#install">安装</a>
@@ -159,8 +165,8 @@
     <main class="wk-main">
       <div class="wk-hero">
         <h1>NekoType 新手使用手册</h1>
-        <p>这份文档写给<strong>第一次接触 NekoType</strong> 的人。我们先把那些听着吓人的词（无障碍、Shizuku、Root、优先级……）用大白话讲清楚，再一步一步把 App 装好、开好权限、配好第一条规则，最后讲怎么让它对微信这类应用也生效、出问题怎么查。</p>
-        <p>不需要懂编程，不需要 root，不需要看源码。照着点就行。</p>
+        <p>NekoType 装在手机上是一个浮在屏幕边缘的猫爪球。点它一下，输入框里的字按你的规则变个样，然后替你点发送。</p>
+        <p>这页从「无障碍是什么」讲到「微信里为什么改不动」。不用 root，不用看代码，也不用连电脑。</p>
         <div class="wk-meta">
           <span>适用 v3.0.0</span>
           <span>安装包 8.2 MB</span>
@@ -172,8 +178,8 @@
 
       <!-- 01 -->
       <section id="intro">
-        <h2>这份文档怎么读</h2>
-        <p class="wk-sub">别从头硬啃，按你的情况直接跳。</p>
+        <h2>从哪一页开始</h2>
+        <p class="wk-sub">按你现在的状态挑，不必从头读。</p>
 
         <table class="wk-table">
           <tr><th>你的情况</th><th>读哪几节</th><th>用时</th></tr>
@@ -185,17 +191,17 @@
           <tr><td>担心隐私</td><td><a href="#privacy">它到底能看到什么</a></td><td>约 4 分钟</td></tr>
         </table>
 
-        <div class="wk-tip"><b>一句忠告：</b>先只开一个模式、只留一条规则，把「点球 → 文字变了 → 发出去了」这条链路跑通，再去加规则和玩法。一上手就开一堆功能，出问题时你不知道是哪一项在捣乱。</div>
+        <div class="wk-tip"><b>第一次用：</b>只开一个模式、只留一条规则。等「点球 → 字变了 → 发出去了」跑通，再加规则。一次开一堆功能，出问题时找不出是哪一项。</div>
       </section>
 
       <!-- 02 名词 -->
       <section id="words">
-        <h2>名词先听懂</h2>
-        <p class="wk-sub">这一节最重要。这些词你在设置里、教程里都会碰到，听不懂后面全是天书。每个词都按「一句话是什么 / 为什么需要 / 不开会怎样 / 有没有风险」讲。</p>
+        <h2>这些词是什么意思</h2>
+        <p class="wk-sub">设置页和网上教程反复出现这几个词。每个按四行讲：是什么、为什么要它、不开会怎样、有没有风险。</p>
 
         <div class="wk-term">
           <h4>无障碍（无障碍服务 / Accessibility）</h4>
-          <p class="say">安卓系统自带的功能，本来是给视障用户用的：允许一个 App <strong>读屏幕上写了什么、替你点按钮</strong>。NekoType 的核心原理就是它——读你正在打字的输入框，改完再替你点「发送」。</p>
+          <p class="say">安卓自带的功能，本来是给视障用户读屏幕用的：它能让一个 App <strong>读屏幕上写了什么、替你点按钮</strong>。NekoType 靠它干活，读你正在打字的输入框，改完替你点发送。</p>
           <dl>
             <dt>为什么</dt><dd>没有它，App 读不到你在别的应用里打了什么字，也没法替你按发送。</dd>
             <dt>不开会</dt><dd>核心功能全部失效，只剩摇一摇这种纯手势的半个功能。</dd>
@@ -206,7 +212,7 @@
 
         <div class="wk-term">
           <h4>悬浮窗（显示在其他应用上层）</h4>
-          <p class="say">就是「让一个小球浮在所有 App 上面」的权限。没有它，那个猫爪球根本显示不出来。</p>
+          <p class="say">让一个小球浮在所有应用上面的权限。没它，猫爪球压根不显示。</p>
           <dl>
             <dt>为什么</dt><dd>球要盖在微信、QQ、备忘录等任何应用之上，必须拿到这个权限。</dd>
             <dt>不开会</dt><dd>看不到球，只能靠摇一摇或篡改键盘模式。</dd>
@@ -216,7 +222,7 @@
 
         <div class="wk-term">
           <h4>Shizuku</h4>
-          <p class="say">一个<strong>免费的小工具</strong>。作用是让普通 App 临时拿到「接近系统权限」的能力，<strong>但不用 root、不刷机</strong>。可以把它理解成「一次性的管理员通行证」。</p>
+          <p class="say"><strong>免费的小工具</strong>。装它之后，普通 App 能临时拿到接近系统的权限，<strong>不用 root、不用刷机</strong>。相当于一张随时可撤销的管理员通行证。</p>
           <dl>
             <dt>为什么</dt><dd>有些应用（典型是微信）会拒绝无障碍改写，这时必须走系统级「直接注入」，Shizuku 就是那条通道。</dd>
             <dt>不开会</dt><dd>大部分应用照常能用，只是微信、部分金融类应用里可能改不动。</dd>
@@ -227,7 +233,7 @@
 
         <div class="wk-term">
           <h4>Root</h4>
-          <p class="say">手机的「最高管理员权限」，比 Windows 的管理员账户更彻底。<strong>NekoType 不需要 root。</strong>如果你手机本来就 root 了，它会多一条更稳的通道。</p>
+          <p class="say">手机的最高权限。<strong>NekoType 不需要它。</strong>手机本来就 root 的，会多一条更稳的注入通道。</p>
           <dl>
             <dt>为什么</dt><dd>root 通道比 Shizuku 稳，不用每次开机重开。</dd>
             <dt>不开会</dt><dd>完全没影响，用 Shizuku 或无障碍都能跑。</dd>
@@ -237,7 +243,7 @@
 
         <div class="wk-term">
           <h4>规则 / 预设 / 优先级</h4>
-          <p class="say"><strong>规则</strong>是一条改写动作，比如「在结尾加个喵」；<strong>预设</strong>是一整套规则的组合，比如「工作用」「聊天用」，可以一键切换；<strong>优先级</strong>是执行顺序，数字越大越先跑（范围 1–100，默认 50）。</p>
+          <p class="say"><strong>规则</strong>是一条改写动作，比如「结尾加个喵」。<strong>预设</strong>是一整套规则的组合，比如工作用、聊天用，一键切换。<strong>优先级</strong>是执行顺序，1–100，数字越大越先跑，默认 50。</p>
           <dl>
             <dt>为什么</dt><dd>你会同时开很多条规则，谁先谁后，结果完全不同。</dd>
             <dt>例子</dt><dd>先跑「的 → の」（优先级 90），再加后缀「喵」（优先级 50），结果是 <code>好の喵</code>；反过来会变成 <code>好喵の</code> 这种怪东西。</dd>
@@ -246,7 +252,7 @@
 
         <div class="wk-term">
           <h4>前缀 / 后缀 / 随机尾缀 / 替换</h4>
-          <p class="say">四种最常用的改写方式。<strong>前缀</strong>＝加在开头（<code>~好的</code>）；<strong>后缀</strong>＝加在结尾（<code>好的喵</code>）；<strong>随机尾缀</strong>＝从一堆里随机挑一个加到结尾（<code>好的qwq</code> 或 <code>好的awa</code>）；<strong>替换</strong>＝把某个字换成另一个（<code>的 → の</code>）。</p>
+          <p class="say">最常用的四种。<strong>前缀</strong>加在开头（<code>~好的</code>），<strong>后缀</strong>加在结尾（<code>好的喵</code>），<strong>随机尾缀</strong>每次从候选里抽一个（<code>好的qwq</code>、<code>好的awa</code>），<strong>替换</strong>把某个字换成别的（<code>的 → の</code>）。</p>
           <dl>
             <dt>为什么</dt><dd>这四种能覆盖九成的「让话变个味儿」需求，其余类型（颜文字、加空格、转大写）都是锦上添花。</dd>
           </dl>
@@ -254,7 +260,7 @@
 
         <div class="wk-term">
           <h4>人设语气包</h4>
-          <p class="say">别人已经配好的一整套规则，比如「猫娘」「古风文言」「阴阳怪气」。点一下就用，不用自己一条条加。</p>
+          <p class="say">配好的一整套规则，比如猫娘、古风文言、阴阳怪气。点一下换成这套，不用自己一条条加。</p>
           <dl>
             <dt>为什么</dt><dd>新手最快见效的玩法：先套人设，觉得哪里不合适再去规则页改细节。</dd>
           </dl>
@@ -262,7 +268,7 @@
 
         <div class="wk-term">
           <h4>篡改键盘 / 断句追加 / 摇一摇</h4>
-          <p class="say">三种「不用点球」的触发方式。<strong>篡改键盘</strong>＝你打字的过程中就自动改（用的还是系统键盘，不是换输入法）；<strong>断句追加</strong>＝你打完一句、敲了标点才改；<strong>摇一摇</strong>＝摇一下手机就改并发送。</p>
+          <p class="say">三种不用点球的触发方式。<strong>篡改键盘</strong>：打字过程中就改，用的还是系统输入法。<strong>断句追加</strong>：打完一句、敲了标点才改。<strong>摇一摇</strong>：摇一下手机，改完直接发。</p>
           <dl>
             <dt>为什么</dt><dd>点球毕竟多一步，聊天时想更顺就用这三种。</dd>
             <dt>注意</dt><dd>这四种（含悬浮球）同时只能开一个，在「模式」页切换。</dd>
@@ -271,7 +277,7 @@
 
         <div class="wk-term">
           <h4>设备管理员 / 电池优化 / 自启动</h4>
-          <p class="say">三个跟「保活」有关的设置。<strong>设备管理员</strong>＝让 App 不容易被随手卸载；<strong>电池优化白名单</strong>＝告诉系统「别为了省电杀它」；<strong>自启动</strong>＝开机自动拉起。</p>
+          <p class="say">三个保活设置。<strong>设备管理员</strong>让 App 不容易被随手卸载，<strong>电池优化白名单</strong>告诉系统别为省电杀掉它，<strong>自启动</strong>是开机自动拉起。</p>
           <dl>
             <dt>为什么</dt><dd>安卓杀后台很凶，这几项不开，用一阵子悬浮球就没了。</dd>
             <dt>怎么开</dt><dd>见 <a href="#trouble">排查表</a> 里「用一会儿就失效」那一行。</dd>
@@ -280,20 +286,20 @@
 
         <div class="wk-term">
           <h4>终端（Mist）与模块（NekoType-OS）</h4>
-          <p class="say">两个<strong>进阶功能，新手可以完全不管</strong>。<strong>终端</strong>是 App 内置的命令行窗口，给爱折腾的人用；<strong>模块</strong>是可以导入的扩展包，能加新的改写能力。</p>
+          <p class="say">两个<strong>进阶功能，不打开也不影响日常使用</strong>。<strong>终端</strong>是内置命令行窗口，<strong>模块</strong>是能导入的扩展包，用来加新能力。</p>
           <dl>
             <dt>为什么</dt><dd>不装、不用，App 的功能一点不少。</dd>
             <dt>风险</dt><dd>模块和 App 同权限运行，只装你信得过的来源。</dd>
           </dl>
         </div>
 
-        <div class="wk-note"><b>只记四句就够用：</b><em>无障碍＝读字改字的手</em>；<em>悬浮窗＝让球显示出来</em>；<em>Shizuku＝微信不听话时的备用通道</em>；<em>优先级＝数字大的先跑</em>。</div>
+        <div class="wk-note"><b>四句记住即可：</b><em>无障碍是读字改字的手</em>，<em>悬浮窗是让球显示出来的权限</em>，<em>Shizuku 是微信不听话时的备用通道</em>，<em>优先级是数字大的先跑</em>。</div>
       </section>
 
       <!-- 03 下载 -->
       <section id="download">
         <h2>下载</h2>
-        <p class="wk-sub">四个渠道是同一个文件，按你所在地区挑一个快的。</p>
+        <p class="wk-sub">四个渠道是同一个文件，挑一个下得动的。</p>
 
         <table class="wk-table">
           <tr><th>渠道</th><th>地址</th><th>说明</th></tr>
@@ -324,13 +330,13 @@
           <figcaption>官网首页点「备用下载」也是这四个渠道，蓝奏云的提取码会跟着自动复制。</figcaption>
         </figure>
 
-        <div class="wk-note"><b>认准文件名：</b>当前版本是 <code>NekoType-v3.0.0.apk</code>，大小 8.2 MB。下到 2.9.x 的说明是旧包，回官网首页重新点一次。核对方法见 <a href="#verify">文件校验</a>。</div>
+        <div class="wk-note"><b>文件名对一下：</b><code>NekoType-v3.0.0.apk</code>，8.2 MB。下成 2.9.x 的是旧包，回官网重下。指纹核对见 <a href="#verify">文件校验</a>。</div>
       </section>
 
       <!-- 04 安装 -->
       <section id="install">
         <h2>安装</h2>
-        <p class="wk-sub">跟装任何第三方 APK 一样，只有一步要注意：允许「未知来源」。</p>
+        <p class="wk-sub">和装其他第三方 APK 一样，只需要允许一次「未知来源」。</p>
 
         <ol class="wk-steps">
           <li><strong>点开下载好的 APK</strong>。系统会弹「禁止安装未知应用」，点<em>设置</em> → 打开<em>允许来自此来源</em>，返回再点一次安装。</li>
@@ -349,7 +355,7 @@
       <!-- 05 权限 -->
       <section id="perms">
         <h2>开权限（重点）</h2>
-        <p class="wk-sub">九成的「装了没反应」都出在这一步。三项权限，前两项必开。</p>
+        <p class="wk-sub">三项权限，前两项必须开。装完没反应，先回来查这里。</p>
 
         <table class="wk-table">
           <tr><th>权限</th><th>用来看什么</th><th>不开的后果</th><th>在哪开</th></tr>
@@ -380,15 +386,15 @@
           <li><strong>在最近任务里锁一下</strong>：把 NekoType 卡片下拉锁定（小锁图标），免得「一键清理」把它清掉。</li>
         </ol>
 
-        <div class="wk-warn"><b>别让清理软件清掉它：</b>很多「清理加速」会把无障碍服务一起关掉，表现就是「昨天还能用，今天点球没反应」。清理时把 NekoType 加白名单。</div>
+        <div class="wk-warn"><b>清理软件会关掉它：</b>「清理加速」会顺手把无障碍服务关掉，表现为昨天能用、今天点球没反应。把 NekoType 加进清理白名单。</div>
 
         <h3>怎么确认真的开了</h3>
-        <p>回 NekoType 首页，权限区应该全是绿色的「已授权」。如果显示未授权，点它跳到系统页面再开一次——有的系统设置页会「假装」保存成功，实际没生效，重开一次就好。</p>
+        <p>回 NekoType 首页，权限区应该全是绿色「已授权」。显示未授权的，点进系统页面再开一次；有的系统设置页会显示已保存但实际没生效。</p>
       </section>
       <!-- 06 五分钟上手 -->
       <section id="firstrun">
         <h2>五分钟上手</h2>
-        <p class="wk-sub">目标只有一个：让你亲眼看它把一句话改掉并发出去。跑通这一次，后面都是微调。</p>
+        <p class="wk-sub">用备忘录做一次：打几个字，点球，看字有没有变。</p>
 
         <ol class="wk-steps">
           <li>
@@ -417,13 +423,13 @@
           <li>换一个应用试：打开系统「备忘录」再点球。如果备忘录能用、微信不能用，那不是坏了，是微信需要 <a href="#wechat">Shizuku 通道</a>。</li>
         </ol>
 
-        <div class="wk-tip"><b>让它变更快：</b>悬浮球默认 5 秒不动就缩成小圆点。觉得难点就双击球，或者去「行为与样式」里把球调大、关掉收缩。</div>
+        <div class="wk-tip"><b>球难点：</b>5 秒不动会缩成小圆点。去「行为与样式」调大，或关掉收缩。</div>
       </section>
 
       <!-- 07 模式 -->
       <section id="modes">
         <h2>选哪种模式</h2>
-        <p class="wk-sub">四种模式同时只能开一个。新手先用「悬浮球」，用顺手了再换。</p>
+        <p class="wk-sub">四种模式同时只能开一个，切换在「模式」页。先用悬浮球。</p>
 
         <table class="wk-table">
           <tr><th>模式</th><th>你要做什么</th><th>体验像什么</th><th>适合谁</th></tr>
@@ -465,16 +471,16 @@
           <li><strong>开篡改键盘或摇一摇后，球会自己藏起来</strong>——这是设计，避免你重复触发。想点球就切回悬浮球模式。</li>
         </ul>
 
-        <div class="wk-note"><b>删除与语音的保护：</b>删字的时候改写会暂停，停手约 0.5 秒才恢复；语音输入有 1 秒长停顿判定，避免你说话说到一半被改写。</div>
+        <div class="wk-note"><b>删字与语音：</b>删字时改写暂停，停手约 0.5 秒恢复。语音输入有 1 秒停顿判定，说话中途不会被打断。</div>
       </section>
 
       <!-- 08 改一条规则 -->
       <section id="rules">
         <h2>改一条规则</h2>
-        <p class="wk-sub">用一个具体例子走完：让 <code>好的</code> 变成 <code>好の喵</code>。</p>
+        <p class="wk-sub">拿 <code>好的</code> → <code>好の喵</code> 走一遍。</p>
 
         <h3>先想清楚要几步</h3>
-        <p>这个效果其实是两个动作叠出来的：先把「的」换成「の」，再在结尾加一个「喵」。所以你要建两条规则，而不是一条。</p>
+        <p>这是两个动作叠出来的：先把「的」换成「の」，再在结尾加「喵」。所以要建两条规则。</p>
 
         <ol class="wk-steps">
           <li><strong>打开规则页</strong>，点「添加规则」，类型选<em>替换文本</em>。查找填 <code>的</code>，替换为填 <code>の</code>。优先级先给 <code>90</code>。</li>
@@ -500,7 +506,7 @@
           <tr><td>字符加空格</td><td>字与字之间插空格</td><td><code>好 的 呀</code></td></tr>
         </table>
 
-        <h3>配错了怎么退回去</h3>
+        <h3>配错了怎么退</h3>
         <ul>
           <li>每条规则前面都有开关，先<strong>关掉</strong>而不是删掉，方便对比。</li>
           <li>一整套配坏了，直接切回另一个<strong>预设</strong>，原来那套还在。</li>
@@ -511,7 +517,7 @@
       <!-- 09 优先级 -->
       <section id="order">
         <h2>优先级是怎么回事</h2>
-        <p class="wk-sub">这一节看完，你就不会再遇到「为什么变成这样了」。</p>
+        <p class="wk-sub">规则一多，结果就取决于谁先跑。</p>
 
         <h3>三条规则</h3>
         <ul>
@@ -544,13 +550,13 @@
         <p>默认情况下，同类型规则会聚在一起跑。打开这个开关后，<strong>所有类型打散，严格按优先级从大到小排成一条流水线</strong>。适合规则很多、你希望顺序完全可控的时候。</p>
         <p>举例：你希望「替换」一定在「后缀」之后生效，那就给替换一个更小的优先级，并打开全局执行。</p>
 
-        <div class="wk-tip"><b>省心做法：</b>只留 1–3 条规则的时候，优先级随便设都一样；超过 4 条就按「先处理文字内容（替换、加空格），再处理装饰（前缀、后缀、颜文字）」给分数——替换给 80–90，后缀给 40–60，颜文字给 20–30。</div>
+        <div class="wk-tip"><b>省心做法：</b>1–3 条规则时优先级怎么设都一样。超过 4 条，按「先改内容、再加装饰」给分：替换 80–90，后缀 40–60，颜文字 20–30。</div>
       </section>
 
       <!-- 10 人设 -->
       <section id="persona">
         <h2>换人设</h2>
-        <p class="wk-sub">最快的玩法：不配规则，直接套一套现成的。</p>
+        <p class="wk-sub">不想自己配规则，就套现成的。</p>
 
         <p>内置 8 套：<strong>萝莉语、古风文言、译制片腔、阴阳怪气、火星文、病娇、雌小鬼、猫娘</strong>。在首页点一下就会自动创建对应的规则预设并激活，不需要手动加规则。</p>
 
@@ -570,7 +576,7 @@
       <!-- 11 微信 -->
       <section id="wechat">
         <h2>让微信也能用</h2>
-        <p class="wk-sub">微信会拒绝无障碍改写，所以要走 Shizuku 通道。整个流程 5 分钟，只需要做一次（重启手机后要重做第 4 步）。</p>
+        <p class="wk-sub">微信不接受无障碍改写，得走 Shizuku。四步做一次，重启手机后重做第三步。</p>
 
         <h3>先确认你是哪种情况</h3>
         <table class="wk-table">
@@ -588,11 +594,11 @@
           <li><strong>回到 NekoType</strong>，在 Shizuku 那一栏点授权，或者直接在首页点「一键授权所有权限」。授权成功的标志是那一栏变成「已连接」。</li>
         </ol>
 
-        <div class="wk-warn"><b>重启手机后 Shizuku 会掉</b>，这是它的机制（不是 bug）。掉了只要重做第 3 步，10 秒的事。不重启就不会掉。</div>
+        <div class="wk-warn"><b>重启手机后 Shizuku 会掉</b>，这是它的机制。重做第 3 步即可，10 秒。</div>
 
         <h3>为什么这条路能过微信</h3>
-        <p>微信会按「无障碍服务的类名」来判断要不要屏蔽。NekoType 把无障碍服务伪装成系统自带的「随选朗读」（<code>SelectToSpeakService</code>），微信对系统服务是放行的，于是就能读到输入框。</p>
-        <p>如果伪装后仍被拒，Shizuku 通道会绕过无障碍，直接把文本写进输入框——<strong>不弹窗、不经过剪贴板</strong>，你看不到任何提示，字就已经改好了。</p>
+        <p>微信按「无障碍服务的类名」判断要不要屏蔽。NekoType 把无障碍服务伪装成系统自带的「随选朗读」（<code>SelectToSpeakService</code>），微信对系统服务放行，于是能读到输入框。</p>
+        <p>伪装后仍被拒时，Shizuku 通道绕过无障碍，直接把文本写进输入框，<strong>不弹窗、不经过剪贴板</strong>。</p>
 
         <pre><code>nekotype@shizuku
 $ neko --silent inject
@@ -606,7 +612,7 @@ $ neko --silent inject
       <!-- 12 白名单 -->
       <section id="whitelist">
         <h2>只对某几个应用生效</h2>
-        <p class="wk-sub">用在两处：不想让它在某些应用里乱改（黑名单），或者只想让它在聊天软件里工作（白名单）。</p>
+        <p class="wk-sub">两种用法：不让它在某些应用里乱改（黑名单），或只在聊天软件里生效（白名单）。</p>
 
         <table class="wk-table">
           <tr><th>模式</th><th>含义</th><th>适合</th></tr>
@@ -628,7 +634,7 @@ $ neko --silent inject
       <!-- 13 外观 -->
       <section id="look">
         <h2>球太小 / 挡住内容 / 想换个样子</h2>
-        <p class="wk-sub">全在「行为与样式」里调，改完立刻生效。</p>
+        <p class="wk-sub">都在「行为与样式」里，改完立刻生效。</p>
 
         <table class="wk-table">
           <tr><th>你遇到的问题</th><th>怎么调</th></tr>
@@ -651,9 +657,9 @@ $ neko --silent inject
       <!-- 14 隐私 -->
       <section id="privacy">
         <h2>它到底能看到什么</h2>
-        <p class="wk-sub">这是最该讲清楚的一节，尤其当你只打算在微信里用。</p>
+        <p class="wk-sub">打算只在微信里用时，这页值得看完。</p>
 
-        <p><strong>NekoType 没有网络权限。</strong>这不是「承诺不上传」，而是安装包里根本没申请联网权限——系统层面它连不上网，所以不存在「偷偷上传」这条路。断网、飞行模式下功能一切正常。</p>
+        <p><strong>安装包里没有申请网络权限。</strong>系统层面它连不上网，所以不存在偷偷上传这回事。断网、飞行模式下功能照常。</p>
 
         <table class="wk-table">
           <tr><th>你担心的</th><th>实际情况</th></tr>
@@ -673,13 +679,13 @@ $ neko --silent inject
           <li><strong>设备管理员（可选）</strong>：只用于「防误卸载」和隐藏模式，不用于其他任何事。不想用就别开。</li>
         </ul>
 
-        <div class="wk-tip"><b>更保守的用法：</b>只开「悬浮球」模式（不自动改写，每次都要你点），名单切到白名单只留微信和 QQ，把「自动发送」关掉改成只改写不发送。这样每一步都在你眼皮底下。</div>
+        <div class="wk-tip"><b>想更稳：</b>只开悬浮球模式，名单切白名单只留微信和 QQ，关掉自动发送，只改写不发送。</div>
       </section>
 
       <!-- 15 终端 -->
       <section id="term">
         <h2>终端（进阶，可跳过）</h2>
-        <p class="wk-sub">不打开它，App 的所有功能都在。这一节只写给爱折腾的人。</p>
+        <p class="wk-sub">不打开它不影响任何功能。给爱折腾的人看。</p>
 
         <p>「终端」页是一个真的命令行（用 Termux 的 PTY 引擎，不是假的），内置 460+ 命令，另有几个猫系命令：</p>
 
@@ -701,7 +707,7 @@ neko feed / play / pet  # 喂食 / 陪玩 / 撸猫</code></pre>
       <!-- 16 模块 -->
       <section id="module">
         <h2>模块（进阶，可跳过）</h2>
-        <p class="wk-sub">模块 = 别人写好的一小段扩展能力，导入就能用，不用重新安装 App。</p>
+        <p class="wk-sub">导入一个 zip 就能加新能力，不用重装 App。</p>
 
         <h3>一个模块长什么样</h3>
         <pre><code>my-module.zip
@@ -731,7 +737,7 @@ neko feed / play / pet  # 喂食 / 陪玩 / 撸猫</code></pre>
       <!-- 17 排查 -->
       <section id="trouble">
         <h2>排查表</h2>
-        <p class="wk-sub">按现象查。标了版本号的，升级到那个版本就修好了。</p>
+        <p class="wk-sub">按现象查。写着版本号的，升到那个版本即可修复。</p>
 
         <table class="wk-table">
           <tr><th>现象</th><th>原因</th><th>怎么解决</th></tr>
@@ -823,7 +829,7 @@ neko feed / play / pet  # 喂食 / 陪玩 / 撸猫</code></pre>
       <!-- 18 版本历史 -->
       <section id="history">
         <h2>版本历史</h2>
-        <p class="wk-sub">只列大更新。完整列表见官网首页「变更记录」。</p>
+        <p class="wk-sub">只列大更新，完整列表在官网首页的「变更记录」。</p>
 
         <table class="wk-table">
           <tr><th>版本</th><th>要点</th></tr>
@@ -845,7 +851,7 @@ neko feed / play / pet  # 喂食 / 陪玩 / 撸猫</code></pre>
       <!-- 19 校验 -->
       <section id="verify">
         <h2>文件校验</h2>
-        <p class="wk-sub">担心下载到的包被改过？对一下指纹。</p>
+        <p class="wk-sub">对一下指纹，确认包没被改过。</p>
 
         <table class="wk-table">
           <tr><th>算法</th><th>值</th></tr>
@@ -858,7 +864,7 @@ neko feed / play / pet  # 喂食 / 陪玩 / 撸猫</code></pre>
 certutil -hashfile NekoType-v3.0.0.apk SHA256
 certutil -hashfile NekoType-v3.0.0.apk MD5</code></pre>
 
-        <div class="wk-note"><b>怎么判断：</b>SHA-256 要和本页一致（也等于 GitHub 发布页给出的 digest），MD5 也要一致。只对上一个、另一个不对，说明文件被换过，别装。</div>
+        <div class="wk-note"><b>怎么判断：</b>两个都要对上。SHA-256 与 GitHub 发布页的 digest 相同，MD5 与本页一致。只对一个说明文件被换过，别装。</div>
       </section>
     </main>
   </div>
